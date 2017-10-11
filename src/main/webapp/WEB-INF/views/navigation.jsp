@@ -33,7 +33,7 @@
 					<li><a href="/registration.jsp">Register</a></li>
 					<li><%@include file="/WEB-INF/views/login-modal.jsp" %></li>
 				</c:when>
-				
+
 				<c:otherwise>
 					<li class="dropdown"><%@include file="/WEB-INF/views/user-setting-dropdown.jsp" %></li>
   				</c:otherwise>
