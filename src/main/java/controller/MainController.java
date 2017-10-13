@@ -30,14 +30,14 @@ public class MainController {
 		
 	}
 	
-	@RequestMapping()
-	public ModelAndView initialize() {
-		ModelAndView modelAndView = new ModelAndView("/");
-		
-		
-		
-		return modelAndView;
-	}
+	// @RequestMapping()
+//     public ModelAndView initialize() {
+//         ModelAndView modelAndView = new ModelAndView("/");
+//
+//
+//
+//         return modelAndView;
+//     }
 	
 	
 	

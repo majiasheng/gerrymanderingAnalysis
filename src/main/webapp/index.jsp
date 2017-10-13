@@ -21,7 +21,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				 <span class="label label-default">Label</span>
+				 <span class="label label-default">Info</span>
+				 
 			</div>
 		</div>
 	</div>
@@ -30,33 +31,34 @@
 			<div class="form-group">
 				 <select name="stateSelection">
 					 <option value="">State</option>
-					 <!-- TODO: read from an external file -->
+					 <!-- TODO: read from an external file, 
+						 move each of the "disabled" to a separate var -->
 				 </select>
-				 <select name="dataSelection">
+				 <select name="dataSelection" disabled>
 					 <!-- TODO: read from an external file -->
 					 <option value="">Data</option>
 				 </select>
-				 <select name="gerrymanderingMeasure">
+				 <select name="gerrymanderingMeasure" disabled>
 					 <!-- TODO: read from an external file -->
 					 <option value="">Gerrymandering Measure</option>
 				 </select>
 			</div>
-		
+
 			<div class="checkbox">
-			 
 				<label>
-					<input type="checkbox" /> Create Super-District
-				 <select name="superDistricting" disabled>
-					 <!-- TODO: 
-						 - set "disabled to a jsp variable"
-						 - read from an external file -->
-					 <option value="">Number of Super-District</option>
-				 </select>
+					<input type="checkbox" disabled/> Create Super-District
+					<select name="superDistricting" disabled>
+						<!-- TODO: 
+							 - set "disabled to a jsp variable"
+							 - read from an external file -->
+						<option value="">Number of Super-District</option>
+					</select>
 				</label>
+				<button type="submit" class="btn btn-default" disabled>
+					Create
+				</button>
 			</div> 
-			<button type="submit" class="btn btn-default">
-				Submit
-			</button>
+
 		</form>
 	</div>
 </div>
