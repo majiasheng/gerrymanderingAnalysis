@@ -24,5 +24,5 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<%@include file="/WEB-INF/views/navigation.jsp" %>
+				<%@include file="/WEB-INF/views/include/navigation.jsp" %>
 

@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@include file="/WEB-INF/views/header.jsp" %>
+<%@include file="/WEB-INF/views/include/header.jsp" %>
 	<h2 id="h">Sign Me Up</h2>
 	
 		<form method="POST" action="/register">
@@ -45,4 +45,4 @@
 			<input type="submit" name="submit" value="Sign Me Up">
 		</form>
 	
-<%@include file="/WEB-INF/views/footer.jsp" %>
+<%@include file="/WEB-INF/views/include/footer.jsp" %>
