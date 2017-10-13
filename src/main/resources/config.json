@@ -1,44 +1,60 @@
 {
-    "states": [
-        
-        {
-            "name": "New York",
-            "id": 1,
-            "lat": 43.4229263,
-            "long": -77.3977917,
-            "zoom": 7
-        },
+	"states": [
+		{
+			"name": "New York",
+			"id": 1,
+			"lat": 43.4229263,
+			"long": -77.3977917,
+			"zoom": 7
+		},
 
-        {
-            "name": "Virginia",
-            "id": 2,
-            "lat": 37.9864076,
-            "long": -81.6643263,
-            "zoom": 7
-        },
+		{
+			"name": "Virginia",
+			"id": 2,
+			"lat": 37.9864076,
+			"long": -81.6643263,
+			"zoom": 7
+		},
 
-        {
-                "name": "North Carolina",
-                "id": 3,
-                "lat": 35.1543278,
-                "long": -82.1045483,
-                "zoom": 7
-        },
-    ]
-}
-
-{ "ui_component":
-    {
-        "stroke_width": 1,
-        "stroke_color": [255, 255, 255]
-    }
+		{
+ 			"name": "North Carolina",
+ 			"id": 3,
+ 			"lat": 35.1543278,
+ 			"long": -82.1045483,
+ 			"zoom": 7
+		},
+	]
 }
 
 {
-    "db_connection": {
-        "hostname": "",
-        "dbname": "",
-        "username": "",
-        "password": ""
-    }
+	"measures": [
+		{
+			"name": "Efficiency Gap"
+		},
+
+		{
+			"name": "T-Test"
+		},
+
+		{
+			"name": "Mean-Median Test"
+		}
+	]
+	
+}
+
+{ "ui_component":
+	{
+		"stroke_width": 1,
+		"stroke_color": [255, 255, 255]
+	}
+}
+
+{
+	"db_connection": {
+		"hostname": "",
+		"dbname": "",
+		"username": "",
+		"password": ""
+	}
 }

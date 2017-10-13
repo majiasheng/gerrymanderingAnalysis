@@ -2,7 +2,7 @@
 	</div> <!-- end of row -->
 </div> <!-- end of class="container-fluid" -->
     <footer class="footer navbar-fixed-bottom">
-    	&copy; GerrymanderingAnalysis - Aspen-CSE308 2017
+    	<!-- &copy; GerrymanderingAnalysis - Aspen-CSE308 2017 -->
     </footer>
 
     <!-- have to put styles and scripts in "resource folder"

@@ -1,23 +1,10 @@
-<!-- body -->
-<div class="row">
-	<div class="col-md-8">
-		<div class="row">
-			<div class="col-md-12" >
-			
-				<!-- map -->
-				<div id="mapid" style="height: 500px;">
-					<script src="/resources/js/init-map.js"></script>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				 <span class="label label-default">Info</span>
-				 
-			</div>
+
 		</div>
 	</div>
-	<div class="col-md-4">
+	<!-- end map -->
+	
+	<!-- controls -->
+	<div class="row">
 		<form role="form">
 			<div class="form-group">
 				 <select name="stateSelection">
@@ -38,6 +25,17 @@
 
 		</form>
 	</div>
+	<!-- end controls -->
+	
+	<!-- info window -->
+	<div class="row">
+		<div class="col-md-12">
+			 <span class="label label-default">Info</span>
+			 
+		</div>
+	</div>
+	<!-- end info window -->
+	
 </div>
 
 <!-- end body -->
