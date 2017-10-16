@@ -1,42 +1,44 @@
-
-
-    
-
 <div class="checkbox">
 	<label>
-            <script>
-        function checkSD() {
-        var radio= document.getElementById("sdcheck").checked;
-        if(radio===true){
-            radio = document.getElementById("radioButton");
-            radio.style.display ="block";
-        }else{
-            radio = document.getElementById("radioButton");
-            radio.style.display = "none";
-        }
-        
-    }
-
-
-</script>
+		<script>
+		function checkSD() {
+			var radio = document.getElementById("sdcheck").checked;
+			if(radio===true){
+				radio = document.getElementById("radioButton");
+				radio.style.display ="block";
+				document.getElementById("createButton").style.display="block"
+			}else{
+				radio = document.getElementById("radioButton");
+				radio.style.display = "none";
+				document.getElementById("createButton").style.display="none"
+			}
+		}
+		
+		function checkManAuto() {
+			var radioManual = document.getElementById("manualRadio");
+			var radioAuto = document.getElementById("autoRadio");
+			if(radioAuto.checked === true) {
+				document.getElementById("numOfSD").style.display="block";
+			} else {
+				document.getElementById("numOfSD").style.display="none";
+			}
+		}
+		</script>
 		<input type="checkbox" id = "sdcheck" onclick="checkSD()"/> Create Super-District
-		<select name="superDistricting" >
+	</label>
+
+	<label id="radioButton" style="display:none">
+		<input type="radio" name="sdmode" value="manual" id="manualRadio" onclick="checkManAuto()">Manual<br>
+		<input type="radio" name="sdmode" value="automatic" id="autoRadio" onclick="checkManAuto()">Automatic<br>
+		<select name="superDistricting" id="numOfSD" style="display:none";>
 			<!-- TODO: 
 				 - set "disabled to a jsp variable"
 				 - read from an external file -->
 			<option value="">Number of Super-District</option>
 		</select>
 	</label>
-    
-        
-    
-        <label id="radioButton" style="display:none">
-		<input type="radio" name="sdmode" value="manual"> Manual<br>
-                <input type="radio" name="sdmode" value="automatic"> Automatic<br>
+	
+	<label>	
+		<button type="submit" class="btn btn-default" id="createButton" style="display:none"; %{isDisabled}>Create</button>
 	</label>
-        <label>	
-            <button type="submit" class="btn btn-default" style="display:block"; %{isDisabled}>
-		Create
-            </button>
-        </label>
 </div> 
