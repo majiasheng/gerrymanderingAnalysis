@@ -2,6 +2,7 @@ package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -26,14 +27,14 @@ public class MainController {
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView initialize() {
-		ModelAndView modelAndView = new ModelAndView("index");
-
+		ModelAndView home = new ModelAndView("index");
 		// read config file, load UI components
-		init.loadUIComponent();
+		System.out.println("\n************************************\n");
+		init.init();
 
 		//TODO: add attributes/object to modelAndView
 
-		return modelAndView;
+		return home;
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
@@ -42,6 +43,9 @@ public class MainController {
 	}
 	@RequestMapping(value="/compare", method = RequestMethod.GET)
 	public ModelAndView compare() {
+		System.out.println("\n************************************\n");
+		init.init();
+
 		return new ModelAndView("compare");
 	}
 	@RequestMapping(value="/credit", method = RequestMethod.GET)
