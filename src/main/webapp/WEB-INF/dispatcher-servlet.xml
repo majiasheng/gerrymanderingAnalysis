@@ -16,17 +16,17 @@
 	<context:component-scan base-package="model"/>
 	<context:component-scan base-package="service"/>
 
-<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	     <property name="prefix">
-             <value>/WEB-INF/views/</value>
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+		<value>/WEB-INF/views/</value>
              <!-- <value>/</value> -->
-	     </property>
-	     <property name="suffix">
-	         <value>.jsp</value>
-	     </property>
-	 </bean>
-	 <mvc:annotation-driven />
-	 <mvc:resources mapping="/resources/**" location="/resources/" />
-     
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="../resources/**" location="../resources" />
 	 
  </beans>

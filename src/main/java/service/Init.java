@@ -3,6 +3,7 @@ package service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,7 +18,7 @@ import model.State;
 
 @Service
 public class Init {
-	private static final String CONFIG_FILE = "/GerrymanderingAnalysis/src/main/resources/config.json";
+	private static final String CONFIG_FILE = "config.json";
 	private static final String STATES = "states";	// states object/node in json
 	private static final String NAME = "name";		// name object/node in json for state 
 	private static final String ID = "id";			// id object/node in json for state 
@@ -25,14 +26,20 @@ public class Init {
 	private static final String UI_COMPONENT = "ui_component"; // ui_component object/node in json
 	private static final String DB_CONNECTION = "db_connection"; // db_connection object/node in json
 	private HashMap<Integer, State> states;
+	private ArrayList<String> measures;
+	private int currentState;
+	private int currentYear;
 	private double strokeWidth;
 	private int[] strokeColor;
 	
 	
 	public Init() {
 		states = new HashMap<Integer, State>();
+		measures = new ArrayList<String>();
 
 		// set default values
+		currentState = -1;
+		currentYear = -1;
 		strokeWidth = 2;
 		strokeColor = new int[] {255,255,255};
 	}
@@ -56,7 +63,7 @@ public class Init {
 	
 	/**
 	 * Read and parse data from configuration file
-	 * Save data to initialization object
+	 * Create and save state objects to initialization object
 	 * @param configFile Configuration file
 	 * @param init Initialization object 
 	 */
@@ -65,6 +72,7 @@ public class Init {
 		byte[] jsonData;
 		try {
 			// read configure file to string
+			//FIXME:
 			jsonData = Files.readAllBytes(Paths.get(configFile));
 
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -112,7 +120,9 @@ public class Init {
 			System.out.println("Cannot open configuration file\nAborting...");
 			System.exit(-1);
 		}
-
+		
+		// retrieve state boundary data from database
+		
 		// save boundary data to init object
 		// for()
 		// create state and save data to

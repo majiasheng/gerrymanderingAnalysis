@@ -1,0 +1,30 @@
+{
+	"states": [
+		{
+			"name": "New York",
+			"id": 1,
+		},
+		{
+			"name": "Virginia",
+			"id": 2,
+		},
+		{
+ 			"name": "North Carolina",
+ 			"id": 3,
+		}
+	], 
+
+	"measures": ["Efficiency Gap", "T-Test", "Mean-Median Test"],
+
+	"ui_component": {
+		"stroke_width": 1,
+		"stroke_color": [255, 255, 255]
+	},
+
+	"db_connection": {
+		"hostname": "",
+		"dbname": "",
+		"username": "",
+		"password": ""
+	}
+}
