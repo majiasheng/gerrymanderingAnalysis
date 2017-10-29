@@ -117,6 +117,7 @@ public class Init {
 			// TODO:read db connection data
 			
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("Cannot open configuration file\nAborting...");
 			System.exit(-1);
 		}

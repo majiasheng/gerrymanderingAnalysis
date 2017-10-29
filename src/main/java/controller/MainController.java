@@ -6,6 +6,7 @@ import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,15 +23,21 @@ public class MainController {
 	@Autowired
 	private Init init;
 	
+	@ModelAttribute
+	public void init() {
+		// read config file, load UI components
+		System.out.println("\n************************************\n");
+		init.init();
+		//TODO: if session varialbe doesnt have init object, add  
+	}
+	
+	
 	/**
 	 *
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView initialize() {
 		ModelAndView home = new ModelAndView("index");
-		// read config file, load UI components
-		System.out.println("\n************************************\n");
-		init.init();
 
 		//TODO: add attributes/object to modelAndView
 
@@ -43,9 +50,6 @@ public class MainController {
 	}
 	@RequestMapping(value="/compare", method = RequestMethod.GET)
 	public ModelAndView compare() {
-		System.out.println("\n************************************\n");
-		init.init();
-
 		return new ModelAndView("compare");
 	}
 	@RequestMapping(value="/credit", method = RequestMethod.GET)
