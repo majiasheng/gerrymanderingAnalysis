@@ -1,5 +1,7 @@
 package controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.SocketUtils;
@@ -24,11 +26,15 @@ public class MainController {
 	private Init init;
 	
 	@ModelAttribute
-	public void init() {
-		// read config file, load UI components
-		System.out.println("\n************************************\n");
-		init.init();
-		//TODO: if session varialbe doesnt have init object, add  
+	public void init(HttpServletRequest request) {
+		// if session varialbe doesnt have init object, add
+		if(request.getSession().getAttribute("init")==null) {
+			System.out.println("\n>> Initializing...\n");
+			// read config file, load UI components
+			init.init();
+			request.getSession().setAttribute("init", init);
+		}
+		
 	}
 	
 	

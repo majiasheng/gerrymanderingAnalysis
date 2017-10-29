@@ -24,14 +24,22 @@
 					 <option value="">State</option>
 					 <!-- TODO: read from an external file, 
 						 move each of the "disabled" to a separate var -->
+						<c:forEach var="state" items="${init.states}"> 
+							<option value ="${state.key}">${state.value.name}</option>
+						</c:forEach>
+					
 				 </select>
 				 <select name="dataSelection" disabled>
 					 <!-- TODO: read from an external file -->
 					 <option value="">Data</option>
 				 </select>
-				 <select name="gerrymanderingMeasure" disabled>
-					 <!-- TODO: read from an external file -->
-					 <option value="">Gerrymandering Measure</option>
+				 <select name="gerrymanderingMeasure" >
+					<!-- TODO: read from an external file -->
+					<option value="">Gerrymandering Measure</option>
+
+					<c:forEach var="measure" items="${init.measures}"> 
+						<option value ="${measure}">${measure}</option>
+					</c:forEach>
 				 </select>
 			</div>
 			<%@include file="/WEB-INF/views/include/super-district-control.jsp" %>

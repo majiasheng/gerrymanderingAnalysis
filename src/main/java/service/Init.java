@@ -18,20 +18,19 @@ import model.State;
 
 @Service
 public class Init {
-	private static final String CONFIG_FILE = "config.json";
-	private static final String STATES = "states";	// states object/node in json
-	private static final String NAME = "name";		// name object/node in json for state 
-	private static final String ID = "id";			// id object/node in json for state 
-	private static final String MEASURES = "measures"; // measures object/node in json
-	private static final String UI_COMPONENT = "ui_component"; // ui_component object/node in json
-	private static final String DB_CONNECTION = "db_connection"; // db_connection object/node in json
+	static final String CONFIG_FILE = "config.json";
+	static final String STATES = "states";	// states object/node in json
+	static final String NAME = "name";		// name object/node in json for state 
+	static final String ID = "id";			// id object/node in json for state 
+	static final String MEASURES = "measures"; // measures object/node in json
+	static final String UI_COMPONENT = "ui_component"; // ui_component object/node in json
+	static final String DB_CONNECTION = "db_connection"; // db_connection object/node in json
 	private HashMap<Integer, State> states;
 	private ArrayList<String> measures;
 	private int currentState;
 	private int currentYear;
 	private double strokeWidth;
 	private int[] strokeColor;
-	
 	
 	public Init() {
 		states = new HashMap<Integer, State>();
@@ -102,14 +101,16 @@ public class Init {
 				// add state to init object
 				init.getStates().put(id, state);
 			}
-			
+
 			// read all measures
 			JsonNode measuresNode = rootNode.path(MEASURES);
 			Iterator<JsonNode> measureElements = measuresNode.elements();
 			while(measureElements.hasNext()){
 				JsonNode measure = measureElements.next();
-				//TODO: save measures somewhere
-				System.out.println("Measure: " + measure);
+				//save measures somewhere
+				init.measures.add(measure.asText());
+				
+				System.out.println("Measure: " + measure.asText());
 			}
 			
 			// TODO:read ui components
@@ -137,6 +138,50 @@ public class Init {
 
 	public Map<Integer, State> getStates() {
 		return states;
+	}
+
+	public ArrayList<String> getMeasures() {
+		return measures;
+	}
+
+	public void setMeasures(ArrayList<String> measures) {
+		this.measures = measures;
+	}
+
+	public int getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(int currentState) {
+		this.currentState = currentState;
+	}
+
+	public int getCurrentYear() {
+		return currentYear;
+	}
+
+	public void setCurrentYear(int currentYear) {
+		this.currentYear = currentYear;
+	}
+
+	public double getStrokeWidth() {
+		return strokeWidth;
+	}
+
+	public void setStrokeWidth(double strokeWidth) {
+		this.strokeWidth = strokeWidth;
+	}
+
+	public int[] getStrokeColor() {
+		return strokeColor;
+	}
+
+	public void setStrokeColor(int[] strokeColor) {
+		this.strokeColor = strokeColor;
+	}
+
+	public void setStates(HashMap<Integer, State> states) {
+		this.states = states;
 	}
 	
 }
