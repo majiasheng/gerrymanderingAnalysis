@@ -1,4 +1,4 @@
-package dbm;
+package persistence;
 
 public class DBConnection {
 

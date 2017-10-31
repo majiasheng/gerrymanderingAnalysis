@@ -22,8 +22,7 @@
 			<div class="form-group">
 				 <select name="stateSelection">
 					 <option value="">State</option>
-					 <!-- TODO: read from an external file, 
-						 move each of the "disabled" to a separate var -->
+					 	<!--populate state dropdown with external data-->
 						<c:forEach var="state" items="${init.states}"> 
 							<option value ="${state.key}">${state.value.name}</option>
 						</c:forEach>
@@ -34,7 +33,7 @@
 					 <option value="">Data</option>
 				 </select>
 				 <select name="gerrymanderingMeasure" >
-					<!-- TODO: read from an external file -->
+					<!--populate measure dropdown with external data-->
 					<option value="">Gerrymandering Measure</option>
 
 					<c:forEach var="measure" items="${init.measures}"> 

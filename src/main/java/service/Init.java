@@ -27,6 +27,7 @@ public class Init {
 	static final String DB_CONNECTION = "db_connection"; // db_connection object/node in json
 	private HashMap<Integer, State> states;
 	private ArrayList<String> measures;
+	private boolean superDistrictable;
 	private int currentState;
 	private int currentYear;
 	private double strokeWidth;
@@ -52,14 +53,15 @@ public class Init {
 		// read and save initialization data 
 		configure(CONFIG_FILE, this);
 		
-		// load state boundary data from database 
-		// getStateBoundaries()
+		//TODO: retrieve state boundary data from database
 		
-		// save boundary data to map of state objects
-		
+		// save boundary data to init object
+		// for()
+		// create state and save data to
+		// states.put()
 		
 	}
-	
+
 	/**
 	 * Read and parse data from configuration file
 	 * Create and save state objects to initialization object
@@ -71,7 +73,6 @@ public class Init {
 		byte[] jsonData;
 		try {
 			// read configure file to string
-			//FIXME:
 			jsonData = Files.readAllBytes(Paths.get(configFile));
 
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -83,6 +84,7 @@ public class Init {
 			JsonNode statesNode = rootNode.path(STATES);
 
 			// read all states 
+			System.out.println("Populating State dropdown...");
 			Iterator<JsonNode> stateElements = statesNode.elements();
 			while(stateElements.hasNext()) {
 				JsonNode stateNode = stateElements.next();
@@ -93,7 +95,7 @@ public class Init {
 				// read state object data
 				int id = stateNode.path(ID).asInt();
 				String name = stateNode.path(NAME).asText();
-				
+
 				// store data to state
 				state.setId(id);
 				state.setName(name);
@@ -101,35 +103,30 @@ public class Init {
 				// add state to init object
 				init.getStates().put(id, state);
 			}
+			System.out.println("Done\n");
 
 			// read all measures
 			JsonNode measuresNode = rootNode.path(MEASURES);
 			Iterator<JsonNode> measureElements = measuresNode.elements();
+
+			System.out.println("Populating Measure dropdown...");
 			while(measureElements.hasNext()){
 				JsonNode measure = measureElements.next();
 				//save measures somewhere
 				init.measures.add(measure.asText());
-				
-				System.out.println("Measure: " + measure.asText());
 			}
+			System.out.println("Done\n");
 			
 			// TODO:read ui components
 			
 			// TODO:read db connection data
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("Cannot open configuration file\nAborting...");
+			System.err.println("Cannot open configuration file\nAborting...");
 			System.exit(-1);
 		}
-		
-		// retrieve state boundary data from database
-		
-		// save boundary data to init object
-		// for()
-		// create state and save data to
-		// states.put()
-		
+
 	}
 	
 	public State getStateById(int stateId) {
@@ -146,6 +143,14 @@ public class Init {
 
 	public void setMeasures(ArrayList<String> measures) {
 		this.measures = measures;
+	}
+	
+	public boolean isSuperDistrictable() {
+		return superDistrictable;
+	}
+	
+	public void setSuperDistrictable(boolean superDistrictable) {
+		this.superDistrictable = superDistrictable;
 	}
 
 	public int getCurrentState() {
