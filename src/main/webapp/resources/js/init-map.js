@@ -6,7 +6,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoibWEzMDgiLCJhIjoiY2o4ZGxoa3hyMHJrdDMwbzA5emM5Y3pzcSJ9.ZsR3x4DhKRrkTD7goSnE3w'
 }).addTo(map1);
-$.ajax("/resources/js/districts_2017_state.json").done(function(d){
+
+// state boundary
+var geojson = "/resources/js/state-boundary-cenus-bureau.json"
+$.ajax(geojson).done(function(d){
   L.geoJson(d, {
       // style: style,
       onEachFeature: onEachFeature

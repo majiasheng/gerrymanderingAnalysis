@@ -34,7 +34,6 @@ public class MainController {
 			init.init();
 			request.getSession().setAttribute("init", init);
 		}
-		
 	}
 	
 	

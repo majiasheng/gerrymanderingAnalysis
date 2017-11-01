@@ -23,8 +23,8 @@
 				 <select name="stateSelection">
 					 <option value="">State</option>
 					 	<!--populate state dropdown with external data-->
-						<c:forEach var="state" items="${init.states}"> 
-							<option value ="${state.key}">${state.value.name}</option>
+						<c:forEach var="state" items="${init.config.states}"> 
+							<option value ="${state.key}">${state.value}</option>
 						</c:forEach>
 					
 				 </select>
@@ -36,7 +36,7 @@
 					<!--populate measure dropdown with external data-->
 					<option value="">Gerrymandering Measure</option>
 
-					<c:forEach var="measure" items="${init.measures}"> 
+					<c:forEach var="measure" items="${init.config.measures}"> 
 						<option value ="${measure}">${measure}</option>
 					</c:forEach>
 				 </select>

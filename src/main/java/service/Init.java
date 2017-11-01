@@ -3,20 +3,9 @@ package service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import model.State;
-import persistence.DBConnection;
 
 @Service
 public class Init {
@@ -33,27 +22,22 @@ public class Init {
 	static final String DBNAME = "dbname";
 	static final String USERNAME = "username";
 	static final String PASSWORD = "password";
-	private HashMap<Integer, State> states;
-	private ArrayList<String> measures;
 	private boolean superDistrictable;
 	private int currentState;
 	private int currentYear;
-	private double strokeWidth;
-	private int[] strokeColor;
+	private Config config;
+	
 	private String hostname;
 	private String dbname;
 	private String username;
 	private String password;
 	
 	public Init() {
-		states = new HashMap<Integer, State>();
-		measures = new ArrayList<String>();
-
+		
 		// set default values
 		currentState = -1;
 		currentYear = -1;
-		strokeWidth = 2;
-		strokeColor = new int[] {255,255,255};
+		
 	}
 
 	/**
@@ -65,13 +49,14 @@ public class Init {
 		// read and save initialization data 
 		configure(CONFIG_FILE, this);
 		
-		//TODO: retrieve state boundary data from database, may not need it (leaflet js may have it)
+		/*TODO: retrieve state boundary data from database, 
+		may not need it (leaflet js may have it)*/
 		
 		// save boundary data to init object
 		// for()
 		// create state and save data to
 		// states.put()
-		
+
 	}
 
 	/**
@@ -88,87 +73,15 @@ public class Init {
 			jsonData = Files.readAllBytes(Paths.get(configFile));
 
 			ObjectMapper objectMapper = new ObjectMapper();
-
-			//read root node of json
-			JsonNode rootNode = objectMapper.readTree(jsonData);
-			
-
-			// read all states 
-			System.out.println("Populating State dropdown...");
-			JsonNode statesNode = rootNode.path(STATES);
-			Iterator<JsonNode> stateElements = statesNode.elements();
-			while(stateElements.hasNext()) {
-				JsonNode stateNode = stateElements.next();
-				
-				// create new state object
-				State state = new State();
-
-				// read state object data
-				int id = stateNode.path(ID).asInt();
-				String name = stateNode.path(NAME).asText();
-
-				// store data to state
-				state.setId(id);
-				state.setName(name);
-				
-				// add state to init object
-				init.getStates().put(id, state);
-			}
-			System.out.println("Done\n");
-
-			// read all measures
-			System.out.println("Populating Measure dropdown...");
-			JsonNode measuresNode = rootNode.path(MEASURES);
-			Iterator<JsonNode> measureElements = measuresNode.elements();
-			while(measureElements.hasNext()){
-				JsonNode measure = measureElements.next();
-				//save measures somewhere
-				init.measures.add(measure.asText());
-			}
-			System.out.println("Done\n");
-			
-			// read ui components
-			JsonNode uiComponentNode = rootNode.path(UI_COMPONENT);
-			JsonNode strokeWidthNode = uiComponentNode.path(STROKE_WIDTH);
-			init.setStrokeWidth(strokeWidthNode.asDouble());
-			//TODO:
-//			JsonNode strokeColorNode = uiComponentNode.path(STROKE_COLOR);
-//			Iterator<JsonNode> strokeColorElements = strokeColorNode.elements();
-//			while(strokeColorElements.hasNext()) {
-//				JsonNode color = strokeColorElements.next();
-//				//TODO: store/use this
-//				color.asDouble();
-//			}
-			
-			// read db connection data
-			JsonNode dbConnNode = rootNode.path(DB_CONNECTION);
-			init.setHostname(dbConnNode.path(HOSTNAME).asText());
-			init.setDbname(dbConnNode.path(DBNAME).asText());
-			init.setUsername(dbConnNode.path(USERNAME).asText());
-			init.setPassword(dbConnNode.path(PASSWORD).asText());
+			// read config object
+			init.setConfig(objectMapper.readValue(jsonData, Config.class));
+			System.out.println(init.getConfig());
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.err.println("Cannot open configuration file\nAborting...");
 			System.exit(-1);
 		}
-
-	}
-	
-	public State getStateById(int stateId) {
-		return states.get(stateId);
-	}
-
-	public Map<Integer, State> getStates() {
-		return states;
-	}
-
-	public ArrayList<String> getMeasures() {
-		return measures;
-	}
-
-	public void setMeasures(ArrayList<String> measures) {
-		this.measures = measures;
 	}
 	
 	public boolean isSuperDistrictable() {
@@ -194,25 +107,12 @@ public class Init {
 	public void setCurrentYear(int currentYear) {
 		this.currentYear = currentYear;
 	}
-
-	public double getStrokeWidth() {
-		return strokeWidth;
+	
+	public void setConfig(Config config) {
+		this.config = config;
 	}
-
-	public void setStrokeWidth(double strokeWidth) {
-		this.strokeWidth = strokeWidth;
-	}
-
-	public int[] getStrokeColor() {
-		return strokeColor;
-	}
-
-	public void setStrokeColor(int[] strokeColor) {
-		this.strokeColor = strokeColor;
-	}
-
-	public void setStates(HashMap<Integer, State> states) {
-		this.states = states;
+	public Config getConfig() {
+		return config;
 	}
 
 	public String getHostname() {
