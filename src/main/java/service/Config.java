@@ -15,6 +15,7 @@ public class Config {
 	private ArrayList<String> measures;
 	private double strokeWidth;
 	private int[] strokeColor;
+	private int defaultYear;
 
 	public Config() {
 		// initialize and set default
@@ -56,6 +57,14 @@ public class Config {
 		this.strokeColor = strokeColor;
 	}
 	
+	public int getDefaultYear() {
+		return defaultYear;
+	}
+
+	public void setDefaultYear(int defaultYear) {
+		this.defaultYear = defaultYear;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder("Config: \n");

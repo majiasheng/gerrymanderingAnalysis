@@ -1,19 +1,17 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 
 public class State {
 	private int id;
 	private String name;
-	private Coordinate focusLatLong;
-	private HashMap<Integer, ArrayList<District>> districts;
-	private ArrayList<Coordinate> boundary;
+	private char[] code;
+	private Collection<District> districts;
 	
 	public State() {
-		districts = new HashMap<Integer, ArrayList<District>>();
-		boundary = new ArrayList<Coordinate>();
-		
+		districts = new ArrayList<District>();	
+		code = new char[2];
 	}
 	
 	public int getId() {
@@ -28,23 +26,20 @@ public class State {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Coordinate getFocusLatLong() {
-		return focusLatLong;
+	
+	public String getCode() {
+		return String.valueOf(code);
 	}
-	public void setFocusLatLong(Coordinate focusLatLong) {
-		this.focusLatLong = focusLatLong;
+	public void setCode(char[] code) {
+		this.code = code;
 	}
-	public HashMap<Integer, ArrayList<District>> getDistricts() {
+
+	public Collection<District> getDistricts() {
 		return districts;
 	}
-	public void setDistricts(HashMap<Integer, ArrayList<District>> districts) {
+
+	public void setDistricts(Collection<District> districts) {
 		this.districts = districts;
-	}
-	public ArrayList<Coordinate> getBoundary() {
-		return boundary;
-	}
-	public void setBoundary(ArrayList<Coordinate> boundary) {
-		this.boundary = boundary;
 	}
 	
 }

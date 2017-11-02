@@ -15,6 +15,13 @@ public interface DataService {
 	public Map<Integer, Collection<Coordinate>> getStateBoundaries();
 	
 	/**
+	 * Fetch a list of years in which the selected state has available
+	 * @param selectedState
+	 * @return a list of years in which the selected state has available 
+	 */
+	public Collection<Integer> getDataYearSet(int selectedState);
+
+	/**
 	 * Loads data from database where stateid = currentState and year = currentYear
 	 * @param selectedState
 	 * @param selectedYear

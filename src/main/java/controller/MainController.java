@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import model.District;
 import model.State;
 import service.DataService;
-import service.DataServiceJPAImpl;
 import service.Init;
 
 /**
@@ -32,6 +31,8 @@ public class MainController {
 
 	@Autowired
 	private Init init;
+	@Autowired
+	private DataService dataService;
 	
 	@ModelAttribute
 	public void init(HttpServletRequest request) {
@@ -49,7 +50,27 @@ public class MainController {
 		return  new ModelAndView("index");
 	}
 	
-	@RequestMapping(value="/{state}/{year}", method = RequestMethod.GET)
+	@RequestMapping(value="/state", method = RequestMethod.GET) // e.g. /state?id=1
+	public ModelAndView handleGetState(HttpServletRequest request) {
+		//FIXME: make sure attribute is not null
+		// int id = (Integer)request.getAttribute("id");
+		// get a list of years in which the selected state has available
+		// ArrayList<Integer> dataYearSet = (ArrayList<Integer>)dataService.getDataYearSet(id);
+		
+		// TEST DATA
+		// ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
+		// dataYearSet.add(1990);
+		// dataYearSet.add(1991);
+		// END TEST DATA
+		
+		// add dataYearSet to session/modelandview
+		ModelAndView mv = new ModelAndView("index");
+		mv.addObject("dataYearSet", dataYearSet);
+		
+		return mv;
+	}
+
+//	@RequestMapping(value="/state/{year}", method = RequestMethod.GET)
 	public ModelAndView handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
 		// fetch data 
 		int selectedState = Integer.parseInt(requestParams.get("stateId"));

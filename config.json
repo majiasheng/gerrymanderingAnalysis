@@ -12,5 +12,6 @@
 	],
 
 	"strokeWidth": 1,
-	"strokeColor": [255, 255, 255]
+	"strokeColor": [255, 255, 255],
+	"defaultYear": 2016
 }

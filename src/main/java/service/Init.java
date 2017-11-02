@@ -41,10 +41,10 @@ public class Init {
 		//read and parse config file
 		byte[] jsonData;
 		try {
-			// read configure file to string
+			// read configure file
 			jsonData = Files.readAllBytes(Paths.get(configFile));
 			ObjectMapper objectMapper = new ObjectMapper();
-			// read config object
+			// parse json and save config object
 			init.setConfig(objectMapper.readValue(jsonData, Config.class));
 			System.out.println(init.getConfig());
 		} catch (IOException e) {
