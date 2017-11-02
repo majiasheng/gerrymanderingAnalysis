@@ -3,13 +3,19 @@ package service;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import model.Coordinate;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
+import persistence.dao.DataAccessor;
 
 public class DataServiceJPAImpl implements DataService {
+	
+	// @Autowired
+	// private DataAccessor dao;
 
 	public Collection<State> getStates() {
 		// TODO Auto-generated method stub
@@ -26,8 +32,12 @@ public class DataServiceJPAImpl implements DataService {
 		return null;
 	}
 
-	public Collection<District> loadDataByYear(int currentState, int currentYear) {
-		// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * @see service.DataService#getDataByYear(int, int)
+	 */
+	public Collection<District> getDataByYear(int selectedState, int selectedYear) {
+		// return dao.getDataByYear(selectedState, selectedYear);
 		return null;
 	}
 

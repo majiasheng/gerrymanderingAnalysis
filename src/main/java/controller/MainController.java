@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,13 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import model.District;
+import model.State;
+import service.DataService;
+import service.DataServiceJPAImpl;
 import service.Init;
 
 /**
@@ -36,17 +44,22 @@ public class MainController {
 		}
 	}
 	
-	
-	/**
-	 *
-	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView initialize() {
-		ModelAndView home = new ModelAndView("index");
-
-		//TODO: add attributes/object to modelAndView
-
-		return home;
+		return  new ModelAndView("index");
+	}
+	
+	@RequestMapping(value="/{state}/{year}", method = RequestMethod.GET)
+	public ModelAndView handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
+		// fetch data 
+		int selectedState = Integer.parseInt(requestParams.get("stateId"));
+		int selectedYear = Integer.parseInt(requestParams.get("year"));
+		// ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
+		// State state = (State)request.getSession().getAttribute("selectedState");
+		// save current state object to session
+		// request.getSession().setAttribute("selectedState", );
+		
+		return new ModelAndView("/");
 	}
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
@@ -66,7 +79,4 @@ public class MainController {
 		return new ModelAndView("help");
 	}
 
-	
-	
-	
 }

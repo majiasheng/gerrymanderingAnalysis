@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-
+/**
+ * 
+ * @author Jia Sheng Ma (jiasheng.ma@yahoo.com)
+ *
+ */
 public class Config {
 
 	private HashMap<Integer, String> states;
