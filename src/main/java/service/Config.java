@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Config {
 
-	private HashMap<Integer, String> states;
+	private HashMap<String, String> states;
 	private ArrayList<String> measures;
 	private double strokeWidth;
 	private int[] strokeColor;
@@ -19,17 +19,16 @@ public class Config {
 
 	public Config() {
 		// initialize and set default
-		states = new HashMap<Integer, String>();
 		measures = new ArrayList<String>();
 		strokeWidth = 2;
 		strokeColor = new int[] {255,255,255};
 	}
 
-	public HashMap<Integer, String> getStates() {
+	public HashMap<String, String> getStates() {
 		return states;
 	}
 
-	public void setStates(HashMap<Integer, String> states) {
+	public void setStates(HashMap<String, String> states) {
 		this.states = states;
 	}
 
@@ -72,6 +71,7 @@ public class Config {
 		s.append("Stroke color: " + Arrays.toString(strokeColor) + "\n");
 		s.append("Measures: " + measures.toString() + "\n");
 		s.append("State: " + states.toString() + "\n");
+                s.append("Default Year: " + defaultYear + "\n");
 		return s.toString();
 	}
 }

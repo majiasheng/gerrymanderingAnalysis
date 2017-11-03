@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -16,10 +17,10 @@ public interface DataService {
 	
 	/**
 	 * Fetch a list of years in which the selected state has available
-	 * @param selectedState
+	 * @param code
 	 * @return a list of years in which the selected state has available 
 	 */
-	public Collection<Integer> getDataYearSet(int selectedState);
+	public Collection<Integer> getDataYearSetByCode(String code);
 
 	/**
 	 * Loads data from database where stateid = currentState and year = currentYear

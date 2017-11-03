@@ -1,8 +1,8 @@
 {
 	"states": {
-		"1": "New York",
-		"2": "Virginia",
-		"3": "North Carolina"
+		"NY": "New York",
+		"VA": "Virginia",
+		"NC": "North Carolina"
 	},
 
 	"measures": [

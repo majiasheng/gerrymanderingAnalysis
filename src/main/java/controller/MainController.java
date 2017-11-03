@@ -6,15 +6,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.District;
@@ -46,39 +49,72 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ModelAndView initialize() {
-		return  new ModelAndView("index");
+	public ModelAndView home() {
+		return new ModelAndView("index");
 	}
 	
-	@RequestMapping(value="/state", method = RequestMethod.GET) // e.g. /state?id=1
-	public ModelAndView handleGetState(HttpServletRequest request) {
-		//FIXME: make sure attribute is not null
-		// int id = (Integer)request.getAttribute("id");
-		// get a list of years in which the selected state has available
-		// ArrayList<Integer> dataYearSet = (ArrayList<Integer>)dataService.getDataYearSet(id);
-		
-		// TEST DATA
-		// ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
-		// dataYearSet.add(1990);
-		// dataYearSet.add(1991);
-		// END TEST DATA
-		
-		// add dataYearSet to session/modelandview
-		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("dataYearSet", dataYearSet);
-		
-		return mv;
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	// @RequestMapping(value="/state", method = RequestMethod.GET) // e.g. /state?code=NY
+	// public ModelAndView handlesSelectState(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
+	// 	ModelAndView mv = new ModelAndView("index");
+	// 	//FIXME: make sure attribute is not null
+	// 	String code = (String)requestParams.get("code");
+	// 	//		int selectedYear = Integer.parseInt(requestParams.get("year"));
+	// 	// System.out.println("year:" + init.getSelectedYear());
+	// 	// System.out.println("year2:" + ((Init)request.getSession().getAttribute("init")).getSelectedYear());
+	// 	if(code != null){
+	// 		// get a list of years in which the selected state has available
+	// 		ArrayList<Integer> dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
+	// 		// add dataYearSet to modelAndView (response model)		
+	// 		//FIXME: model not shown in jsp
+	// 		mv.addObject("dataYearSet", dataYearSet);
+	// 		for(int i : dataYearSet) {
+	// 			System.out.println("i: " + i);
+	// 		}
+	// 		System.out.println("code: " + code);
+	// 	}
+	// 	return mv;
+	// }
+
+	@RequestMapping(value="/state", method = RequestMethod.GET, produces="application/json") // e.g. /state?code=NY
+	public @ResponseBody ArrayList<Integer> handlesSelectState(@RequestParam Map<String,String> requestParams, 
+	HttpServletRequest request) {
+		String code = (String)requestParams.get("code");
+
+		ArrayList<Integer> dataYearSet = null;
+		if(code != null && !code.equals("")){
+			// get a list of years in which the selected state has available
+			dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
+			for(int i : dataYearSet) {
+				System.out.println("i: " + i);
+			}
+			System.out.println("code: " + code);
+		} else {
+			//FIXME: redirect back to home
+			// home();
+		}
+		return dataYearSet;
 	}
 
-//	@RequestMapping(value="/state/{year}", method = RequestMethod.GET)
+	@RequestMapping(value="/data", method = RequestMethod.GET)
 	public ModelAndView handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
-		// fetch data 
-		int selectedState = Integer.parseInt(requestParams.get("stateId"));
+
+		// fetch request param
+		//TODO: if there are no request params like the following, go back to index
+		String selectedState = (String)requestParams.get("code");
 		int selectedYear = Integer.parseInt(requestParams.get("year"));
 		// ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
 		// State state = (State)request.getSession().getAttribute("selectedState");
 		// save current state object to session
 		// request.getSession().setAttribute("selectedState", );
+
+
+		init.setSelectedState(selectedState);
+		init.setSelectedYear(selectedYear);
 		
 		return new ModelAndView("/");
 	}

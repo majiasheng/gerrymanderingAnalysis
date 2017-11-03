@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -38,9 +39,14 @@ public class DataServiceImpl implements DataService {
 	 * (non-Javadoc)
 	 * @see service.DataService#getDataYearSet(int)
 	 */
-	public Collection<Integer> getDataYearSet(int selectedState) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Integer> getDataYearSetByCode(String code) {
+            // TEST DATA
+            ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
+            dataYearSet.add(1990);
+            dataYearSet.add(1991);
+            return dataYearSet;
+		// END TEST DATA
+		// return null;
 	}
 
 	/*

@@ -19,53 +19,38 @@
 	<div class="col-md-4">
 		<form role="form">
 			<div class="form-group">
+
 				<!-- state drop down -->
-				<select name="stateSelection">
+				<select name="stateSelection" id="stateSelection">
 					<option value="">State</option>
 						<!--populate state dropdown with external data-->
 						<c:forEach var="state" items="${init.config.states}"> 
-						<!-- TODO: add listener, onClick, send ajax GET 
-							handler adds attribute "selectedState" -->
 							<option value ="${state.key}">${state.value}</option>
 						</c:forEach>
 				</select>
 				<!-- end state drop down -->
 
 				<!-- data drop down -->
-				<c:choose>
-						<c:when test="${empty dataYearSet}">
-							<select name="dataSelection" disabled><option value="">Data</option></select>
-						</c:when>
-						<c:otherwise>
-							<select name="dataSelection">
-								<!-- TODO: populate option with data from db -->
-								<!-- TODO: add listener, onClick, send ajax GET 
-								handler adds attribute "selectedDataSet" -->
-								<option value="">Data</option>
-								<c:forEach var="year" items="${dataYearSet}"> 
-									<option value ="${year}">${year}</option>
-								</c:forEach>
-							</select>
-				</c:otherwise>
-				</c:choose>
+					<!-- TODO: populate option with data from db -->
+					<!-- TODO: add listener, onClick, send ajax GET 
+					handler adds attribute "selectedDataSet" -->
+				<select name="dataSelection" id="dataSelection" disabled>
+					<option value="${init.selectedYear}">Data</option> <!-- default -->
+					<c:forEach var="year" items="${dataYearSet}"> 
+						<option value ="${year}">${year}</option>
+					</c:forEach>
+				</select>
 				<!-- end data drop down -->
 
 				<!-- measure drop down -->
-				<c:choose>
-						<c:when test="${empty dataYearSet}">
-							<select name="gerrymanderingMeasure" disabled><option value="">Gerrymandering Measure</option></select>
-						</c:when>
-						<c:otherwise>
-							<select name="gerrymanderingMeasure" >
-								<!--populate measure dropdown with external data-->
-								<option value="">Gerrymandering Measure</option>
-								<!--TODO: add event listener -->
-								<c:forEach var="measure" items="${init.config.measures}"> 
-									<option value ="${measure}">${measure}</option>
-								</c:forEach>
-							</select>
-						</c:otherwise>
-				</c:choose>
+				<select name="gerrymanderingMeasure" id="gerrymanderingMeasure" disabled>
+					<!--populate measure dropdown with external data-->
+					<option value="">Gerrymandering Measure</option>
+					<!--TODO: add event listener -->
+					<c:forEach var="measure" items="${init.config.measures}"> 
+						<option value ="${measure}">${measure}</option>
+					</c:forEach>
+				</select>
 				<!-- end measure drop down -->
 
 			</div>
