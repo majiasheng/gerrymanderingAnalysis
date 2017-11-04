@@ -8,6 +8,7 @@ public class State {
 	private String name;
 	private char[] code;
 	private Collection<District> districts;
+	private boolean superDistrictable;
 	
 	public State() {
 		districts = new ArrayList<District>();	
@@ -41,5 +42,14 @@ public class State {
 	public void setDistricts(Collection<District> districts) {
 		this.districts = districts;
 	}
+
+	public boolean isSuperDistrictable() {
+		//TODO: check with the bill
+		return superDistrictable;
+	}
 	
+	public void setSuperDistrictable(boolean superDistrictable) {
+		this.superDistrictable = superDistrictable;
+	}
+
 }

@@ -48,14 +48,21 @@ $(document).ready(function() {
 					// populate year options to data drop down
 					$("<option value" + "=" + v + ">" + v+ "</option>").insertAfter($("#dataSelection option").last());
 				});
-				console.log(response);
+				console.log("Enabling Data drop down menu...");
 				$("#dataSelection").prop({
 					disabled: false
 				});
+				//TODO: zoom to state 
+				map1.fitBounds($.grep(allStates.getLayers(), function(state){
+				return state.feature.properties.STUSPS == c;
+				})[0].getBounds());
+			},
+			error: function(xhr,status,error) {
+				// disallow selecting "Data" option if response is empty
+				$("#dataSelection").prop({
+					disabled: true
+				});
 			}
-
-			//TODO: on reponse==null -> console.log("GET?code=" + c + '&year=' + y);
-
 		});
 	});
 
@@ -64,7 +71,6 @@ $(document).ready(function() {
 		//TODO: disallow selecting "Data" option 
 		c = $("#stateSelection").val();
 		y = $("#dataSelection").val();
-
 		$.ajax({
 			url: "/data",
 			type: "GET",
@@ -76,6 +82,12 @@ $(document).ready(function() {
 				console.log("Enabling GerrymanderingMeasure drop down menu...");
 				$("#gerrymanderingMeasure").prop({
 					disabled: false
+				});
+			},
+			error: function(xhr, textStatus, errorThrown){
+				console.log(textStatus + ": can be caused by empty response");
+				$("#gerrymanderingMeasure").prop({
+					disabled: true
 				});
 			}
 		});

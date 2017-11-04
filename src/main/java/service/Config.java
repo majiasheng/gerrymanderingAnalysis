@@ -71,7 +71,7 @@ public class Config {
 		s.append("Stroke color: " + Arrays.toString(strokeColor) + "\n");
 		s.append("Measures: " + measures.toString() + "\n");
 		s.append("State: " + states.toString() + "\n");
-                s.append("Default Year: " + defaultYear + "\n");
+		s.append("Default Year: " + defaultYear + "\n");
 		return s.toString();
 	}
 }

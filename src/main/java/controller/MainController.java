@@ -66,9 +66,14 @@ public class MainController {
 	@RequestMapping(value="/state", method = RequestMethod.GET, produces="application/json")
 	public @ResponseBody ArrayList<Integer> handlesSelectState(@RequestParam Map<String,String> requestParams, 
 	HttpServletRequest request, HttpServletResponse response) {
-		//if xhr, use this handler, if user entered url get, use another handler
+		// if xhr, use this handler, if user entered url get, use another handler
 		if(!isAjaxRequest(request)) {
 			// TODO: redirect to another handler?
+			try { // redirect back to home
+				response.sendRedirect("/");
+			} catch (IOException ex) {
+				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		}
 		ArrayList<Integer> dataYearSet = null;
 		String code = (String)requestParams.get("code");
@@ -76,23 +81,15 @@ public class MainController {
 		if(code != null && !code.equals("")){
 			// get a list of years in which the selected state has available
 			dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
-			for(int i : dataYearSet) {
-				System.out.println("i: " + i);
-			}
-			System.out.println("code: " + code);
 		} else {
-			try { // redirect back to home
-				response.sendRedirect("/");
-			} catch (IOException ex) {
-				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-			}
+			
 		}
 		return dataYearSet;
 	}
 
 	@RequestMapping(value="/data", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
-		//TODO: if xhr, use this handler, if user entered url get, use another handler
+		// if xhr, use this handler, if user entered url get, use another handler
 		if(!isAjaxRequest(request)) {
 			// TODO: redirect to another handler?
 		}
@@ -102,8 +99,6 @@ public class MainController {
 		int selectedYear = Integer.parseInt(requestParams.get("year"));
 
 		districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
-		// 
-		// init.setSelectedState(selectedState);
 		// init.setSelectedYear(selectedYear);
 		return districts;
 	}
@@ -124,7 +119,7 @@ public class MainController {
 	public ModelAndView helpPage() {
 		return new ModelAndView("help");
 	}
-	
+
 	/**
 	 * Determines if a request is an AJAX request
 	 * @param request incoming request

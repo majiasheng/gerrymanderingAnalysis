@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Init {
 	// config file name
 	static final String CONFIG_FILE = "config.json";
-	private boolean superDistrictable;
-	private String selectedState;
-	private int selectedYear;
+	// private boolean superDistrictable;
+	// private String selectedState;
+	private int selectedYear; // 
 	private Config config;
 
 	public Init() {
@@ -56,21 +56,21 @@ public class Init {
 		}
 	}
 	
-	public boolean isSuperDistrictable() {
-		return superDistrictable;
-	}
+	// public boolean isSuperDistrictable() {
+	// 	return superDistrictable;
+	// }
 	
-	public void setSuperDistrictable(boolean superDistrictable) {
-		this.superDistrictable = superDistrictable;
-	}
+	// public void setSuperDistrictable(boolean superDistrictable) {
+	// 	this.superDistrictable = superDistrictable;
+	// }
 	
-	public String getSelectedState() {
-		return selectedState;
-	}
+	// public String getSelectedState() {
+	// 	return selectedState;
+	// }
 
-	public void setSelectedState(String selectedState) {
-		this.selectedState = selectedState;
-	}
+	// public void setSelectedState(String selectedState) {
+	// 	this.selectedState = selectedState;
+	// }
 
 	public int getSelectedYear() {
 		return selectedYear;
