@@ -11,11 +11,15 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 // state boundary
 // var geojson = "/resources/js/state-boundary-cenus-bureau.json"
 var geojson = "/resources/js/district_2016.json"
+var allStates;
 $.ajax(geojson).done(function(d){
-  L.geoJson(d, {
+  allStates = L.geoJson(d, {
       // style: style,
       onEachFeature: onEachFeature
-  }).addTo(map1);
+  });
+
+  allStates.addTo(map1);
+
 });
 
 

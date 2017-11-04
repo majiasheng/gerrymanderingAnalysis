@@ -1,9 +1,13 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -54,38 +58,21 @@ public class MainController {
 	}
 	
 	/**
-	 * 
-	 * @param request
-	 * @return
+	 * Handles state selection request
+	 * @param requestParams
+	 * @param response
+	 * @return a list of available data year set to populate the "Data" drop down menu
 	 */
-	// @RequestMapping(value="/state", method = RequestMethod.GET) // e.g. /state?code=NY
-	// public ModelAndView handlesSelectState(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
-	// 	ModelAndView mv = new ModelAndView("index");
-	// 	//FIXME: make sure attribute is not null
-	// 	String code = (String)requestParams.get("code");
-	// 	//		int selectedYear = Integer.parseInt(requestParams.get("year"));
-	// 	// System.out.println("year:" + init.getSelectedYear());
-	// 	// System.out.println("year2:" + ((Init)request.getSession().getAttribute("init")).getSelectedYear());
-	// 	if(code != null){
-	// 		// get a list of years in which the selected state has available
-	// 		ArrayList<Integer> dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
-	// 		// add dataYearSet to modelAndView (response model)		
-	// 		//FIXME: model not shown in jsp
-	// 		mv.addObject("dataYearSet", dataYearSet);
-	// 		for(int i : dataYearSet) {
-	// 			System.out.println("i: " + i);
-	// 		}
-	// 		System.out.println("code: " + code);
-	// 	}
-	// 	return mv;
-	// }
-
-	@RequestMapping(value="/state", method = RequestMethod.GET, produces="application/json") // e.g. /state?code=NY
+	@RequestMapping(value="/state", method = RequestMethod.GET, produces="application/json")
 	public @ResponseBody ArrayList<Integer> handlesSelectState(@RequestParam Map<String,String> requestParams, 
-	HttpServletRequest request) {
-		String code = (String)requestParams.get("code");
-
+	HttpServletRequest request, HttpServletResponse response) {
+		//if xhr, use this handler, if user entered url get, use another handler
+		if(!isAjaxRequest(request)) {
+			// TODO: redirect to another handler?
+		}
 		ArrayList<Integer> dataYearSet = null;
+		String code = (String)requestParams.get("code");
+		
 		if(code != null && !code.equals("")){
 			// get a list of years in which the selected state has available
 			dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
@@ -94,31 +81,33 @@ public class MainController {
 			}
 			System.out.println("code: " + code);
 		} else {
-			//FIXME: redirect back to home
-			// home();
+			try { // redirect back to home
+				response.sendRedirect("/");
+			} catch (IOException ex) {
+				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+			}
 		}
 		return dataYearSet;
 	}
 
 	@RequestMapping(value="/data", method = RequestMethod.GET)
-	public ModelAndView handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
-
+	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
+		//TODO: if xhr, use this handler, if user entered url get, use another handler
+		if(!isAjaxRequest(request)) {
+			// TODO: redirect to another handler?
+		}
+		ArrayList<District> districts = null; 
 		// fetch request param
-		//TODO: if there are no request params like the following, go back to index
 		String selectedState = (String)requestParams.get("code");
 		int selectedYear = Integer.parseInt(requestParams.get("year"));
-		// ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
-		// State state = (State)request.getSession().getAttribute("selectedState");
-		// save current state object to session
-		// request.getSession().setAttribute("selectedState", );
 
-
-		init.setSelectedState(selectedState);
-		init.setSelectedYear(selectedYear);
-		
-		return new ModelAndView("/");
+		districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
+		// 
+		// init.setSelectedState(selectedState);
+		// init.setSelectedYear(selectedYear);
+		return districts;
 	}
-	
+
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public ModelAndView register() {
 		return new ModelAndView("registration");
@@ -134,6 +123,16 @@ public class MainController {
 	@RequestMapping(value="/help", method = RequestMethod.GET)
 	public ModelAndView helpPage() {
 		return new ModelAndView("help");
+	}
+	
+	/**
+	 * Determines if a request is an AJAX request
+	 * @param request incoming request
+	 * @return true if the request is an AJAX request, false otherwise
+	 */
+	private boolean isAjaxRequest(HttpServletRequest request) {
+		String requestedWith = request.getHeader("X-Requested-With");
+		return "XMLHttpRequest".equals(requestedWith);
 	}
 
 }

@@ -40,11 +40,11 @@ public class DataServiceImpl implements DataService {
 	 * @see service.DataService#getDataYearSet(int)
 	 */
 	public Collection<Integer> getDataYearSetByCode(String code) {
-            // TEST DATA
-            ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
-            dataYearSet.add(1990);
-            dataYearSet.add(1991);
-            return dataYearSet;
+        // TEST DATA
+        ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
+        dataYearSet.add(1990);
+        dataYearSet.add(1991);
+        return dataYearSet;
 		// END TEST DATA
 		// return null;
 	}
@@ -58,7 +58,7 @@ public class DataServiceImpl implements DataService {
 		return null;
 	}
 
-	public Collection<GeoData> getGeoDataByYear(int stateId, int year) {
+	public Collection<GeoData> getGeoDataByYear(String stateId, int year) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -76,6 +76,16 @@ public class DataServiceImpl implements DataService {
 	public boolean upload(Object uploadTarget) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public Collection<District> getDataByYear(String selectedState, int selectedYear) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Collection<GeoData> getGeoDataByYear(int stateId, int year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
