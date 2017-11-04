@@ -46,13 +46,14 @@ $(document).ready(function() {
 			success: function(response, status, xhr) {
 				$.each(response, function(k, v){
 					// populate year options to data drop down
+					//FIXME: populate only once: clear and insert 
 					$("<option value" + "=" + v + ">" + v+ "</option>").insertAfter($("#dataSelection option").last());
 				});
 				console.log("Enabling Data drop down menu...");
 				$("#dataSelection").prop({
 					disabled: false
 				});
-				//TODO: zoom to state 
+				// zoom to state 
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
 				return state.feature.properties.STUSPS == c;
 				})[0].getBounds());
@@ -85,7 +86,7 @@ $(document).ready(function() {
 				});
 			},
 			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus + ": can be caused by empty response");
+				console.log(textStatus + ": Cannot enable GerrymanderingMeasure drop down menu\nCan be caused by empty response");
 				$("#gerrymanderingMeasure").prop({
 					disabled: true
 				});

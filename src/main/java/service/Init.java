@@ -18,7 +18,7 @@ public class Init {
 
 	public Init() {
 		// set default values
-		selectedState = null;
+		// selectedState = null;
 		selectedYear = -1;
 	}
 
