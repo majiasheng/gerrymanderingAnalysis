@@ -13,13 +13,13 @@ public class Init {
 	static final String CONFIG_FILE = "config.json";
 	// private boolean superDistrictable;
 	// private String selectedState;
-	private int selectedYear; // 
+	// private int selectedYear;
 	private Config config;
 
 	public Init() {
 		// set default values
 		// selectedState = null;
-		selectedYear = -1;
+		// selectedYear = -1;
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class Init {
 		// read and save initialization data 
 		configure(CONFIG_FILE, this);
 		// set default selected year
-		selectedYear = config.getDefaultYear();
+		// selectedYear = config.getDefaultYear();
 	}
 
 	/**
@@ -72,13 +72,13 @@ public class Init {
 	// 	this.selectedState = selectedState;
 	// }
 
-	public int getSelectedYear() {
-		return selectedYear;
-	}
+	// public int getSelectedYear() {
+	// 	return selectedYear;
+	// }
 
-	public void setSelectedYear(int selectedYear) {
-		this.selectedYear = selectedYear;
-	}
+	// public void setSelectedYear(int selectedYear) {
+	// 	this.selectedYear = selectedYear;
+	// }
 
 	public void setConfig(Config config) {
 		this.config = config;

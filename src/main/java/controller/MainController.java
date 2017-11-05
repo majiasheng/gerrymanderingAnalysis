@@ -17,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,7 +57,7 @@ public class MainController {
 	public ModelAndView home() {
 		return new ModelAndView("index");
 	}
-	
+
 	/**
 	 * Handles state selection request
 	 * @param requestParams
@@ -66,33 +67,25 @@ public class MainController {
 	@RequestMapping(value="/state", method = RequestMethod.GET, produces="application/json")
 	public @ResponseBody ArrayList<Integer> handlesSelectState(@RequestParam Map<String,String> requestParams, 
 	HttpServletRequest request, HttpServletResponse response) {
-		// if xhr, use this handler, if user entered url get, use another handler
-		if(!isAjaxRequest(request)) {
-			// TODO: redirect to another handler?
-			try { // redirect back to home
-				response.sendRedirect("/");
-			} catch (IOException ex) {
-				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
+		// if user entered url to get here, use another handler (or redirect back to home)
+		sendHomeIfNotXHR(request, response);
+
+		// if xhr, use this handler
 		ArrayList<Integer> dataYearSet = null;
 		String code = (String)requestParams.get("code");
-		
-		if(code != null && !code.equals("")){
-			// get a list of years in which the selected state has available
-			dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
-		} else {
-			
-		}
+		// get a list of years in which the selected state has available
+		dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
+	
 		return dataYearSet;
 	}
 
 	@RequestMapping(value="/data", method = RequestMethod.GET)
-	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, HttpServletRequest request) {
-		// if xhr, use this handler, if user entered url get, use another handler
-		if(!isAjaxRequest(request)) {
-			// TODO: redirect to another handler?
-		}
+	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, 
+	HttpServletRequest request, HttpServletResponse response) {
+		// if user entered url to get here, use another handler (or redirect back to home)
+		sendHomeIfNotXHR(request, response);
+		
+		// if xhr, use this handler
 		ArrayList<District> districts = null; 
 		// fetch request param
 		String selectedState = (String)requestParams.get("code");
@@ -125,9 +118,18 @@ public class MainController {
 	 * @param request incoming request
 	 * @return true if the request is an AJAX request, false otherwise
 	 */
-	private boolean isAjaxRequest(HttpServletRequest request) {
+	private void sendHomeIfNotXHR(HttpServletRequest request, HttpServletResponse response) {
 		String requestedWith = request.getHeader("X-Requested-With");
-		return "XMLHttpRequest".equals(requestedWith);
+		
+		if(!"XMLHttpRequest".equals(requestedWith)) {
+			// redirect back to home
+			try { 
+				response.sendRedirect("/");
+			} catch (IOException ex) {
+				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
 	}
 
 }

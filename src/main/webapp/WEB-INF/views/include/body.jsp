@@ -35,10 +35,11 @@
 					<!-- TODO: add listener, onClick, send ajax GET 
 					handler adds attribute "selectedDataSet" -->
 				<select name="dataSelection" id="dataSelection" disabled>
-					<option value="${init.selectedYear}">Data</option> <!-- default -->
-					<c:forEach var="year" items="${dataYearSet}"> 
+					<!-- FIXME: default year not needed from config, can just use the first option as the default -->
+					<option value="${init.config.defaultYear}">Data</option> <!-- default -->
+					<!-- <c:forEach var="year" items="${dataYearSet}"> 
 						<option value ="${year}">${year}</option>
-					</c:forEach>
+					</c:forEach> -->
 				</select>
 				<!-- end data drop down -->
 

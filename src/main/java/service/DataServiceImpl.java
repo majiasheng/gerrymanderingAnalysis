@@ -30,11 +30,6 @@ public class DataServiceImpl implements DataService {
 		return null;
 	}
 
-	public Map<Integer, Collection<Coordinate>> getStateBoundaries() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see service.DataService#getDataYearSet(int)

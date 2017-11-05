@@ -34,29 +34,35 @@ $(document).ready(function() {
 
 	// send get on state selection
 	$('#stateSelection').change(function(){
-		c = $(this).val();
-		y = $("#dataSelection").val();
-
+		var c = $(this).val();
+		var options = "";
 		$.ajax({
 			url: "/state",
 			type: "GET",
 			contentType: "application/json",
-			data: {"code": c, "year": y},
+			data: {"code": c},
 			dataType: "json",
 			success: function(response, status, xhr) {
-				$.each(response, function(k, v){
-					// populate year options to data drop down
-					//FIXME: populate only once: clear and insert 
-					$("<option value" + "=" + v + ">" + v+ "</option>").insertAfter($("#dataSelection option").last());
-				});
-				console.log("Enabling Data drop down menu...");
-				$("#dataSelection").prop({
-					disabled: false
-				});
 				// zoom to state 
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
 				return state.feature.properties.STUSPS == c;
 				})[0].getBounds());
+				
+				// populate year options to data drop down
+				$.each(response, function(k, v){
+					//FIXME: populate only once: clear and insert 
+					// $("<option value" + "=" + v + ">" + v+ "</option>").insertAfter($("#dataSelection option").last());
+					options+="<option value" + "=" + v + ">" + v+ "</option>"
+				});
+				$('#dataSelection').html(options);
+				console.log("Enabling Data drop down menu...");
+				$("#dataSelection").prop({
+					disabled: false
+				});
+
+				//TODO: send get request for default year (or selected year)
+				var y = $("#dataSelection").val();
+
 			},
 			error: function(xhr,status,error) {
 				// disallow selecting "Data" option if response is empty
@@ -70,8 +76,8 @@ $(document).ready(function() {
 	// send get on data selection
 	$('#dataSelection').change(function(){
 		//TODO: disallow selecting "Data" option 
-		c = $("#stateSelection").val();
-		y = $("#dataSelection").val();
+		var c = $("#stateSelection").val();
+		var y = $("#dataSelection").val();
 		$.ajax({
 			url: "/data",
 			type: "GET",
@@ -97,11 +103,11 @@ $(document).ready(function() {
 	// send get on data selection
 	$('#gerrymanderingMeasure').change(function(){
 
-		c = $("#stateSelection").val();
-		y = $("#dataSelection").val();
-
+		var c = $("#stateSelection").val();
+		var y = $("#dataSelection").val();
+		var m = $(this).val();
 		$.ajax({
-			url: "/measure",
+			url: "/measure/"+m,
 			type: "GET",
 			contentType: "application/json",
 			data: {"code": c, "year": y},

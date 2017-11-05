@@ -13,10 +13,9 @@ import model.State;
 public interface DataService {
 	public Collection<State> getStates();
 	public State getState(int stateId);
-	public Map<Integer, Collection<Coordinate>> getStateBoundaries();
 	
 	/**
-	 * Fetch a list of years in which the selected state has available
+	 * Fetch a list of years in which the selected state has available (in descending order).
 	 * @param code
 	 * @return a list of years in which the selected state has available 
 	 */
