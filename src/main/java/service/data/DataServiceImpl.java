@@ -1,4 +1,4 @@
-package service;
+package service.data;
 
 import java.util.ArrayList;
 import java.util.Collection;

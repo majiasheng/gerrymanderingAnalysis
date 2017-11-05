@@ -20,8 +20,7 @@ public class Config {
 	public Config() {
 		// initialize and set default
 		measures = new ArrayList<String>();
-		strokeWidth = 2;
-		strokeColor = new int[] {255,255,255};
+		strokeColor = new int[3];
 	}
 
 	public HashMap<String, String> getStates() {

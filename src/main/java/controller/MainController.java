@@ -10,15 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.SocketUtils;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.District;
-import model.State;
-import service.DataService;
+import service.data.DataService;
 import service.Init;
 
 /**
@@ -43,7 +36,7 @@ public class MainController {
 	private DataService dataService;
 	
 	@ModelAttribute
-	public void init(HttpServletRequest request) {
+	public void initialize(HttpServletRequest request) {
 		// if session varialbe doesnt have init object, add
 		if(request.getSession().getAttribute("init")==null) {
 			System.out.println("\n>> Initializing...\n");
@@ -52,7 +45,7 @@ public class MainController {
 			request.getSession().setAttribute("init", init);
 		}
 	}
-	
+
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public ModelAndView home() {
 		return new ModelAndView("index");
@@ -71,48 +64,32 @@ public class MainController {
 		sendHomeIfNotXHR(request, response);
 
 		// if xhr, use this handler
-		ArrayList<Integer> dataYearSet = null;
 		String code = (String)requestParams.get("code");
-		// get a list of years in which the selected state has available
-		dataYearSet = (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
-	
-		return dataYearSet;
+		// get and return a list of years in which the selected state has available
+		return (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
 	}
 
+	/**
+	 * Handles data selection request
+	 * @param requestParams
+	 * @param request
+	 * @param response
+	 * @return a list of districts for the selected state in the selected year 
+	 */
 	@RequestMapping(value="/data", method = RequestMethod.GET)
 	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, 
 	HttpServletRequest request, HttpServletResponse response) {
 		// if user entered url to get here, use another handler (or redirect back to home)
 		sendHomeIfNotXHR(request, response);
+		//FIXME: redirect still comes back here 
 		
 		// if xhr, use this handler
-		ArrayList<District> districts = null; 
-		// fetch request param
 		String selectedState = (String)requestParams.get("code");
 		int selectedYear = Integer.parseInt(requestParams.get("year"));
-
-		districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
-		// init.setSelectedYear(selectedYear);
-		return districts;
+		// get and return a list of districts
+		return (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
 	}
-
-	@RequestMapping(value="/register", method = RequestMethod.GET)
-	public ModelAndView register() {
-		return new ModelAndView("registration");
-	}
-	@RequestMapping(value="/compare", method = RequestMethod.GET)
-	public ModelAndView compare() {
-		return new ModelAndView("compare");
-	}
-	@RequestMapping(value="/credit", method = RequestMethod.GET)
-	public ModelAndView creditPage() {
-		return new ModelAndView("credit");
-	}
-	@RequestMapping(value="/help", method = RequestMethod.GET)
-	public ModelAndView helpPage() {
-		return new ModelAndView("help");
-	}
-
+	
 	/**
 	 * Determines if a request is an AJAX request
 	 * @param request incoming request
@@ -130,6 +107,39 @@ public class MainController {
 			}
 		}
 
+	}
+
+	/**
+	 * Goes to registration page
+	 * @return name of registration page
+	 */
+	@RequestMapping(value="/registration", method = RequestMethod.GET)
+	public ModelAndView register() {
+		return new ModelAndView("registration");
+	}
+	/**
+	 * Goes to compare page
+	 * @return name of compare page
+	 */
+	@RequestMapping(value="/compare", method = RequestMethod.GET)
+	public ModelAndView compare() {
+		return new ModelAndView("compare");
+	}
+	/**
+	 * Goes to credit page
+	 * @return name of credit page
+	 */
+	@RequestMapping(value="/credit", method = RequestMethod.GET)
+	public ModelAndView creditPage() {
+		return new ModelAndView("credit");
+	}
+	/**
+	 * Goes to help page
+	 * @return name of help page
+	 */
+	@RequestMapping(value="/help", method = RequestMethod.GET)
+	public ModelAndView helpPage() {
+		return new ModelAndView("help");
 	}
 
 }

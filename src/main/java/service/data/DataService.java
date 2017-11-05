@@ -1,4 +1,4 @@
-package service;
+package service.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,10 +22,10 @@ public interface DataService {
 	public Collection<Integer> getDataYearSetByCode(String code);
 
 	/**
-	 * Loads data from database where stateid = currentState and year = currentYear
+	 * Loads district data from database where stateid = selectedState and year = selectedYear
 	 * @param selectedState
 	 * @param selectedYear
-	 * @return list of districts of year  pertaining to the state 
+	 * @return a list of districts in the selected year of the selected state, null if no data in database  
 	 */
 	public Collection<District> getDataByYear(String selectedState, int selectedYear);
 	public Collection<GeoData> getGeoDataByYear(int stateId, int year);

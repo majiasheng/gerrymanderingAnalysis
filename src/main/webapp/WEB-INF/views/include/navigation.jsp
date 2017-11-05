@@ -30,7 +30,7 @@
 			<c:choose>
 				<%-- show Register option if user is not logged in --%>
 				<c:when test="${empty user}">
-					<li><a href="register">Register</a></li>
+					<li><a href="registration">Register</a></li>
 					<li><%@include file="/WEB-INF/views/include/login-modal.jsp" %></li>
 				</c:when>
 
