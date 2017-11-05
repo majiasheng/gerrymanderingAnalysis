@@ -64,9 +64,14 @@ public class MainController {
 		sendHomeIfNotXHR(request, response);
 
 		// if xhr, use this handler
-		String code = (String)requestParams.get("code");
-		// get and return a list of years in which the selected state has available
-		return (ArrayList<Integer>)dataService.getDataYearSetByCode(code);
+		String selectedState = (String)requestParams.get("code");
+		// make sure request params are not null
+		if(selectedState != null) {
+			// get and return a list of years in which the selected state has available
+			return (ArrayList<Integer>)dataService.getDataYearSetByCode(selectedState);
+		}
+		return null;
+	
 	}
 
 	/**
@@ -85,11 +90,15 @@ public class MainController {
 		
 		// if xhr, use this handler
 		String selectedState = (String)requestParams.get("code");
-		int selectedYear = Integer.parseInt(requestParams.get("year"));
-		// get and return a list of districts
-		return (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
+		String selectedYear_Str = requestParams.get("year");
+		// make sure request params are not null
+		if(selectedState != null && selectedYear_Str != null) {
+			// get and return a list of districts
+			return (ArrayList<District>)dataService.getDataByYear(selectedState, Integer.parseInt(selectedYear_Str));
+		}
+		return null;
 	}
-	
+
 	/**
 	 * Determines if a request is an AJAX request
 	 * @param request incoming request
@@ -101,12 +110,12 @@ public class MainController {
 		if(!"XMLHttpRequest".equals(requestedWith)) {
 			// redirect back to home
 			try { 
+				//FIXME: send redirect and never let it come back here
 				response.sendRedirect("/");
 			} catch (IOException ex) {
 				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
-
 	}
 
 	/**
