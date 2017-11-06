@@ -1,30 +1,30 @@
-// var sendDataSelect = function(c, y){
-// 		// var c = $("#stateSelection").val();
-// 		// var y = $("#dataSelection").val();
-// 		$.ajax({
-// 			url: "/data",
-// 			type: "GET",
-// 			contentType: "application/json",
-// 			data: {"code": c, "year": y},
-// 			dataType: "json",
-// 			success: function(response, status, xhr) {
-// 				//TODO: display district boundary
+var sendDataSelect = function(c, y){
+		// var c = $("#stateSelection").val();
+		// var y = $("#dataSelection").val();
+		$.ajax({
+			url: "/data",
+			type: "GET",
+			contentType: "application/json",
+			data: {"code": c, "year": y},
+			dataType: "json",
+			success: function(response, status, xhr) {
+				//TODO: display district boundary
 
-// 				console.log("Enabling GerrymanderingMeasure drop down menu...");
-// 				$("#gerrymanderingMeasure").prop({
-// 					disabled: false
-// 				});
-// 			},
-// 			error: function(xhr, textStatus, errorThrown){
-// 				console.log(textStatus 
-// 					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
-// 					+ "\nCan be caused by empty response");
-// 				$("#gerrymanderingMeasure").prop({
-// 					disabled: true
-// 				});
-// 			}
-// 		});
-// 	}
+				console.log("Enabling GerrymanderingMeasure drop down menu...");
+				$("#gerrymanderingMeasure").prop({
+					disabled: false
+				});
+			},
+			error: function(xhr, textStatus, errorThrown){
+				console.log(textStatus
+					+ ": Cannot enable GerrymanderingMeasure drop down menu"
+					+ "\nCan be caused by empty response");
+				$("#gerrymanderingMeasure").prop({
+					disabled: true
+				});
+			}
+		});
+	}
 
 $(document).ready(function() {
 
@@ -39,7 +39,7 @@ $(document).ready(function() {
 			data: {"code": c},
 			dataType: "json",
 			success: function(response, status, xhr) {
-				// zoom to state 
+				// zoom to state
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
 				return state.feature.properties.STUSPS == c;
 				})[0].getBounds());
@@ -69,35 +69,37 @@ $(document).ready(function() {
 	});
 
 	// send get on data selection
+	// $('#dataSelection').change(function(){
+	// 	var c = $("#stateSelection").val();
+	// 	var y = $("#dataSelection").val();
+	// 	$.ajax({
+	// 		url: "/data",
+	// 		type: "GET",
+	// 		contentType: "application/json",
+	// 		data: {"code": c, "year": y},
+	// 		dataType: "json",
+	// 		success: function(response, status, xhr) {
+	// 			//TODO: display district boundary
+	//
+	// 			console.log("Enabling GerrymanderingMeasure drop down menu...");
+	// 			$("#gerrymanderingMeasure").prop({
+	// 				disabled: false
+	// 			});
+	// 		},
+	// 		error: function(xhr, textStatus, errorThrown){
+	// 			console.log(textStatus
+	// 				+ ": Cannot enable GerrymanderingMeasure drop down menu"
+	// 				+ "\nCan be caused by empty response");
+	// 			$("#gerrymanderingMeasure").prop({
+	// 				disabled: true
+	// 			});
+	// 		}
+	// 	});
+	// });
+
 	$('#dataSelection').change(function(){
-		var c = $("#stateSelection").val();
-		var y = $("#dataSelection").val();
-		$.ajax({
-			url: "/data",
-			type: "GET",
-			contentType: "application/json",
-			data: {"code": c, "year": y},
-			dataType: "json",
-			success: function(response, status, xhr) {
-				//TODO: display district boundary
-
-				console.log("Enabling GerrymanderingMeasure drop down menu...");
-				$("#gerrymanderingMeasure").prop({
-					disabled: false
-				});
-			},
-			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus 
-					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
-					+ "\nCan be caused by empty response");
-				$("#gerrymanderingMeasure").prop({
-					disabled: true
-				});
-			}
-		});
+		sendDataSelect($("#stateSelection").val(), $("#dataSelection").val());
 	});
-
-	// $('#dataSelection').change(sendDataSelect($("#stateSelection").val(), $("#dataSelection").val()));
 
 	// send get on measure/test selection
 	$('#gerrymanderingMeasure').change(function(){
