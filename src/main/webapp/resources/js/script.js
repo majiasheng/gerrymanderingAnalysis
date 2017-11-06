@@ -7,9 +7,9 @@
 
 // 		dataType: "json",
 // 		success: function(response, status, xhr) {
-			
+
 // 			console.log("GET?code=" + c + '&year=' + y);
-			
+
 // 			if($.isEmptyObject(response)){
 // 				//FIXME
 // 				console.log("no correct request param");
@@ -36,6 +36,11 @@ $(document).ready(function() {
 	$('#stateSelection').change(function(){
 		var c = $(this).val();
 		var options = "";
+		// BASE CASE: zoom back to continental US on select no State
+		if (c === "") {
+			map1.setView([36.4051421,-95.5136459], 3.91);
+			return;
+		}
 		$.ajax({
 			url: "/state",
 			type: "GET",
@@ -43,11 +48,11 @@ $(document).ready(function() {
 			data: {"code": c},
 			dataType: "json",
 			success: function(response, status, xhr) {
-				// zoom to state 
+				// zoom to state
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
-				return state.feature.properties.STUSPS == c;
+					return state.feature.properties.STUSPS == c;
 				})[0].getBounds());
-				
+
 				// populate year options to data drop down
 				$.each(response, function(k, v){
 					options+="<option value" + "=" + v + ">" + v+ "</option>"
@@ -73,7 +78,7 @@ $(document).ready(function() {
 
 	// send get on data selection
 	$('#dataSelection').change(function(){
-		//TODO: disallow selecting "Data" option 
+		//TODO: disallow selecting "Data" option
 		var c = $("#stateSelection").val();
 		var y = $("#dataSelection").val();
 		$.ajax({
@@ -90,8 +95,8 @@ $(document).ready(function() {
 				});
 			},
 			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus 
-					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
+				console.log(textStatus
+					+ ": Cannot enable GerrymanderingMeasure drop down menu"
 					+ "\nCan be caused by empty response");
 				$("#gerrymanderingMeasure").prop({
 					disabled: true
@@ -122,6 +127,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 
 });
