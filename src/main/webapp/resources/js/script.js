@@ -57,7 +57,6 @@ $(document).ready(function() {
 				//TODO: send get request for default year (or selected year)
 				var y = $("#dataSelection").val();
 
-
 			},
 			error: function(xhr,status,error) {
 				// disallow selecting "Data" option if response is empty
