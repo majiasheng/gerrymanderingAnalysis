@@ -1,10 +1,6 @@
 package service.data;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-
-import model.Coordinate;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
@@ -17,7 +13,8 @@ public interface DataService {
 	/**
 	 * Fetch a list of years in which the selected state has available (in descending order).
 	 * @param code
-	 * @return a list of years in which the selected state has available 
+	 * @return a list of years in which the selected state has available,
+	 * 			null if no matching data found in database.
 	 */
 	public Collection<Integer> getDataYearSetByCode(String code);
 
@@ -25,7 +22,8 @@ public interface DataService {
 	 * Loads district data from database where stateid = selectedState and year = selectedYear
 	 * @param selectedState
 	 * @param selectedYear
-	 * @return a list of districts in the selected year of the selected state, null if no data in database  
+	 * @return a list of districts in the selected year of the selected state, 
+	 * 			null if no matching data found in database.
 	 */
 	public Collection<District> getDataByYear(String selectedState, int selectedYear);
 	public Collection<GeoData> getGeoDataByYear(int stateId, int year);

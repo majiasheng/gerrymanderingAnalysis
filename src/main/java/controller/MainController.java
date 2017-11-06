@@ -71,7 +71,6 @@ public class MainController {
 			return (ArrayList<Integer>)dataService.getDataYearSetByCode(selectedState);
 		}
 		return null;
-	
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class MainController {
 		// if user entered url to get here, use another handler (or redirect back to home)
 		sendHomeIfNotXHR(request, response);
 		//FIXME: redirect still comes back here 
-		
+
 		// if xhr, use this handler
 		String selectedState = (String)requestParams.get("code");
 		String selectedYear_Str = requestParams.get("year");

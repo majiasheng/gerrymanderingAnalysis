@@ -2,17 +2,12 @@ package service.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import model.Coordinate;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
-import persistence.dao.DataAccessor;
 
 @Service
 public class DataServiceImpl implements DataService {

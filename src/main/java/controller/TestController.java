@@ -31,14 +31,21 @@ public class TestController {
 	
 	@RequestMapping(value="/measure/{measureName}",  method = RequestMethod.GET,  produces="application/json")
 	public @ResponseBody TestResult handleDoTest(@PathVariable(value="measureName") String measureName) {
+		TestResult result = null;
 		if("Efficiency Gap Test".equals(measureName)) {
-			 // tTestService.doTest();
+			 // result = tTestService.doTest();
 		} else if("T-Test".equals(measureName)) {
-			// mmTestService.doTest();
+			// result = mmTestService.doTest();
 		} else if("Mean-Median Test".equals(measureName)) {
-			// egTestService.doTest();
+			// result = egTestService.doTest();
 		}
-		System.out.println("/measure/" + measureName);
-		return null;
+
+		//TEST
+		// System.out.println("/measure/" + measureName);
+		// result = new TestResult();
+		// result.setpValue(9.0);
+		// END TEST
+
+		return result;
 	}
 }

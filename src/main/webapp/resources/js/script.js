@@ -50,8 +50,6 @@ $(document).ready(function() {
 				
 				// populate year options to data drop down
 				$.each(response, function(k, v){
-					//FIXME: populate only once: clear and insert 
-					// $("<option value" + "=" + v + ">" + v+ "</option>").insertAfter($("#dataSelection option").last());
 					options+="<option value" + "=" + v + ">" + v+ "</option>"
 				});
 				$('#dataSelection').html(options);
@@ -92,7 +90,9 @@ $(document).ready(function() {
 				});
 			},
 			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus + ": Cannot enable GerrymanderingMeasure drop down menu\nCan be caused by empty response");
+				console.log(textStatus 
+					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
+					+ "\nCan be caused by empty response");
 				$("#gerrymanderingMeasure").prop({
 					disabled: true
 				});
@@ -100,9 +100,8 @@ $(document).ready(function() {
 		});
 	});
 
-	// send get on data selection
+	// send get on measure/test selection
 	$('#gerrymanderingMeasure').change(function(){
-
 		var c = $("#stateSelection").val();
 		var y = $("#dataSelection").val();
 		var m = $(this).val();
@@ -114,7 +113,12 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(response, status, xhr) {
 				//TODO: display measure result
-				
+
+				//TEST
+				// $('.info').html(m);
+			},
+			error: function(xhr, textStatus, errorThrown){
+				console.log(textStatus + "; errorThrown: " + errorThrown);
 			}
 		});
 	});
