@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import model.District;
 import service.data.DataService;
 import service.Init;
+import service.RequestService;
 
 /**
  * @Author Jia Sheng Ma (jiasheng.ma@yahoo.com)
@@ -34,6 +35,7 @@ public class MainController {
 	private Init init;
 	@Autowired
 	private DataService dataService;
+	@Autowired RequestService requestService;
 	
 	@ModelAttribute
 	public void initialize(HttpServletRequest request) {
@@ -61,7 +63,7 @@ public class MainController {
 	public @ResponseBody ArrayList<Integer> handlesSelectState(@RequestParam Map<String,String> requestParams, 
 	HttpServletRequest request, HttpServletResponse response) {
 		// if user entered url to get here, use another handler (or redirect back to home)
-		sendHomeIfNotXHR(request, response);
+		requestService.sendHomeIfNotXHR(request, response);
 
 		// if xhr, use this handler
 		String selectedState = (String)requestParams.get("code");
@@ -84,7 +86,7 @@ public class MainController {
 	public @ResponseBody ArrayList<District> handleGetDataByYear(@RequestParam Map<String,String> requestParams, 
 	HttpServletRequest request, HttpServletResponse response) {
 		// if user entered url to get here, use another handler (or redirect back to home)
-		sendHomeIfNotXHR(request, response);
+		requestService.sendHomeIfNotXHR(request, response);
 		//FIXME: redirect still comes back here 
 
 		// if xhr, use this handler
@@ -96,25 +98,6 @@ public class MainController {
 			return (ArrayList<District>)dataService.getDataByYear(selectedState, Integer.parseInt(selectedYear_Str));
 		}
 		return null;
-	}
-
-	/**
-	 * Determines if a request is an AJAX request
-	 * @param request incoming request
-	 * @return true if the request is an AJAX request, false otherwise
-	 */
-	private void sendHomeIfNotXHR(HttpServletRequest request, HttpServletResponse response) {
-		String requestedWith = request.getHeader("X-Requested-With");
-		
-		if(!"XMLHttpRequest".equals(requestedWith)) {
-			// redirect back to home
-			try { 
-				//FIXME: send redirect and never let it come back here
-				response.sendRedirect("/");
-			} catch (IOException ex) {
-				Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		}
 	}
 
 	/**
