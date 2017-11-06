@@ -32,6 +32,8 @@
 
 $(document).ready(function() {
 
+	const dataSelectionOrigHTML = $('#dataSelection').html();
+
 	// send get on state selection
 	$('#stateSelection').change(function(){
 		var c = $(this).val();
@@ -39,6 +41,14 @@ $(document).ready(function() {
 		// BASE CASE: zoom back to continental US on select no State
 		if (c === "") {
 			map1.setView([36.4051421,-95.5136459], 3.91);
+			// clear the options
+			$('#dataSelection').html(dataSelectionOrigHTML);
+			$("#dataSelection").prop({
+				disabled: true
+			});
+			// $("#dataSelection").prop({
+			// 	disabled: true
+			// });
 			return;
 		}
 		$.ajax({
