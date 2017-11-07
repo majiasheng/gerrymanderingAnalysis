@@ -1,3 +1,4 @@
+            </div> <!-- end windowmask -->
         </div> <!-- end of col-md-12 -->
 	</div> <!-- end of row -->
 </div> <!-- end of class="container-fluid" -->

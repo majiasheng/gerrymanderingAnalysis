@@ -1,30 +1,28 @@
 
-var sendDataSelect = function(c, y){
-		// var c = $("#stateSelection").val();
-		// var y = $("#dataSelection").val();
-		$.ajax({
-			url: "/data",
-			type: "GET",
-			contentType: "application/json",
-			data: {"code": c, "year": y},
-			dataType: "json",
-			success: function(response, status, xhr) {
-				//TODO: display district boundary
-				console.log("Enabling GerrymanderingMeasure drop down menu...");
-				$("#gerrymanderingMeasure").prop({
-					disabled: false
-				});
-			},
-			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus
-					+ ": Cannot enable GerrymanderingMeasure drop down menu"
-					+ "\nCan be caused by empty response");
-				$("#gerrymanderingMeasure").prop({
-					disabled: true
-				});
-			}
-		});
-	}
+var sendGetOnDataSelect = function(code, year) {
+	$.ajax({
+		url: "/data",
+		type: "GET",
+		contentType: "application/json",
+		data: {"code": code, "year": year},
+		dataType: "json",
+		success: function(response, status, xhr) {
+			//TODO: display district boundary
+			console.log("Enabling GerrymanderingMeasure drop down menu...");
+			$("#gerrymanderingMeasure").prop({
+				disabled: false
+			});
+		},
+		error: function(xhr, textStatus, errorThrown){
+			console.log(textStatus
+				+ ": Cannot enable GerrymanderingMeasure drop down menu"
+				+ "\nCan be caused by empty response");
+			$("#gerrymanderingMeasure").prop({
+				disabled: true
+			});
+		}
+	});
+}
 
 $(document).ready(function() {
 
@@ -32,10 +30,10 @@ $(document).ready(function() {
 
 	// send get on state selection
 	$('#stateSelection').change(function(){
-		var c = $(this).val();
+		var code = $(this).val();
 		var options = "";
 		// BASE CASE: zoom back to continental US on select no State
-		if (c === "") {
+		if (code === "") {
 			map1.setView([36.4051421,-95.5136459], 3.91);
 			// clear the options
 			$('#dataSelection').html(dataSelectionOrigHTML);
@@ -51,17 +49,17 @@ $(document).ready(function() {
 			url: "/state",
 			type: "GET",
 			contentType: "application/json",
-			data: {"code": c},
+			data: {"code": code},
 			dataType: "json",
 			success: function(response, status, xhr) {
 				// zoom to state
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
-					return state.feature.properties.STUSPS == c;
+					return state.feature.properties.STUSPS == code;
 				})[0].getBounds());
 
 				// populate year options to data drop down
-				$.each(response, function(k, v){
-					options+="<option value" + "=" + v + ">" + v+ "</option>"
+				$.each(response, function(index, v){
+					options+="<option value" + "=" + v + ">" + v + "</option>"
 				});
 				$('#dataSelection').html(options);
 				console.log("Enabling Data drop down menu...");
@@ -71,6 +69,7 @@ $(document).ready(function() {
 
 				//TODO: send get request for default year (or selected year)
 				var y = $("#dataSelection").val();
+				sendGetOnDataSelect(code, y);
 
 			},
 			error: function(xhr,status,error) {
@@ -83,36 +82,8 @@ $(document).ready(function() {
 	});
 
 	// send get on data selection
-	// $('#dataSelection').change(function(){
-	// 	var c = $("#stateSelection").val();
-	// 	var y = $("#dataSelection").val();
-	// 	$.ajax({
-	// 		url: "/data",
-	// 		type: "GET",
-	// 		contentType: "application/json",
-	// 		data: {"code": c, "year": y},
-	// 		dataType: "json",
-	// 		success: function(response, status, xhr) {
-	// 			//TODO: display district boundary
-	//
-	// 			console.log("Enabling GerrymanderingMeasure drop down menu...");
-	// 			$("#gerrymanderingMeasure").prop({
-	// 				disabled: false
-	// 			});
-	// 		},
-	// 		error: function(xhr, textStatus, errorThrown){
-	// 			console.log(textStatus
-	// 				+ ": Cannot enable GerrymanderingMeasure drop down menu"
-	// 				+ "\nCan be caused by empty response");
-	// 			$("#gerrymanderingMeasure").prop({
-	// 				disabled: true
-	// 			});
-	// 		}
-	// 	});
-	// });
-
 	$('#dataSelection').change(function(){
-		sendDataSelect($("#stateSelection").val(), $("#dataSelection").val());
+		sendGetOnDataSelect($("#stateSelection").val(), $("#dataSelection").val());
 	});
 
 	// send get on measure/test selection

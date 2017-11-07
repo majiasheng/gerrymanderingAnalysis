@@ -39,12 +39,12 @@
 					</c:forEach>
 				</select>
 				<!-- end measure drop down -->
-
 			</div>
+
 			<%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
 
 			<!-- Info window -->
-			<div class="row">
+			<div class="row" id="infowindow">
 				<div class="col-md-12">
 					<span class="label label-default">Info</span>
 					<div class="info">
@@ -52,6 +52,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- End Info window -->
 
 		</form>
 	</div>

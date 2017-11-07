@@ -23,7 +23,8 @@
 
 		</head>
 	<body>
-	<div class="container-fluid window-mask">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
 				<%@include file="/WEB-INF/views/include/navigation.jsp" %>
+				<div class="window-mask">
