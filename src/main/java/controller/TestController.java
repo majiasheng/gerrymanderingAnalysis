@@ -21,14 +21,14 @@ public class TestController {
 	
 	// @Autowired
 	// @Qualifier("tTest")
-	// GerrymanderingTestService tTestService;
+	// private GerrymanderingTestService tTestService;
 	// @Autowired
 	// @Qualifier("mmTest")
-	// GerrymanderingTestService mmTestService;
+	// private GerrymanderingTestService mmTestService;
 	// @Autowired
 	// @Qualifier("egTest")
-	// GerrymanderingTestService egTestService;
-	
+	// private GerrymanderingTestService egTestService;
+
 	@RequestMapping(value="/measure/{measureName}",  method = RequestMethod.GET,  produces="application/json")
 	public @ResponseBody TestResult handleDoTest(@PathVariable(value="measureName") String measureName) {
 		TestResult result = null;

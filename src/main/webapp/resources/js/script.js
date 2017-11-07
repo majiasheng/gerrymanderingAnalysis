@@ -1,37 +1,56 @@
-// var sendDataSelect = function(c, y){
-// 		// var c = $("#stateSelection").val();
-// 		// var y = $("#dataSelection").val();
-// 		$.ajax({
-// 			url: "/data",
-// 			type: "GET",
-// 			contentType: "application/json",
-// 			data: {"code": c, "year": y},
-// 			dataType: "json",
-// 			success: function(response, status, xhr) {
-// 				//TODO: display district boundary
+// var dataSelection = function(c, y){
+// 	$.ajax({
+// 		url: "/state",
+// 		type: "GET",
+// 		contentType: "application/json",
+// 		data: {"code": c, "year": y},
 
-// 				console.log("Enabling GerrymanderingMeasure drop down menu...");
-// 				$("#gerrymanderingMeasure").prop({
+// 		dataType: "json",
+// 		success: function(response, status, xhr) {
+
+// 			console.log("GET?code=" + c + '&year=' + y);
+
+// 			if($.isEmptyObject(response)){
+// 				//FIXME
+// 				console.log("no correct request param");
+// 			} else {
+// 				//TODO: use reponse, a list of year, to populate the data dropdown
+// 				$.each(response, function(k, v){
+// 					// append <option value=v>v</option>
+// 				});
+// 				console.log(response);
+// 				$("#dataSelection").prop({
 // 					disabled: false
 // 				});
-// 			},
-// 			error: function(xhr, textStatus, errorThrown){
-// 				console.log(textStatus 
-// 					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
-// 					+ "\nCan be caused by empty response");
-// 				$("#gerrymanderingMeasure").prop({
-// 					disabled: true
-// 				});
 // 			}
-// 		});
-// 	}
+// 		}
+// 		// error: function(xhr,status,error) {
+// 		// 	console.log(error);
+// 		// }
+// 	});
+// }
 
 $(document).ready(function() {
+
+	const dataSelectionOrigHTML = $('#dataSelection').html();
 
 	// send get on state selection
 	$('#stateSelection').change(function(){
 		var c = $(this).val();
 		var options = "";
+		// BASE CASE: zoom back to continental US on select no State
+		if (c === "") {
+			map1.setView([36.4051421,-95.5136459], 3.91);
+			// clear the options
+			$('#dataSelection').html(dataSelectionOrigHTML);
+			$("#dataSelection").prop({
+				disabled: true
+			});
+			// $("#dataSelection").prop({
+			// 	disabled: true
+			// });
+			return;
+		}
 		$.ajax({
 			url: "/state",
 			type: "GET",
@@ -39,9 +58,9 @@ $(document).ready(function() {
 			data: {"code": c},
 			dataType: "json",
 			success: function(response, status, xhr) {
-				// zoom to state 
+				// zoom to state
 				map1.fitBounds($.grep(allStates.getLayers(), function(state){
-				return state.feature.properties.STUSPS == c;
+					return state.feature.properties.STUSPS == c;
 				})[0].getBounds());
 
 				// populate year options to data drop down
@@ -69,6 +88,7 @@ $(document).ready(function() {
 
 	// send get on data selection
 	$('#dataSelection').change(function(){
+		//TODO: disallow selecting "Data" option
 		var c = $("#stateSelection").val();
 		var y = $("#dataSelection").val();
 		$.ajax({
@@ -79,15 +99,14 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(response, status, xhr) {
 				//TODO: display district boundary
-
 				console.log("Enabling GerrymanderingMeasure drop down menu...");
 				$("#gerrymanderingMeasure").prop({
 					disabled: false
 				});
 			},
 			error: function(xhr, textStatus, errorThrown){
-				console.log(textStatus 
-					+ ": Cannot enable GerrymanderingMeasure drop down menu" 
+				console.log(textStatus
+					+ ": Cannot enable GerrymanderingMeasure drop down menu"
 					+ "\nCan be caused by empty response");
 				$("#gerrymanderingMeasure").prop({
 					disabled: true
@@ -95,8 +114,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-
-	// $('#dataSelection').change(sendDataSelect($("#stateSelection").val(), $("#dataSelection").val()));
 
 	// send get on measure/test selection
 	$('#gerrymanderingMeasure').change(function(){
@@ -120,5 +137,6 @@ $(document).ready(function() {
 			}
 		});
 	});
+
 
 });

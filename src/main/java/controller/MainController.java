@@ -35,7 +35,8 @@ public class MainController {
 	private Init init;
 	@Autowired
 	private DataService dataService;
-	@Autowired RequestService requestService;
+	@Autowired 
+	private RequestService requestService;
 	
 	@ModelAttribute
 	public void initialize(HttpServletRequest request) {
@@ -49,7 +50,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value="/", method = RequestMethod.GET)
-	public ModelAndView home() {
+	public ModelAndView goHome() {
 		return new ModelAndView("index");
 	}
 

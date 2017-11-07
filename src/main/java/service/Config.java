@@ -2,7 +2,9 @@ package service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -11,19 +13,20 @@ import java.util.HashMap;
  */
 public class Config {
 
-	private HashMap<String, String> states;
-	private ArrayList<String> measures;
+	private Map<String, String> states;
+	private Collection<String> measures;
 	private double strokeWidth;
 	private int[] strokeColor;
 	private int defaultYear;
 
 	public Config() {
 		// initialize and set default
+		states = new HashMap<String, String>();
 		measures = new ArrayList<String>();
 		strokeColor = new int[3];
 	}
 
-	public HashMap<String, String> getStates() {
+	public Map<String, String> getStates() {
 		return states;
 	}
 
@@ -31,7 +34,7 @@ public class Config {
 		this.states = states;
 	}
 
-	public ArrayList<String> getMeasures() {
+	public Collection<String> getMeasures() {
 		return measures;
 	}
 

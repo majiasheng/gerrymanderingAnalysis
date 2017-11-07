@@ -5,19 +5,12 @@
 			<div class="col-md-12" >
 			
 				<!-- map -->
-				<div id="mapid" style="height: 500px;">
+				<div id="mapid">
 					<script src="/resources/js/init-map.js"></script>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<span class="label label-default">Info</span>
-				<div class="info">
-					
-				</div>
-			</div>
-		</div>
+		
 	</div>
 	<div class="col-md-4">
 		<form role="form">
@@ -49,6 +42,16 @@
 
 			</div>
 			<%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
+
+			<!-- Info window -->
+			<div class="row">
+				<div class="col-md-12">
+					<span class="label label-default">Info</span>
+					<div class="info">
+						
+					</div>
+				</div>
+			</div>
 
 		</form>
 	</div>
