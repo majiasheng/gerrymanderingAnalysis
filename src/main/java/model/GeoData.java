@@ -1,11 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class GeoData {
 	
-	private ArrayList<Coordinate> coordinates;	// district boundary coordinates
-	private double area;
+	private Collection<Coordinate>	coordinates;	// district boundary coordinates
+	private double					area;
+	private int 					year;
 	
 	public GeoData() {
 		coordinates = new ArrayList<Coordinate>();
