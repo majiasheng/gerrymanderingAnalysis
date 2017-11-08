@@ -13,7 +13,7 @@ public class GeoData {
 		coordinates = new ArrayList<Coordinate>();
 	}
 
-	public ArrayList<Coordinate> getCoordinates() {
+	public Collection<Coordinate> getCoordinates() {
 		return coordinates;
 	}
 
