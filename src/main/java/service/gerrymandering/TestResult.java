@@ -1,36 +1,37 @@
 package service.gerrymandering;
 
 public class TestResult {
-	private boolean gerrymandered;
-	private double confidenceLvl;
-	private double pValue;
 
-	public TestResult() {
+    private boolean gerrymandered;
+    private double confidenceLvl;
+    private double pValue;
 
-	}
+    public TestResult() {
 
-	public boolean isGerrymandered() {
-		return gerrymandered;
-	}
+    }
 
-	public void setGerrymandered(boolean gerrymandered) {
-		this.gerrymandered = gerrymandered;
-	}
+    public boolean isGerrymandered() {
+        return gerrymandered;
+    }
 
-	public double getConfidenceLvl() {
-		return confidenceLvl;
-	}
+    public void setGerrymandered(boolean gerrymandered) {
+        this.gerrymandered = gerrymandered;
+    }
 
-	public void setConfidenceLvl(double confidenceLvl) {
-		this.confidenceLvl = confidenceLvl;
-	}
+    public double getConfidenceLvl() {
+        return confidenceLvl;
+    }
 
-	public double getpValue() {
-		return pValue;
-	}
+    public void setConfidenceLvl(double confidenceLvl) {
+        this.confidenceLvl = confidenceLvl;
+    }
 
-	public void setpValue(double pValue) {
-		this.pValue = pValue;
-	}
-	
+    public double getpValue() {
+        return pValue;
+    }
+
+    public void setpValue(double pValue) {
+        this.pValue = pValue;
+    }
+
 }
