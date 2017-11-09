@@ -8,7 +8,9 @@ import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class DataAccessorImpl implements DataAccessor {
 
 	public Collection<State> getStates() {

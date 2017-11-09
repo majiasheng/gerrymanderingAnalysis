@@ -1,4 +1,4 @@
-package service.gerrymandering;
+package model;
 
 public class TestResult {
 

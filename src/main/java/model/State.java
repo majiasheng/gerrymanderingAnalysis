@@ -9,28 +9,25 @@ public class State {
     public static final int MIN_DISTRICT_NUM = 5;
     // year in which the state data is associated with 
     private int year;
-    private String name;
-    private char[] code;
+    private String code;
     private Collection<District> districts;
 
     public State() {
         districts = new ArrayList<District>();
-        code = new char[2];
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    
+    public State(int year, String code, Collection<District> districts) {
+        this.year = year;
+        this.code = code;
+        this.districts = districts;
+        
     }
 
     public String getCode() {
-        return String.valueOf(code);
+        return code;
     }
 
-    public void setCode(char[] code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -43,6 +40,6 @@ public class State {
     }
 
     public boolean isSuperDistrictable() {
-        return (districts.size() > MIN_DISTRICT_NUM) ? true : false;
+        return districts.size() > MIN_DISTRICT_NUM;
     }
 }

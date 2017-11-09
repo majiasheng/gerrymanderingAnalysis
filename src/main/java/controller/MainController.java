@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.District;
+import model.State;
 import service.data.DataService;
 import service.Init;
 import service.RequestService;
@@ -100,12 +101,16 @@ public class MainController {
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
-        String selectedYear_Str = requestParams.get("year");
+        String selectedYear_str = requestParams.get("year");
         // make sure request params are not null
-        if (selectedState != null && selectedYear_Str != null) {
+        if (selectedState != null && selectedYear_str != null) {
             // get and return a list of districts
-            ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, Integer.parseInt(selectedYear_Str));
+            int selectedYear = Integer.parseInt(selectedYear_str);
+            ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
             //TODO: make a state object
+            State state = new State(selectedYear, selectedState, districts);
+            
+            request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
             return districts;
         }
         return null;

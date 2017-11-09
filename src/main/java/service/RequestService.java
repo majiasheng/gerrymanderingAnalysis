@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RequestService {
 
+    // attribute name for State object in session/request
+    public static final String STATE_ATTRIBUTE = "state";
+    
     /**
      * Determines if a request is an AJAX request, do nothing if request is AJAX
      * request, redirect to home page otherwise
