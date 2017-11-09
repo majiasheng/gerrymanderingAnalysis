@@ -5,23 +5,17 @@ import java.util.Collection;
 
 public class State {
 
-    private int id;
+    // minimum number of districts needed for super-districting
+    public static final int MIN_DISTRICT_NUM = 5;
+    // year in which the state data is associated with 
+    private int year;
     private String name;
     private char[] code;
     private Collection<District> districts;
-    private boolean superDistrictable;
 
     public State() {
         districts = new ArrayList<District>();
         code = new char[2];
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -49,12 +43,6 @@ public class State {
     }
 
     public boolean isSuperDistrictable() {
-        //TODO: check with the bill
-        return superDistrictable;
+        return (districts.size() > MIN_DISTRICT_NUM) ? true : false;
     }
-
-    public void setSuperDistrictable(boolean superDistrictable) {
-        this.superDistrictable = superDistrictable;
-    }
-
 }

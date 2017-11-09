@@ -5,20 +5,26 @@ import java.util.Collection;
 
 public class GeoData {
 
-    private Collection<Coordinate> coordinates;	// district boundary coordinates
+    // private Collection<Coordinate> coordinates;	// district boundary coordinates
+    private String boundary;    // district boundary as geojson in text format
     private double area;
-    private int year;
 
     public GeoData() {
-        coordinates = new ArrayList<Coordinate>();
+        // coordinates = new ArrayList<Coordinate>();
     }
 
-    public Collection<Coordinate> getCoordinates() {
-        return coordinates;
+    // public Collection<Coordinate> getCoordinates() {
+    //    return coordinates;
+    // }
+    // public void setCoordinates(ArrayList<Coordinate> coordinates) {
+    //    this.coordinates = coordinates;
+    // }
+    public String getBoundary() {
+        return boundary;
     }
 
-    public void setCoordinates(ArrayList<Coordinate> coordinates) {
-        this.coordinates = coordinates;
+    public void setBoundary(String boundary) {
+        this.boundary = boundary;
     }
 
     public double getArea() {

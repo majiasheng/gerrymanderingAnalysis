@@ -3,7 +3,6 @@ package model;
 public class ElectionData {
 
     private int districtID;
-    private int year;
     private int demVotes;
     private int repVotes;
     private Status demStatus;
@@ -16,14 +15,6 @@ public class ElectionData {
 
     public void setDistrictID(int districtID) {
         this.districtID = districtID;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public int getDemVotes() {

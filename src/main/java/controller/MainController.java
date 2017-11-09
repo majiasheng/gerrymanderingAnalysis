@@ -104,7 +104,9 @@ public class MainController {
         // make sure request params are not null
         if (selectedState != null && selectedYear_Str != null) {
             // get and return a list of districts
-            return (ArrayList<District>) dataService.getDataByYear(selectedState, Integer.parseInt(selectedYear_Str));
+            ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, Integer.parseInt(selectedYear_Str));
+            //TODO: make a state object
+            return districts;
         }
         return null;
     }

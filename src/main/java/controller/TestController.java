@@ -1,5 +1,6 @@
 package controller;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class TestController {
     // private GerrymanderingTestService egTestService;
     @RequestMapping(value = "/measure/{measureName}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody
-    TestResult handleDoTest(@PathVariable(value = "measureName") String measureName) {
+    TestResult handleDoTest(@PathVariable(value = "measureName") String measureName, HttpServletRequest request) {
         TestResult result = null;
         if ("Efficiency Gap Test".equals(measureName)) {
             // result = tTestService.doTest();
