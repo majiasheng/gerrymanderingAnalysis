@@ -26,27 +26,32 @@ public class TestController {
     @Qualifier("TTest")
     private GerrymanderingTestService tTestService;
 
-    // @Autowired
-    // @Qualifier("MMTest")
-    // private GerrymanderingTestService mmTestService;
-    // @Autowired
-    // @Qualifier("EGTest")
-    // private GerrymanderingTestService egTestService;
+    @Autowired
+    @Qualifier("MMTest")
+    private GerrymanderingTestService mmTestService;
+
+    @Autowired
+    @Qualifier("EGTest")
+    private GerrymanderingTestService egTestService;
 
     @RequestMapping(value = "/measure/{measureName}", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody
-    TestResult handleDoTest(@PathVariable(value = "measureName") String measureName, HttpServletRequest request) {
+    @ResponseBody
+    public TestResult handleDoTest(
+            @PathVariable(value = "measureName") String measureName,
+            HttpServletRequest request) {
+
         TestResult result = null;
         State state = (State) request.getSession().getAttribute(RequestService.STATE_ATTRIBUTE);
+
         if ("Efficiency Gap Test".equals(measureName)) {
             result = tTestService.doTest(state);
         } else if ("T-Test".equals(measureName)) {
-            // result = mmTestService.doTest(state);
+            result = mmTestService.doTest(state);
         } else if ("Mean-Median Test".equals(measureName)) {
-            // result = egTestService.doTest(state);
+            result = egTestService.doTest(state);
         }
 
-        //TEST
+        // TEST
         // System.out.println("/measure/" + measureName);
         // result = new TestResult();
         // result.setpValue(9.0);

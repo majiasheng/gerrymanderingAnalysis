@@ -1,13 +1,15 @@
 
-var sendGetOnDataSelect = function (code, year) {
+var sendGetOnDataSelect = function (stateCode, year) {
     $.ajax({
         url: "/data",
         type: "GET",
         contentType: "application/json",
-        data: {"code": code, "year": year},
+        data: {"code": stateCode, "year": year},
         dataType: "json",
         success: function (response, status, xhr) {
             //TODO: display district boundary
+            // response is a list of districts (with geo/election data)
+
             console.log("Enabling GerrymanderingMeasure drop down menu...");
             $("#gerrymanderingMeasure").prop({
                 disabled: false
@@ -54,10 +56,11 @@ $(document).ready(function () {
             success: function (response, status, xhr) {
                 // zoom to state
                 map1.fitBounds($.grep(allStates.getLayers(), function (state) {
+                    // get state boundary for selected state
                     return state.feature.properties.STUSPS == code;
                 })[0].getBounds());
 
-                // populate year options to data drop down
+                // response is a list of years for populating data drop down
                 $.each(response, function (index, v) {
                     options += "<option value" + "=" + v + ">" + v + "</option>"
                 });
@@ -99,6 +102,7 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response, status, xhr) {
                 //TODO: display measure result
+                // response is a TestResult object
 
                 //TEST
                 // $('.info').html(m);

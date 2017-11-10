@@ -5,30 +5,44 @@ import java.util.Collection;
 
 public class State {
 
-    // minimum number of districts needed for super-districting
-    public static final int MIN_DISTRICT_NUM = 5;
-    // year in which the state data is associated with 
-    private int year;
-    private String code;
+    public static final int MIN_DISTRICT_NUM = 5; // minimum number of districts needed for super-districting
+    private int year; // year in which the state data is associated with 
+    private String name;
+    private String shortName;
     private Collection<District> districts;
 
     public State() {
         districts = new ArrayList<District>();
     }
-    
-    public State(int year, String code, Collection<District> districts) {
+
+    public State(int year, String shortName, Collection<District> districts) {
         this.year = year;
-        this.code = code;
+        this.shortName = shortName;
         this.districts = districts;
-        
     }
 
-    public String getCode() {
-        return code;
+    public int getYear() {
+        return year;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public Collection<District> getDistricts() {

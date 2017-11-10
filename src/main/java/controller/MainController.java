@@ -52,11 +52,6 @@ public class MainController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView goHome() {
-        return new ModelAndView("index");
-    }
-
     /**
      * Handles state selection request
      *
@@ -67,9 +62,11 @@ public class MainController {
      * down menu
      */
     @RequestMapping(value = "/state", method = RequestMethod.GET, produces = "application/json")
-    public @ResponseBody
-    ArrayList<Integer> handlesSelectState(@RequestParam Map<String, String> requestParams,
+    @ResponseBody
+    public ArrayList<Integer> handleSelectState(
+            @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
+
         // if user entered url to get here, use another handler (or redirect back to home)
         requestService.sendHomeIfNotXHR(request, response);
 
@@ -92,12 +89,16 @@ public class MainController {
      * @return a list of districts for the selected state in the selected year
      */
     @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public @ResponseBody
-    ArrayList<District> handleGetDataByYear(@RequestParam Map<String, String> requestParams,
+    @ResponseBody
+    public ArrayList<District> handleGetDataByYear(
+            @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
+
         // if user entered url to get here, use another handler (or redirect back to home)
         requestService.sendHomeIfNotXHR(request, response);
-		//FIXME: redirect still comes back here 
+        /*FIXME: redirect still comes back here, 
+         set a global flag to prevent execution below? 
+         or just change the ajax request to post, and ignore get from url */
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
@@ -106,14 +107,24 @@ public class MainController {
         if (selectedState != null && selectedYear_str != null) {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
-            ArrayList<District> districts = (ArrayList<District>)dataService.getDataByYear(selectedState, selectedYear);
-            //TODO: make a state object
+            ArrayList<District> districts = (ArrayList<District>) dataService.getDataByYear(selectedState, selectedYear);
             State state = new State(selectedYear, selectedState, districts);
-            
+            // save state object to session for later use in gerrymandering tests
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
+
+            /*TODO/FIXME: add a hidden input in jsp, 
+             and set this method to void type, since a state object is added
+             to session, and bound to the hidden input
+                
+             */
             return districts;
         }
         return null;
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView goHome() {
+        return new ModelAndView("index");
     }
 
     /**

@@ -2,17 +2,17 @@ package model;
 
 public class District {
 
-    private String stateCode;
+    private String stateShortName;
     private int districtNum;
     private GeoData geoData;
     private ElectionData electionData;
 
-    public String getStateCode() {
-        return stateCode;
+    public String getStateShortName() {
+        return stateShortName;
     }
 
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
+    public void setStateShortName(String stateShortName) {
+        this.stateShortName = stateShortName;
     }
 
     public int getDistrictNum() {
