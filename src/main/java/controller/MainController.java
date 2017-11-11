@@ -118,7 +118,7 @@ public class MainController {
 
              */
             // convert districts to JSON
-            return "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-73.13401222229004,40.91204505327958],[-73.13425898551941,40.911676140478825],[-73.13373327255249,40.91147749427198],[-73.13354015350342,40.91188289406027],[-73.13401222229004,40.91204505327958]]]}}]}";
+            return "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-80.2001953125,48.66194284607006],[-83.408203125,36.06686213257888],[-77.080078125,33.46810795527896],[-73.212890625,44.902577996288876],[-80.2001953125,48.66194284607006]]]}}]}";
         }
         return null;
     }

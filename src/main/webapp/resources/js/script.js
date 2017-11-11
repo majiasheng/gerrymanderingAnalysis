@@ -1,4 +1,4 @@
-
+var districtBoundary = null;
 var sendGetOnDataSelect = function (stateCode, year) {
     $.ajax({
         url: "/data",
@@ -9,6 +9,12 @@ var sendGetOnDataSelect = function (stateCode, year) {
         success: function (response, status, xhr) {
             //TODO: display district boundary
             // response is a list of districts (with geo/election data)
+            allStates.remove();
+            districtBoundary = L.geoJson(response, {
+                // style: style,
+                onEachFeature: onEachFeature
+            });
+            districtBoundary.addTo(map1);
 
             console.log("Enabling GerrymanderingMeasure drop down menu...");
             $("#gerrymanderingMeasure").prop({
@@ -45,6 +51,7 @@ $(document).ready(function () {
             // $("#dataSelection").prop({
             // 	disabled: true
             // });
+            allStates.addTo(map1);
             return;
         }
         $.ajax({
