@@ -1,5 +1,5 @@
 var districtBoundary = null;
-var sendGetOnDataSelect = function (stateCode, year) {
+function sendGetOnDataSelect (stateCode, year) {
     $.ajax({
         url: "/data",
         type: "GET",
@@ -34,6 +34,11 @@ var sendGetOnDataSelect = function (stateCode, year) {
             });
         }
     });
+}
+
+
+function selectState(e) {
+    map1.fitBounds(e.target.getBounds());
 }
 
 $(document).ready(function () {
