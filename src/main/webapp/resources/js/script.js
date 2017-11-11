@@ -39,6 +39,7 @@ var sendGetOnDataSelect = function (stateCode, year) {
 $(document).ready(function () {
 
     const dataSelectionOrigHTML = $('#dataSelection').html();
+    const gerrymanderingMeasureOrigHTML = $('#gerrymanderingMeasure').html();
 
     // send get on state selection
     $('#stateSelection').change(function () {
@@ -52,9 +53,10 @@ $(document).ready(function () {
             $("#dataSelection").prop({
                 disabled: true
             });
-            // $("#dataSelection").prop({
-            // 	disabled: true
-            // });
+            $('#gerrymanderingMeasure').html(gerrymanderingMeasureOrigHTML);
+            $("#gerrymanderingMeasure").prop({
+            	  disabled: true
+            });
             if (districtBoundary) {
               districtBoundary.remove();
               districtBoundary = null;
