@@ -90,14 +90,14 @@ public class MainController {
      */
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<District> handleGetDataByYear(
+    public String handleGetDataByYear(
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
         requestService.sendHomeIfNotXHR(request, response);
-        /*FIXME: redirect still comes back here, 
-         set a global flag to prevent execution below? 
+        /*FIXME: redirect still comes back here,
+         set a global flag to prevent execution below?
          or just change the ajax request to post, and ignore get from url */
 
         // if xhr, use this handler
@@ -112,12 +112,13 @@ public class MainController {
             // save state object to session for later use in gerrymandering tests
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
-            /*TODO/FIXME: add a hidden input in jsp, 
+            /*TODO/FIXME: add a hidden input in jsp,
              and set this method to void type, since a state object is added
              to session, and bound to the hidden input
-                
+
              */
-            return districts;
+            // convert districts to JSON
+            return "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-73.13401222229004,40.91204505327958],[-73.13425898551941,40.911676140478825],[-73.13373327255249,40.91147749427198],[-73.13354015350342,40.91188289406027],[-73.13401222229004,40.91204505327958]]]}}]}";
         }
         return null;
     }
