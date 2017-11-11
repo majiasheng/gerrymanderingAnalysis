@@ -10,6 +10,10 @@ var sendGetOnDataSelect = function (stateCode, year) {
             //TODO: display district boundary
             // response is a list of districts (with geo/election data)
             allStates.remove();
+            if (districtBoundary) {
+              districtBoundary.remove();
+              districtBoundary = null;
+            }
             districtBoundary = L.geoJson(response, {
                 // style: style,
                 onEachFeature: onEachFeature
@@ -51,6 +55,10 @@ $(document).ready(function () {
             // $("#dataSelection").prop({
             // 	disabled: true
             // });
+            if (districtBoundary) {
+              districtBoundary.remove();
+              districtBoundary = null;
+            }
             allStates.addTo(map1);
             return;
         }
