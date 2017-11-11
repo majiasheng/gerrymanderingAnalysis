@@ -28,3 +28,13 @@ function onEachFeature(feature, layer) {
         click: selectState
     });
 }
+
+function zoomToFeature(feature, layer) {
+    layer.on({
+        // mouseover: highlightFeature,
+        // mouseout: resetHighlight,
+        click: function (e) {
+            map1.fitBounds(e.target.getBounds());
+        }
+    });
+}
