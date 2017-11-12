@@ -17,24 +17,24 @@
             <div class="form-group">
 
                 <!-- state drop down -->
-                <select name="stateSelection" id="stateSelection">
+                <select autocomplete="off" name="stateSelection" id="stateSelection">
                     <option value="">State</option>
-                    <c:forEach var="state" items="${init.config.states}"> 
+                    <c:forEach var="state" items="${init.config.states}">
                         <option value ="${state.key}">${state.value}</option>
                     </c:forEach>
                 </select>
                 <!-- end state drop down -->
 
                 <!-- data drop down -->
-                <select name="dataSelection" id="dataSelection" disabled>
+                <select autocomplete="off" name="dataSelection" id="dataSelection" disabled>
                     <option value="${init.config.defaultYear}">Data</option> <!-- default -->
                 </select>
                 <!-- end data drop down -->
 
                 <!-- measure drop down -->
-                <select name="gerrymanderingMeasure" id="gerrymanderingMeasure" disabled>
+                <select autocomplete="off" name="gerrymanderingMeasure" id="gerrymanderingMeasure" disabled>
                     <option value="">Gerrymandering Measure</option>
-                    <c:forEach var="measure" items="${init.config.measures}"> 
+                    <c:forEach var="measure" items="${init.config.measures}">
                         <option value ="${measure}">${measure}</option>
                     </c:forEach>
                 </select>
