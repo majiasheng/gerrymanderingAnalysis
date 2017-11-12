@@ -1,5 +1,5 @@
-
-var sendGetOnDataSelect = function (stateCode, year) {
+var districtBoundary = null;
+function sendGetOnDataSelect (stateCode, year) {
     $.ajax({
         url: "/data",
         type: "GET",
@@ -9,6 +9,16 @@ var sendGetOnDataSelect = function (stateCode, year) {
         success: function (response, status, xhr) {
             //TODO: display district boundary
             // response is a list of districts (with geo/election data)
+            allStates.remove();
+            if (districtBoundary) {
+              districtBoundary.remove();
+              districtBoundary = null;
+            }
+            districtBoundary = L.geoJson(response, {
+                // style: style,
+                onEachFeature: zoomToFeature
+            });
+            districtBoundary.addTo(map1);
 
             console.log("Enabling GerrymanderingMeasure drop down menu...");
             $("#gerrymanderingMeasure").prop({
@@ -26,9 +36,25 @@ var sendGetOnDataSelect = function (stateCode, year) {
     });
 }
 
+
+function selectState(e) {
+    console.log(e.target.feature.properties.STUSPS);
+    var selected = 0;
+    $("#stateSelection option").each(function(i, val){
+      if ($(val).val() === e.target.feature.properties.STUSPS) {
+        selected = 1;
+        $("#stateSelection").val(e.target.feature.properties.STUSPS).change();
+      }
+    });
+    if (!selected) {
+      alert("State "+e.target.feature.properties.STUSPS+" Not Available");
+    }
+}
+
 $(document).ready(function () {
 
     const dataSelectionOrigHTML = $('#dataSelection').html();
+    const gerrymanderingMeasureOrigHTML = $('#gerrymanderingMeasure').html();
 
     // send get on state selection
     $('#stateSelection').change(function () {
@@ -42,9 +68,15 @@ $(document).ready(function () {
             $("#dataSelection").prop({
                 disabled: true
             });
-            // $("#dataSelection").prop({
-            // 	disabled: true
-            // });
+            $('#gerrymanderingMeasure').html(gerrymanderingMeasureOrigHTML);
+            $("#gerrymanderingMeasure").prop({
+            	  disabled: true
+            });
+            if (districtBoundary) {
+              districtBoundary.remove();
+              districtBoundary = null;
+            }
+            allStates.addTo(map1);
             return;
         }
         $.ajax({

@@ -90,11 +90,12 @@ public class MainController {
      */
     @RequestMapping(value = "/data", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ArrayList<District> handleGetDataByYear(
+    public String handleGetDataByYear(
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
+
         boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
         
         // if xhr, use this handler
@@ -109,7 +110,10 @@ public class MainController {
             // save state object to session for later use in gerrymandering tests
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
-            return districts;
+            // return districts;
+            // convert districts to JSON
+            return "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-80.2001953125,48.66194284607006],[-83.408203125,36.06686213257888],[-77.080078125,33.46810795527896],[-73.212890625,44.902577996288876],[-80.2001953125,48.66194284607006]]]}}]}";
+
         }
         return null;
     }
