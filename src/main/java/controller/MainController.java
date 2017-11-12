@@ -68,12 +68,12 @@ public class MainController {
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
-        requestService.sendHomeIfNotXHR(request, response);
+        boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
         // make sure request params are not null
-        if (selectedState != null) {
+        if (selectedState != null && !sentHome) {
             // get and return a list of years in which the selected state has available
             return (ArrayList<Integer>) dataService.getDataYearSetByCode(selectedState);
         }
@@ -88,23 +88,20 @@ public class MainController {
      * @param response
      * @return a list of districts for the selected state in the selected year
      */
-    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    @RequestMapping(value = "/data", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public ArrayList<District> handleGetDataByYear(
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
-        requestService.sendHomeIfNotXHR(request, response);
-        /*FIXME: redirect still comes back here, 
-         set a global flag to prevent execution below? 
-         or just change the ajax request to post, and ignore get from url */
-
+        boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
+        
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
         String selectedYear_str = requestParams.get("year");
         // make sure request params are not null
-        if (selectedState != null && selectedYear_str != null) {
+        if (selectedState != null && selectedYear_str != null && !sentHome) {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
             ArrayList<District> districts = (ArrayList<District>) dataService.getDataByYear(selectedState, selectedYear);
@@ -112,11 +109,6 @@ public class MainController {
             // save state object to session for later use in gerrymandering tests
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
-            /*TODO/FIXME: add a hidden input in jsp, 
-             and set this method to void type, since a state object is added
-             to session, and bound to the hidden input
-                
-             */
             return districts;
         }
         return null;

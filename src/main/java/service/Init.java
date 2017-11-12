@@ -11,23 +11,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class Init {
 
-    // config file name
-    static final String CONFIG_FILE = "config.json";
+    public static final String CONFIG_FILE = "config.json"; // config file name
+    public static final int ERROR = -1;
     private Config config;
 
     public Init() {
         // set default values
-        
+
     }
 
     /**
-     * Do initialization: read, parse configuration file 
+     * Do initialization: read, parse configuration file
      */
     public void init() {
-        
+
         config = getConfiguration(CONFIG_FILE);
         System.out.println(this.getConfig());
-        
+
     }
 
     /**
@@ -50,7 +50,7 @@ public class Init {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Cannot open configuration file\nAborting...");
-            System.exit(-1);
+            System.exit(ERROR);
         }
         return null;
     }

@@ -18,20 +18,31 @@ public class RequestService {
      * request, redirect to home page otherwise
      *
      * @param request incoming http request
-     * @param response
+     * @param response http response
+     * @return true if the request should be sent home, false otherwise
      */
-    public void sendHomeIfNotXHR(HttpServletRequest request, HttpServletResponse response) {
+    public boolean sendHomeIfNotXHR(HttpServletRequest request, HttpServletResponse response) {
         String requestedWith = request.getHeader("X-Requested-With");
 
         if (!"XMLHttpRequest".equals(requestedWith)) {
             // redirect back to home
             try {
-                //FIXME: send redirect and never let it come back here
+                /* note: callers(controllers) are annotated with @ResponseBody, 
+                the response will be serialized into JSON and passed back to the
+                response object.
+                see:
+                https://stackoverflow.com/questions/36840104/spring-mvc-redirect-in-responsebody
+                
+                TODO: need to find another way to get around this
+                */
+                
                 response.sendRedirect("/");
+                return true;
             } catch (IOException ex) {
                 System.err.println("Error: Cannot redirect to home page");
             }
         }
+        return false;
     }
 
 }
