@@ -34,6 +34,9 @@ function onStates(feature, layer) {
     });
 }
 
+// flag to identify locked district
+var districtLocked = null;
+
 function addDistInfo(obj, id) {
     $(id).append("<br>")
     $.each(obj.feature.properties, function(key,val){
@@ -67,10 +70,32 @@ function resetHighlight(e) {
 
 function zoomToState(feature, layer) {
     layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
+        mouseover: function(e){
+          if (!districtLocked) {
+            highlightFeature(e);
+          }
+        },
+        mouseout: function(e){
+          if (!districtLocked) {
+            resetHighlight(e);
+          }
+        },
         click: function (e) {
-            map1.fitBounds(e.target.getBounds());
+            if (districtLocked) {
+              resetHighlight(districtLocked);
+              if (e.target !== districtLocked.target) {
+                map1.fitBounds(e.target.getBounds());
+                highlightFeature(e);
+                districtLocked = e;
+              } else {
+                districtLocked = null;
+              }
+            } else {
+              resetHighlight(e);
+              map1.fitBounds(e.target.getBounds());
+              highlightFeature(e);
+              districtLocked = e;
+            }
         }
     });
 }
