@@ -1,4 +1,4 @@
-var districtBoundary = null;
+
 function sendGetOnDataSelect(stateCode, year) {
     $.ajax({
         url: "/data",
