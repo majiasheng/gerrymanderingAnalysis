@@ -96,7 +96,7 @@ public class MainController {
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
-        boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
+        boolean sentHome =false;//= requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
