@@ -69,20 +69,20 @@ public class DataServiceImpl implements DataService {
      * @see service.DataService#getDataByYear(String, int)
      */
     public Collection<District> getDataByYear(String selectedState, int selectedYear) {
-        
+
         // TEST
         ArrayList<District> sampleDistricts = new ArrayList<District>();
         District randomDist = new District();
         randomDist.setGeoData(new GeoData());
-        randomDist.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-73.32275390625,44.91035917458495],[-76.4208984375,43.41302868475145],[-78.92578124999999,43.23719944365308],[-79.73876953125,42.01665183556825],[-75.41015624999999,42.10637370579324],[-74.454345703125,41.343824581185686],[-73.597412109375,41.42625319507269],[-73.32275390625,44.91035917458495]]]}}");
+        randomDist.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{\"test\":\"one\",\"test2\":\"one\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-73.32275390625,44.91035917458495],[-76.4208984375,43.41302868475145],[-78.92578124999999,43.23719944365308],[-79.73876953125,42.01665183556825],[-75.41015624999999,42.10637370579324],[-74.454345703125,41.343824581185686],[-73.597412109375,41.42625319507269],[-73.32275390625,44.91035917458495]]]}}");
         District randomDist2 = new District();
         randomDist2.setGeoData(new GeoData());
-        randomDist2.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-74.454345703125,41.335575973123916],[-73.90228271484375,41.017210578228436],[-74.25384521484375,40.50126945841645],[-71.8505859375,41.07935114946899],[-73.6029052734375,41.413895564677304],[-74.454345703125,41.335575973123916]]]}}");
+        randomDist2.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{\"test\":\"two\",\"test2\":\"two\"},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-74.454345703125,41.335575973123916],[-73.90228271484375,41.017210578228436],[-74.25384521484375,40.50126945841645],[-71.8505859375,41.07935114946899],[-73.6029052734375,41.413895564677304],[-74.454345703125,41.335575973123916]]]}}");
         sampleDistricts.add(randomDist);
         sampleDistricts.add(randomDist2);
         return sampleDistricts;
         // END TEST
-        
+
         // return dao.getDataByYear(selectedState, selectedYear);
     }
 
