@@ -33,10 +33,27 @@ function onEachFeature(feature, layer) {
     });
 }
 
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 5,
+        // color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    districtBoundary.resetStyle(e.target);
+}
+
 function zoomToFeature(feature, layer) {
     layer.on({
-        // mouseover: highlightFeature,
-        // mouseout: resetHighlight,
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
         click: function (e) {
             map1.fitBounds(e.target.getBounds());
         }
