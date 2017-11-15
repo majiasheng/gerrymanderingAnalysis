@@ -20,13 +20,13 @@ var districtBoundary = null;
 $.ajax(geojson).done(function(d){
   allStates = L.geoJson(d, {
       // style: style,
-      onEachFeature: onEachFeature
+      onEachFeature: onStates
   });
 
   allStates.addTo(map1);
 });
 
-function onEachFeature(feature, layer) {
+function onStates(feature, layer) {
     layer.on({
         // mouseover: highlightFeature,
         // mouseout: resetHighlight,
@@ -51,7 +51,7 @@ function resetHighlight(e) {
     districtBoundary.resetStyle(e.target);
 }
 
-function zoomToFeature(feature, layer) {
+function zoomToState(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,

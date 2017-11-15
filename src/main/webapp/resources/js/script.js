@@ -17,7 +17,7 @@ function sendGetOnDataSelect(stateCode, year) {
             // use district boundary data from response
             districtBoundary = L.geoJson(response, {
                 // style: style,
-                onEachFeature: zoomToFeature
+                onEachFeature: zoomToState
             });
             districtBoundary.addTo(map1);
 
