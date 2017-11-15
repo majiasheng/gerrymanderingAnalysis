@@ -34,6 +34,17 @@ function onStates(feature, layer) {
     });
 }
 
+function addDistInfo(obj, id) {
+    $(id).append("<br>")
+    $.each(obj.feature.properties, function(key,val){
+      $(id).append("<p>"+ key+": "+val +"</p>")
+    });
+}
+
+function rmDistInfo(id) {
+    $(id).empty();
+}
+
 function highlightFeature(e) {
     var layer = e.target;
     layer.setStyle({
@@ -45,9 +56,12 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
+
+    addDistInfo(layer, "#infoText");
 }
 
 function resetHighlight(e) {
+    rmDistInfo("#infoText");
     districtBoundary.resetStyle(e.target);
 }
 
