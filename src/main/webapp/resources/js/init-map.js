@@ -81,15 +81,14 @@ function zoomToState(feature, layer) {
           }
         },
         click: function (e) {
-            if (districtLocked && (e.target == districtLocked.target)) {
+            if (!districtLocked) {
+              resetHighlight(e);
+            } else {
               resetHighlight(districtLocked);
+            }
+            if (districtLocked && (e.target == districtLocked.target)) {
               districtLocked = null;
             } else {
-              if (!districtLocked) {
-                resetHighlight(e);
-              } else {
-                resetHighlight(districtLocked);
-              }
               map1.fitBounds(e.target.getBounds());
               highlightFeature(e);
               districtLocked = e;
