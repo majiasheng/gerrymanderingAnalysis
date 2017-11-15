@@ -48,7 +48,8 @@
                 <div class="col-md-12">
                     <span class="label label-default">Info</span>
                     <div class="info">
-
+                      <br>
+                      <p id="infoText"></p>
                     </div>
                 </div>
             </div>
