@@ -1,5 +1,5 @@
 var districtBoundary = null;
-function sendGetOnDataSelect (stateCode, year) {
+function sendGetOnDataSelect(stateCode, year) {
     $.ajax({
         url: "/data",
         type: "GET",
@@ -7,13 +7,14 @@ function sendGetOnDataSelect (stateCode, year) {
         data: {"code": stateCode, "year": year},
         dataType: "json",
         success: function (response, status, xhr) {
-            //TODO: display district boundary
-            // response is a list of districts (with geo/election data)
+            // display only district boundary, remove all state boundaries
             allStates.remove();
+
             if (districtBoundary) {
-              districtBoundary.remove();
-              districtBoundary = null;
+                districtBoundary.remove();
+                districtBoundary = null;
             }
+            // use district boundary data from response
             districtBoundary = L.geoJson(response, {
                 // style: style,
                 onEachFeature: zoomToFeature
@@ -28,7 +29,7 @@ function sendGetOnDataSelect (stateCode, year) {
         error: function (xhr, textStatus, errorThrown) {
             console.log(textStatus
                     + ": Cannot enable GerrymanderingMeasure drop down menu"
-                    + "\nCan be caused by empty response");
+                    + "\nIt can be caused by empty response");
             $("#gerrymanderingMeasure").prop({
                 disabled: true
             });
@@ -40,14 +41,14 @@ function sendGetOnDataSelect (stateCode, year) {
 function selectState(e) {
     console.log(e.target.feature.properties.STUSPS);
     var selected = 0;
-    $("#stateSelection option").each(function(i, val){
-      if ($(val).val() === e.target.feature.properties.STUSPS) {
-        selected = 1;
-        $("#stateSelection").val(e.target.feature.properties.STUSPS).change();
-      }
+    $("#stateSelection option").each(function (i, val) {
+        if ($(val).val() === e.target.feature.properties.STUSPS) {
+            selected = 1;
+            $("#stateSelection").val(e.target.feature.properties.STUSPS).change();
+        }
     });
     if (!selected) {
-      alert("State "+e.target.feature.properties.STUSPS+" Not Available");
+        alert("State " + e.target.feature.properties.STUSPS + " Not Available");
     }
 }
 
@@ -55,26 +56,28 @@ $(document).ready(function () {
 
     const dataSelectionOrigHTML = $('#dataSelection').html();
     const gerrymanderingMeasureOrigHTML = $('#gerrymanderingMeasure').html();
-
-    // send get on state selection
+    /**
+     * send get on state selection
+     */
     $('#stateSelection').change(function () {
         var code = $(this).val();
         var options = "";
         // BASE CASE: zoom back to continental US on select no State
         if (code === "") {
             map1.setView([36.4051421, -95.5136459], 3.91);
-            // clear the options
+            // reset and disable data options
             $('#dataSelection').html(dataSelectionOrigHTML);
             $("#dataSelection").prop({
                 disabled: true
             });
+            // reset and disable measure options
             $('#gerrymanderingMeasure').html(gerrymanderingMeasureOrigHTML);
             $("#gerrymanderingMeasure").prop({
-            	  disabled: true
+                disabled: true
             });
             if (districtBoundary) {
-              districtBoundary.remove();
-              districtBoundary = null;
+                districtBoundary.remove();
+                districtBoundary = null;
             }
             allStates.addTo(map1);
             return;
@@ -116,12 +119,16 @@ $(document).ready(function () {
         });
     });
 
-    // send get on data selection
+    /**
+     * send get on data selection
+     */
     $('#dataSelection').change(function () {
         sendGetOnDataSelect($("#stateSelection").val(), $("#dataSelection").val());
     });
 
-    // send get on measure/test selection
+    /**
+     * send get on measure/test selection
+     */
     $('#gerrymanderingMeasure').change(function () {
         var c = $("#stateSelection").val();
         var y = $("#dataSelection").val();

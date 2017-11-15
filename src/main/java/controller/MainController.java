@@ -82,29 +82,6 @@ public class MainController {
     }
 
     /**
-     * Convert list of districts into json
-     *
-     * @param districts list of districts
-     * @return json string
-     */
-    private String districtsToJson(ArrayList<District> districts){
-      // Turn list to string
-      String geojsonStr = "{\"type\":\"FeatureCollection\",\"features\":[";
-      String geojsonStrEnd = "]}";
-      // guard against empty list
-      boolean ran = false;
-      for (District district : districts) {
-          ran = true;
-          geojsonStr += district.getGeoData().getBoundary() + ",";
-      }
-      // remove the extra comma
-      if (ran) {
-        geojsonStr = geojsonStr.substring(0, geojsonStr.length()-1);
-      }
-      return geojsonStr + geojsonStrEnd;
-    }
-
-    /**
      * Handles data selection request
      *
      * @param requestParams
@@ -129,24 +106,13 @@ public class MainController {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
             ArrayList<District> districts = (ArrayList<District>) dataService.getDataByYear(selectedState, selectedYear);
-            State state = new State(selectedYear, selectedState, districts);
+
             // save state object to session for later use in gerrymandering tests
+            State state = new State(selectedYear, selectedState, districts);
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
-            // return districts;
-            // make some dummy data
-            ArrayList<District> sampleDistricts = new ArrayList<District>();
-            District randomDist = new District();
-            randomDist.setGeoData(new GeoData());
-            randomDist.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-73.32275390625,44.91035917458495],[-76.4208984375,43.41302868475145],[-78.92578124999999,43.23719944365308],[-79.73876953125,42.01665183556825],[-75.41015624999999,42.10637370579324],[-74.454345703125,41.343824581185686],[-73.597412109375,41.42625319507269],[-73.32275390625,44.91035917458495]]]}}");
-            District randomDist2 = new District();
-            randomDist2.setGeoData(new GeoData());
-            randomDist2.getGeoData().setBoundary("{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-74.454345703125,41.335575973123916],[-73.90228271484375,41.017210578228436],[-74.25384521484375,40.50126945841645],[-71.8505859375,41.07935114946899],[-73.6029052734375,41.413895564677304],[-74.454345703125,41.335575973123916]]]}}");
-            sampleDistricts.add(randomDist);
-            sampleDistricts.add(randomDist2);
-
             // convert districts to JSON
-            return districtsToJson(sampleDistricts);
+            return dataService.districtGeoDataToJson(districts);
         }
         return null;
     }

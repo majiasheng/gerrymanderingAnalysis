@@ -23,15 +23,23 @@ public interface DataService {
     public Collection<Integer> getDataYearSetByCode(String code);
 
     /**
-     * Loads district data from database where stateid = selectedState and year
-     * = selectedYear
+     * Loads district data from database.
      *
-     * @param selectedState
+     * @param selectedState 
      * @param selectedYear
      * @return a list of districts in the selected year of the selected state,
      * null if no matching data found in database.
      */
     public Collection<District> getDataByYear(String selectedState, int selectedYear);
+    
+    /**
+     * Converts district geo data to json string
+     *
+     * @param districts
+     * @return all districts in the selected year of the selected state,
+     * null if no matching data found in database.
+     */
+    public String districtGeoDataToJson(Collection<District> districts);
 
     public Collection<GeoData> getGeoDataByYear(String stateCode, int year);
 

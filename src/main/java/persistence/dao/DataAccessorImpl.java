@@ -53,4 +53,8 @@ public class DataAccessorImpl implements DataAccessor {
 		return false;
 	}
 
+    public Collection<District> getDataByYear(String selectedState, int selectedYear) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
