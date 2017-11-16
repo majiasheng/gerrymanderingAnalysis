@@ -1,8 +1,11 @@
-// init map
-var token = 'pk.eyJ1IjoibWEzMDgiLCJhIjoiY2o4ZGxoa3hyMHJrdDMwbzA5emM5Y3pzcSJ9.ZsR3x4DhKRrkTD7goSnE3w'
+// map params
+var zoomLvl = 3.91;
+var usLat = 36.4051421;
+var usLng = -95.5136459;
+var token = 'pk.eyJ1IjoibWEzMDgiLCJhIjoiY2o4ZGxoa3hyMHJrdDMwbzA5emM5Y3pzcSJ9.ZsR3x4DhKRrkTD7goSnE3w';
 var map1 = L.map('mapid', {
-    center:        L.latLng(36.4051421, -95.5136459),
-    zoom:          3.91,
+    center:        L.latLng(usLat, usLng),
+    zoom:          zoomLvl,
     worldCopyJump: true
 });
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -13,8 +16,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(map1);
 
 // state boundary
-// var geojson = "/resources/js/state-boundary-cenus-bureau.json"
-var geojson = "/resources/js/state-boundary-cenus-bureau.json"
+var geojson = "/resources/js/state-boundary-cenus-bureau.json";
 var allStates = null;
 var districtBoundary = null;
 $.ajax(geojson).done(function(d){
