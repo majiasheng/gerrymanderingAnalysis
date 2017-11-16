@@ -74,6 +74,7 @@ function sendGetOnDataSelect(stateCode, year) {
             // display only district boundary, remove all state boundaries
             allStates.remove();
 
+            // remove old boundary
             if (districtBoundary) {
                 districtBoundary.remove();
                 districtBoundary = null;
