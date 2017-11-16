@@ -69,12 +69,12 @@ public class MainController {
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
-        boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
+        // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
         // make sure request params are not null
-        if (selectedState != null && !sentHome) {
+        if (selectedState != null /* && !sentHome */) {
             // get and return a list of years in which the selected state has available
             return (ArrayList<Integer>) dataService.getDataYearSetByCode(selectedState);
         }
@@ -96,13 +96,13 @@ public class MainController {
             HttpServletRequest request, HttpServletResponse response) {
 
         // if user entered url to get here, use another handler (or redirect back to home)
-        boolean sentHome =false;//= requestService.sendHomeIfNotXHR(request, response);
+        // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
         String selectedState = (String) requestParams.get("code");
         String selectedYear_str = requestParams.get("year");
         // make sure request params are not null
-        if (selectedState != null && selectedYear_str != null && !sentHome) {
+        if (selectedState != null && selectedYear_str != null /* && !sentHome*/) {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
             ArrayList<District> districts = (ArrayList<District>) dataService.getDataByYear(selectedState, selectedYear);
