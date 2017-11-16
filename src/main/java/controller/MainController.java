@@ -76,7 +76,7 @@ public class MainController {
         // make sure request params are not null
         if (selectedState != null /* && !sentHome */) {
             // get and return a list of years in which the selected state has available
-            return (ArrayList<Integer>) dataService.getDataYearSetByCode(selectedState);
+            return (ArrayList<Integer>) dataService.getDataYearSetByState(selectedState);
         }
         return null;
     }
@@ -105,14 +105,15 @@ public class MainController {
         if (selectedState != null && selectedYear_str != null /* && !sentHome*/) {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
-            ArrayList<District> districts = (ArrayList<District>) dataService.getDataByYear(selectedState, selectedYear);
-
+            // ArrayList<District> districts = (ArrayList<District>) dataService.getDistrictsDataByYear(selectedState, selectedYear);
+            
             // save state object to session for later use in gerrymandering tests
-            State state = new State(selectedYear, selectedState, districts);
+            State state = dataService.getStateByYear(selectedState, selectedYear);
+            // State state = new State(selectedYear, selectedState, districts);
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
-            return dataService.districtGeoDataToJson(districts);
+            return dataService.districtGeoDataToJson(state.getDistricts());
         }
         return null;
     }

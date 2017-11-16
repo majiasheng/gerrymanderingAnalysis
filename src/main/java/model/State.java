@@ -15,6 +15,7 @@ public class State {
         districts = new ArrayList<District>();
     }
 
+    //TODO: add long name using ENUM
     public State(int year, String shortName, Collection<District> districts) {
         this.year = year;
         this.shortName = shortName;

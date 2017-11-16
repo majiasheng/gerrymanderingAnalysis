@@ -1,6 +1,6 @@
 package model;
 
 public enum Status {
-	INCUMBENT,
-	CHALLENGER;
+    Incumbent,
+    Challenger;
 }

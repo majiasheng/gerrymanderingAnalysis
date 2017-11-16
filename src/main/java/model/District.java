@@ -6,6 +6,17 @@ public class District {
     private int districtNum;
     private GeoData geoData;
     private ElectionData electionData;
+    //TODO: add year ?
+
+    public District() {
+    }
+
+    public District(String stateShortName, int districtNum, GeoData geoData, ElectionData electionData) {
+        this.stateShortName = stateShortName;
+        this.districtNum = districtNum;
+        this.geoData = geoData;
+        this.electionData = electionData;
+    }
 
     public String getStateShortName() {
         return stateShortName;

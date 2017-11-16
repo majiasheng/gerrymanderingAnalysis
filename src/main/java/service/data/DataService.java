@@ -8,36 +8,40 @@ import model.State;
 
 public interface DataService {
 
-    public Collection<State> getStates();
-
-    public State getState(String stateCode);
-
     /**
      * Fetch a list of years in which the selected state has available (in
      * descending order).
      *
-     * @param code
+     * @param state short name of a state
      * @return a list of years in which the selected state has available, null
      * if no matching data found in database.
      */
-    public Collection<Integer> getDataYearSetByCode(String code);
+    public Collection<Integer> getDataYearSetByState(String state);
+
+    /**
+     *
+     * @param state selected state
+     * @param year selected year
+     * @return state model with data of the year selected
+     */
+    public State getStateByYear(String state, int year);
 
     /**
      * Loads district data from database.
      *
-     * @param selectedState 
+     * @param selectedState
      * @param selectedYear
      * @return a list of districts in the selected year of the selected state,
      * null if no matching data found in database.
      */
-    public Collection<District> getDataByYear(String selectedState, int selectedYear);
-    
+    public Collection<District> getDistrictsDataByYear(String selectedState, int selectedYear);
+
     /**
      * Converts district geo data to json string
      *
      * @param districts
-     * @return all districts in the selected year of the selected state,
-     * null if no matching data found in database.
+     * @return all districts in the selected year of the selected state, null if
+     * no matching data found in database.
      */
     public String districtGeoDataToJson(Collection<District> districts);
 
@@ -48,4 +52,7 @@ public interface DataService {
     public String getDistrictInfo(int districtId);
 
     public boolean upload(Object uploadTarget);
+
+    public Collection<State> getStates();
+
 }

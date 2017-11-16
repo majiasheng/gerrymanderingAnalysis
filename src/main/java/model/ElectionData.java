@@ -2,19 +2,30 @@ package model;
 
 public class ElectionData {
 
-    private int districtID;
+    private int districtNum;
     private int demVotes;
     private int repVotes;
     private Status demStatus;
     private Status repStatus;
     private Party winner;
 
-    public int getDistrictID() {
-        return districtID;
+    public ElectionData(){}
+    
+    public ElectionData(int districtNum, int demVotes, int repVotes, String demStatus, String repStatus, String winner) {
+        this.districtNum = districtNum;
+        this.demVotes = demVotes;
+        this.repVotes = repVotes;
+        this.demStatus = Status.valueOf(demStatus);
+        this.repStatus = Status.valueOf(repStatus);
+        this.winner = Party.get(winner);
+    }
+    
+    public int getDistrictNum() {
+        return districtNum;
     }
 
-    public void setDistrictID(int districtID) {
-        this.districtID = districtID;
+    public void setDistrictNum(int districtID) {
+        this.districtNum = districtID;
     }
 
     public int getDemVotes() {
