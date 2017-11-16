@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Holds configuration data from external configuration file (config.json)
  * @author Jia Sheng Ma (jiasheng.ma@yahoo.com)
  *
  */
@@ -69,11 +69,11 @@ public class Config {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Config: \n");
-        s.append("Stroke width: " + strokeWidth + "\n");
-        s.append("Stroke color: " + Arrays.toString(strokeColor) + "\n");
-        s.append("Measures: " + measures.toString() + "\n");
-        s.append("State: " + states.toString() + "\n");
-        s.append("Default Year: " + defaultYear + "\n");
+        s.append("Stroke width: ").append(strokeWidth).append("\n");
+        s.append("Stroke color: ").append(Arrays.toString(strokeColor)).append("\n");
+        s.append("Measures: ").append(measures.toString()).append("\n");
+        s.append("State: ").append(states.toString()).append("\n");
+        s.append("Default Year: ").append(defaultYear).append("\n");
         return s.toString();
     }
 }

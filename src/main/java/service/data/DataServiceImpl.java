@@ -22,7 +22,7 @@ public class DataServiceImpl implements DataService {
         return null;
     }
 
-    public State getState(String stateCode) {
+    public State getState(String state) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -95,7 +95,7 @@ public class DataServiceImpl implements DataService {
         // return dao.getDataByYear(selectedState, selectedYear);
     }
 
-    public Collection<ElectionData> getElectionDataByYear(String stateCode, int year) {
+    public Collection<ElectionData> getElectionDataByYear(String state, int year) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -110,7 +110,7 @@ public class DataServiceImpl implements DataService {
         return false;
     }
 
-    public Collection<GeoData> getGeoDataByYear(String stateCode, int year) {
+    public Collection<GeoData> getGeoDataByYear(String state, int year) {
         // TODO Auto-generated method stub
         return null;
     }

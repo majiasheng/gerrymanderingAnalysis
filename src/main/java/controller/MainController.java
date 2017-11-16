@@ -72,7 +72,7 @@ public class MainController {
         // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
-        String selectedState = (String) requestParams.get("code");
+        String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
         // make sure request params are not null
         if (selectedState != null /* && !sentHome */) {
             // get and return a list of years in which the selected state has available
@@ -99,8 +99,8 @@ public class MainController {
         // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
 
         // if xhr, use this handler
-        String selectedState = (String) requestParams.get("code");
-        String selectedYear_str = requestParams.get("year");
+        String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
+        String selectedYear_str = requestParams.get(RequestService.YEAR_REQUEST_PARAM);
         // make sure request params are not null
         if (selectedState != null && selectedYear_str != null /* && !sentHome*/) {
             // get and return a list of districts

@@ -63,12 +63,12 @@ function zoomToState(feature, layer) {
 }
 
 
-function sendGetOnDataSelect(stateCode, year) {
+function sendGetOnDataSelect(state, year) {
     $.ajax({
         url: "/data",
         type: "GET",
         contentType: "application/json",
-        data: {"code": stateCode, "year": year},
+        data: {"state": state, "year": year},
         dataType: "json",
         success: function (response, status, xhr) {
             // display only district boundary, remove all state boundaries
@@ -129,10 +129,10 @@ $(document).ready(function () {
           resetHighlight(districtLocked);
           districtLocked = null;
         }
-        var code = $(this).val();
+        var state = $(this).val();
         var options = "";
         // BASE CASE: zoom back to continental US on select no State
-        if (code === "") {
+        if (state === "") {
             map1.setView([36.4051421, -95.5136459], 3.91);
             // reset and disable data options
             $('#dataSelection').html(dataSelectionOrigHTML);
@@ -155,13 +155,13 @@ $(document).ready(function () {
             url: "/state",
             type: "GET",
             contentType: "application/json",
-            data: {"code": code},
+            data: {"state": state},
             dataType: "json",
             success: function (response, status, xhr) {
                 // zoom to state
-                map1.fitBounds($.grep(allStates.getLayers(), function (state) {
+                map1.fitBounds($.grep(allStates.getLayers(), function (selectedState) {
                     // get state boundary for selected state
-                    return state.feature.properties.STUSPS == code;
+                    return selectedState.feature.properties.STUSPS == state;
                 })[0].getBounds());
 
                 // response is a list of years for populating data drop down
@@ -175,8 +175,8 @@ $(document).ready(function () {
                 });
 
                 //TODO: send get request for default year (or selected year)
-                var y = $("#dataSelection").val();
-                sendGetOnDataSelect(code, y);
+                var year = $("#dataSelection").val();
+                sendGetOnDataSelect(state, year);
 
             },
             error: function (xhr, status, error) {
