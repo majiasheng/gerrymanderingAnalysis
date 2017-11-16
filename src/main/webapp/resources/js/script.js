@@ -1,4 +1,68 @@
 
+// flag to identify locked district
+var districtLocked = null;
+
+function addDistInfo(obj, id) {
+    $(id).append("<br>")
+    $.each(obj.feature.properties, function(key,val){
+      $(id).append("<p>"+ key+": "+val +"</p>")
+    });
+}
+
+function rmDistInfo(id) {
+    $(id).empty();
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 5,
+        // color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    addDistInfo(layer, "#infoText");
+}
+
+function resetHighlight(e) {
+    rmDistInfo("#infoText");
+    districtBoundary.resetStyle(e.target);
+}
+
+function zoomToState(feature, layer) {
+    layer.on({
+        mouseover: function(e){
+          if (!districtLocked) {
+            highlightFeature(e);
+          }
+        },
+        mouseout: function(e){
+          if (!districtLocked) {
+            resetHighlight(e);
+          }
+        },
+        click: function (e) {
+          if (!districtLocked) {
+            resetHighlight(e);
+          } else {
+            resetHighlight(districtLocked);
+          }
+          if (districtLocked && (e.target == districtLocked.target)) {
+            districtLocked = null;
+          } else {
+            map1.fitBounds(e.target.getBounds());
+            highlightFeature(e);
+            districtLocked = e;
+          }
+        }
+    });
+}
+
+
 function sendGetOnDataSelect(stateCode, year) {
     $.ajax({
         url: "/data",
@@ -10,6 +74,7 @@ function sendGetOnDataSelect(stateCode, year) {
             // display only district boundary, remove all state boundaries
             allStates.remove();
 
+            // remove old boundary
             if (districtBoundary) {
                 districtBoundary.remove();
                 districtBoundary = null;
@@ -60,6 +125,10 @@ $(document).ready(function () {
      * send get on state selection
      */
     $('#stateSelection').change(function () {
+        if (districtLocked) {
+          resetHighlight(districtLocked);
+          districtLocked = null;
+        }
         var code = $(this).val();
         var options = "";
         // BASE CASE: zoom back to continental US on select no State
