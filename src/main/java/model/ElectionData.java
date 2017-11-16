@@ -15,8 +15,8 @@ public class ElectionData {
         this.districtNum = districtNum;
         this.demVotes = demVotes;
         this.repVotes = repVotes;
-        this.demStatus = Status.valueOf(demStatus);
-        this.repStatus = Status.valueOf(repStatus);
+        this.demStatus = Status.get(demStatus);
+        this.repStatus = Status.get(repStatus);
         this.winner = Party.get(winner);
     }
     

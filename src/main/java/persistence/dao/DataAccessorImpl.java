@@ -1,5 +1,6 @@
 package persistence.dao;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import model.DistrictDTO;
 import java.util.Collection;
@@ -36,8 +37,11 @@ public class DataAccessorImpl implements DataAccessor {
         // call mysql stored procedure
         String sql = "call GET_DATA_YEAR_SET_BY_STATE('" + state + "')";
         Query q = em.createNativeQuery(sql);
-        List<Integer> years = q.getResultList();
-
+        List<Date> years_sql = q.getResultList();
+        List<Integer> years = new ArrayList<Integer>();
+        for(Date d : years_sql) {
+            years.add(d.toLocalDate().getYear());
+        }
         em.getTransaction().commit();
         em.close();
         
@@ -130,11 +134,10 @@ public class DataAccessorImpl implements DataAccessor {
         sampleDistricts.add(randomDist2);
         sampleDistricts.add(randomDist3);
 
-        System.out.println("/n/n***/nI got here get districts data by year /n***/n/n");
-        return sampleDistricts;
+        // return sampleDistricts;
         // END TEST
 
-        //return districts;
+        return districts;
     }
 
     public Map<Integer, Collection<Coordinate>> getStateBoundaries() {

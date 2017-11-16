@@ -10,7 +10,6 @@ public enum Party {
 
     private final String abbreviation;
 
-    // Reverse-lookup map for getting a day from an abbreviation
     private static final Map<String, Party> lookup = new HashMap<String, Party>();
 
     static {

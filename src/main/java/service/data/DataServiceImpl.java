@@ -22,15 +22,7 @@ public class DataServiceImpl implements DataService {
      * @see service.DataService#getDataYearSet(String)
      */
     public Collection<Integer> getDataYearSetByState(String state) {
-        // TEST
-        ArrayList<Integer> dataYearSet = new ArrayList<Integer>();
-        dataYearSet.add(2002);
-        dataYearSet.add(2004);
-        dataYearSet.add(2000);
-        return dataYearSet;
-        // END TEST
-        
-        // return dao.getDataYearSetByState(state);
+         return dao.getDataYearSetByState(state);
     }
 
     /**
