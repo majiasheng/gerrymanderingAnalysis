@@ -124,6 +124,10 @@ $(document).ready(function () {
      * send get on state selection
      */
     $('#stateSelection').change(function () {
+        if (districtLocked) {
+          resetHighlight(districtLocked);
+          districtLocked = null;
+        }
         var code = $(this).val();
         var options = "";
         // BASE CASE: zoom back to continental US on select no State
