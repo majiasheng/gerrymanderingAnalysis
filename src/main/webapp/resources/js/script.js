@@ -51,10 +51,10 @@ function zoomToState(feature, layer) {
             $('<span id="distLockLabel" class="label label-info">District Locked!</span>').insertBefore("#infoText");
           } else {
             resetHighlight(districtLocked);
-            $("#distLockLabel").remove();
           }
           if (districtLocked && (e.target == districtLocked.target)) {
             districtLocked = null;
+            $("#distLockLabel").remove();
           } else {
             map1.fitBounds(e.target.getBounds());
             highlightFeature(e);
@@ -130,6 +130,7 @@ $(document).ready(function () {
         if (districtLocked) {
           resetHighlight(districtLocked);
           districtLocked = null;
+          $("#distLockLabel").remove();
         }
         var state = $(this).val();
         var options = "";
