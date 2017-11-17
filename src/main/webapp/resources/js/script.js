@@ -2,10 +2,6 @@
 // flag to identify locked district
 var districtLocked = null;
 
-function rmDistInfo(id) {
-    $(id).empty();
-}
-
 function lockDistrict(e) {
     var layer = e.target;
     layer.setStyle({
@@ -25,7 +21,7 @@ function lockDistrict(e) {
 }
 
 function resetHighlight(e) {
-    rmDistInfo("#infoText");
+    $("#infoText").empty();
     districtBoundary.resetStyle(e.target);
 }
 
