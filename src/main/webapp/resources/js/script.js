@@ -122,6 +122,30 @@ $(document).ready(function() {
     allStates.addTo(map1);
   }
 
+  function loadSelectedState(response, status, xhr, state, options) {
+    // zoom to state
+    map1.fitBounds(
+      $.grep(allStates.getLayers(), function(selectedState) {
+        // get state boundary for selected state
+        return selectedState.feature.properties.STUSPS == state;
+      })[0].getBounds()
+    );
+
+    // response is a list of years for populating data drop down
+    $.each(response, function(index, v) {
+      options += "<option value" + "=" + v + ">" + v + "</option>";
+    });
+    $("#dataSelection").html(options);
+    console.log("Enabling Data drop down menu...");
+    $("#dataSelection").prop({
+      disabled: false
+    });
+
+    //TODO: send get request for default year (or selected year)
+    var year = $("#dataSelection").val();
+    sendGetOnDataSelect(state, year);
+  }
+
   // send get on state selection
   $("#stateSelection").change(function() {
     if (districtLocked) {
@@ -143,27 +167,7 @@ $(document).ready(function() {
       data: { state: state },
       dataType: "json",
       success: function(response, status, xhr) {
-        // zoom to state
-        map1.fitBounds(
-          $.grep(allStates.getLayers(), function(selectedState) {
-            // get state boundary for selected state
-            return selectedState.feature.properties.STUSPS == state;
-          })[0].getBounds()
-        );
-
-        // response is a list of years for populating data drop down
-        $.each(response, function(index, v) {
-          options += "<option value" + "=" + v + ">" + v + "</option>";
-        });
-        $("#dataSelection").html(options);
-        console.log("Enabling Data drop down menu...");
-        $("#dataSelection").prop({
-          disabled: false
-        });
-
-        //TODO: send get request for default year (or selected year)
-        var year = $("#dataSelection").val();
-        sendGetOnDataSelect(state, year);
+        loadSelectedState(response, status, xhr, state, options);
       },
       error: function(xhr, status, error) {
         // disallow selecting "Data" option if response is empty
