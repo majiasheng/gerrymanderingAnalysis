@@ -40,8 +40,17 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
             }            
         }
         
-        double EfficiencyGap = (demWasted*1.0-repWasted*1.0)/totalVotes;
+        double efficiencyGap = (demWasted*1.0-repWasted*1.0)/totalVotes;
+        System.out.println(efficiencyGap);
         
+        TestResult result = new TestResult();
+        
+        
+        if(efficiencyGap*state.getDistricts().size()>=2){
+            result.setGerrymandered(true);
+        }else{
+            result.setGerrymandered(false);
+        }
         
         
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
