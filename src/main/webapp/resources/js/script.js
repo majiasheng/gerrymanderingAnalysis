@@ -2,18 +2,11 @@
 // flag to identify locked district
 var districtLocked = null;
 
-function addDistInfo(obj, id) {
-    $(id).append("<br>")
-    $.each(obj.feature.properties, function(key,val){
-      $(id).append("<p>"+ key+": "+val +"</p>")
-    });
-}
-
 function rmDistInfo(id) {
     $(id).empty();
 }
 
-function highlightFeature(e) {
+function lockDistrict(e) {
     var layer = e.target;
     layer.setStyle({
         weight: 5,
@@ -24,8 +17,11 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
-
-    addDistInfo(layer, "#infoText");
+    // add to info
+    $("#infoText").append("<br>")
+    $.each(layer.feature.properties, function(key,val){
+      $("#infoText").append("<p>"+ key+": "+val +"</p>")
+    });
 }
 
 function resetHighlight(e) {
@@ -37,7 +33,7 @@ function zoomToState(feature, layer) {
     layer.on({
         mouseover: function(e){
           if (!districtLocked) {
-            highlightFeature(e);
+            lockDistrict(e);
           }
         },
         mouseout: function(e){
@@ -57,7 +53,7 @@ function zoomToState(feature, layer) {
             $("#distLockLabel").remove();
           } else {
             map1.fitBounds(e.target.getBounds());
-            highlightFeature(e);
+            lockDistrict(e);
             districtLocked = e;
           }
         }
