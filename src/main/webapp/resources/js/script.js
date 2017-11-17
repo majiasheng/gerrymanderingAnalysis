@@ -1,106 +1,107 @@
-// flag to identify locked district
-var districtLocked = null;
-
-function lockDistrict(e) {
-  var layer = e.target;
-  layer.setStyle({
-    weight: 5,
-    // color: '#666',
-    dashArray: "",
-    fillOpacity: 0.7
-  });
-  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-    layer.bringToFront();
-  }
-  // add to info
-  $("#infoText").append("<br>");
-  $.each(layer.feature.properties, function(key, val) {
-    $("#infoText").append("<p>" + key + ": " + val + "</p>");
-  });
-}
-
-function resetDistrict(e) {
-  $("#infoText").empty();
-  districtBoundary.resetStyle(e.target);
-}
-
-function zoomToState(feature, layer) {
-  layer.on({
-    mouseover: function(e) {
-      if (!districtLocked) {
-        lockDistrict(e);
-      }
-    },
-    mouseout: function(e) {
-      if (!districtLocked) {
-        resetDistrict(e);
-      }
-    },
-    click: function(e) {
-      if (!districtLocked) {
-        resetDistrict(e);
-        $(
-          '<span id="distLockLabel" class="label label-info">District Locked!</span>'
-        ).insertBefore("#infoText");
-      } else {
-        resetDistrict(districtLocked);
-      }
-      if (districtLocked && e.target == districtLocked.target) {
-        districtLocked = null;
-        $("#distLockLabel").remove();
-      } else {
-        map1.fitBounds(e.target.getBounds());
-        lockDistrict(e);
-        districtLocked = e;
-      }
-    }
-  });
-}
-
-function sendGetOnDataSelect(state, year) {
-  $.ajax({
-    url: "/data",
-    type: "GET",
-    contentType: "application/json",
-    data: { state: state, year: year },
-    dataType: "json",
-    success: function(response, status, xhr) {
-      // display only district boundary, remove all state boundaries
-      allStates.remove();
-
-      // remove old boundary
-      if (districtBoundary) {
-        districtBoundary.remove();
-        districtBoundary = null;
-      }
-      // use district boundary data from response
-      districtBoundary = L.geoJson(response, {
-        // style: style,
-        onEachFeature: zoomToState
-      });
-      districtBoundary.addTo(map1);
-
-      console.log("Enabling GerrymanderingMeasure drop down menu...");
-      $("#gerrymanderingMeasure").prop({
-        disabled: false
-      });
-    },
-    error: function(xhr, textStatus, errorThrown) {
-      console.log(
-        textStatus +
-          ": Cannot enable GerrymanderingMeasure drop down menu" +
-          "\nIt can be caused by empty response"
-      );
-      $("#gerrymanderingMeasure").prop({
-        disabled: true
-      });
-    }
-  });
-}
 
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
   const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
+
+  // flag to identify locked district
+  var districtLocked = null;
+
+  function lockDistrict(e) {
+    var layer = e.target;
+    layer.setStyle({
+      weight: 5,
+      // color: '#666',
+      dashArray: "",
+      fillOpacity: 0.7
+    });
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+      layer.bringToFront();
+    }
+    // add to info
+    $("#infoText").append("<br>");
+    $.each(layer.feature.properties, function(key, val) {
+      $("#infoText").append("<p>" + key + ": " + val + "</p>");
+    });
+  }
+
+  function resetDistrict(e) {
+    $("#infoText").empty();
+    districtBoundary.resetStyle(e.target);
+  }
+
+  function zoomToState(feature, layer) {
+    layer.on({
+      mouseover: function(e) {
+        if (!districtLocked) {
+          lockDistrict(e);
+        }
+      },
+      mouseout: function(e) {
+        if (!districtLocked) {
+          resetDistrict(e);
+        }
+      },
+      click: function(e) {
+        if (!districtLocked) {
+          resetDistrict(e);
+          $(
+            '<span id="distLockLabel" class="label label-info">District Locked!</span>'
+          ).insertBefore("#infoText");
+        } else {
+          resetDistrict(districtLocked);
+        }
+        if (districtLocked && e.target == districtLocked.target) {
+          districtLocked = null;
+          $("#distLockLabel").remove();
+        } else {
+          map1.fitBounds(e.target.getBounds());
+          lockDistrict(e);
+          districtLocked = e;
+        }
+      }
+    });
+  }
+
+  function sendGetOnDataSelect(state, year) {
+    $.ajax({
+      url: "/data",
+      type: "GET",
+      contentType: "application/json",
+      data: { state: state, year: year },
+      dataType: "json",
+      success: function(response, status, xhr) {
+        // display only district boundary, remove all state boundaries
+        allStates.remove();
+
+        // remove old boundary
+        if (districtBoundary) {
+          districtBoundary.remove();
+          districtBoundary = null;
+        }
+        // use district boundary data from response
+        districtBoundary = L.geoJson(response, {
+          // style: style,
+          onEachFeature: zoomToState
+        });
+        districtBoundary.addTo(map1);
+
+        console.log("Enabling GerrymanderingMeasure drop down menu...");
+        $("#gerrymanderingMeasure").prop({
+          disabled: false
+        });
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        console.log(
+          textStatus +
+            ": Cannot enable GerrymanderingMeasure drop down menu" +
+            "\nIt can be caused by empty response"
+        );
+        $("#gerrymanderingMeasure").prop({
+          disabled: true
+        });
+      }
+    });
+  }
 
   function resetMapToCountry() {
     map1.setView([36.4051421, -95.5136459], 3.91);
