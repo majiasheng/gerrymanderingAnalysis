@@ -130,6 +130,7 @@ $(document).ready(function () {
         if (districtLocked) {
           resetHighlight(districtLocked);
           districtLocked = null;
+          $("#distLockLabel").remove();
         }
         var state = $(this).val();
         var options = "";
