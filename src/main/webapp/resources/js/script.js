@@ -100,6 +100,25 @@ $(document).ready(function () {
 
     const dataSelectionOrigHTML = $('#dataSelection').html();
     const gerrymanderingMeasureOrigHTML = $('#gerrymanderingMeasure').html();
+
+    function resetMapToCountry() {
+      map1.setView([36.4051421, -95.5136459], 3.91);
+      // reset and disable data options
+      $('#dataSelection').html(dataSelectionOrigHTML);
+      $("#dataSelection").prop({
+          disabled: true
+      });
+      // reset and disable measure options
+      $('#gerrymanderingMeasure').html(gerrymanderingMeasureOrigHTML);
+      $("#gerrymanderingMeasure").prop({
+          disabled: true
+      });
+      if (districtBoundary) {
+          districtBoundary.remove();
+          districtBoundary = null;
+      }
+      allStates.addTo(map1);
+    }
     /**
      * send get on state selection
      */
@@ -113,22 +132,7 @@ $(document).ready(function () {
         var options = "";
         // BASE CASE: zoom back to continental US on select no State
         if (state === "") {
-            map1.setView([36.4051421, -95.5136459], 3.91);
-            // reset and disable data options
-            $('#dataSelection').html(dataSelectionOrigHTML);
-            $("#dataSelection").prop({
-                disabled: true
-            });
-            // reset and disable measure options
-            $('#gerrymanderingMeasure').html(gerrymanderingMeasureOrigHTML);
-            $("#gerrymanderingMeasure").prop({
-                disabled: true
-            });
-            if (districtBoundary) {
-                districtBoundary.remove();
-                districtBoundary = null;
-            }
-            allStates.addTo(map1);
+            resetMapToCountry();
             return;
         }
         $.ajax({
