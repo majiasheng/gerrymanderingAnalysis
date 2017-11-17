@@ -185,22 +185,22 @@ $(document).ready(function() {
 
   // send get on measure/test selection
   $("#gerrymanderingMeasure").change(function() {
-    var c = $("#stateSelection").val();
-    var y = $("#dataSelection").val();
-    var m = $(this).val();
-    if (m !== "") {
+    var stateCode = $("#stateSelection").val();
+    var year = $("#dataSelection").val();
+    var measure = $(this).val();
+    if (measure !== "") {
       $.ajax({
-        url: "/measure/" + m,
+        url: "/measure/" + measure,
         type: "GET",
         contentType: "application/json",
-        data: { code: c, year: y },
+        data: { code: stateCode, year: year },
         dataType: "json",
         success: function(response, status, xhr) {
           //TODO: display measure result
           // response is a TestResult object
           alert("response: " + JSON.stringify(response));
           //TEST
-          // $('.info').html(m);
+          // $('.info').html(measure);
         },
         error: function(xhr, textStatus, errorThrown) {
           console.log(textStatus + "; errorThrown: " + errorThrown);
