@@ -20,7 +20,7 @@ function lockDistrict(e) {
     });
 }
 
-function resetHighlight(e) {
+function resetDistrict(e) {
     $("#infoText").empty();
     districtBoundary.resetStyle(e.target);
 }
@@ -34,15 +34,15 @@ function zoomToState(feature, layer) {
         },
         mouseout: function(e){
           if (!districtLocked) {
-            resetHighlight(e);
+            resetDistrict(e);
           }
         },
         click: function (e) {
           if (!districtLocked) {
-            resetHighlight(e);
+            resetDistrict(e);
             $('<span id="distLockLabel" class="label label-info">District Locked!</span>').insertBefore("#infoText");
           } else {
-            resetHighlight(districtLocked);
+            resetDistrict(districtLocked);
           }
           if (districtLocked && (e.target == districtLocked.target)) {
             districtLocked = null;
@@ -105,7 +105,7 @@ $(document).ready(function () {
      */
     $('#stateSelection').change(function () {
         if (districtLocked) {
-          resetHighlight(districtLocked);
+          resetDistrict(districtLocked);
           districtLocked = null;
           $("#distLockLabel").remove();
         }
