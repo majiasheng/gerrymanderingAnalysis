@@ -52,8 +52,10 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
             result.setGerrymandered(false);
         }
         
+        return result;
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 
