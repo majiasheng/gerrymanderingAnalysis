@@ -204,23 +204,26 @@ $(document).ready(function () {
         var c = $("#stateSelection").val();
         var y = $("#dataSelection").val();
         var m = $(this).val();
-        $.ajax({
-            url: "/measure/" + m,
-            type: "GET",
-            contentType: "application/json",
-            data: {"code": c, "year": y},
-            dataType: "json",
-            success: function (response, status, xhr) {
-                //TODO: display measure result
-                // response is a TestResult object
-
-                //TEST
-                // $('.info').html(m);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                console.log(textStatus + "; errorThrown: " + errorThrown);
-            }
-        });
+        if (m!=="") {
+            $.ajax({
+                url: "/measure/" + m,
+                type: "GET",
+                contentType: "application/json",
+                data: {"code": c, "year": y},
+                dataType: "json",
+                success: function (response, status, xhr) {
+                    //TODO: display measure result
+                    // response is a TestResult object
+                    alert("response: "+JSON.stringify(response));
+                    //TEST
+                    // $('.info').html(m);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(textStatus + "; errorThrown: " + errorThrown);
+                }
+            });
+        }
+        
     });
 
 
