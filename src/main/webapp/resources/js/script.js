@@ -48,8 +48,10 @@ function zoomToState(feature, layer) {
         click: function (e) {
           if (!districtLocked) {
             resetHighlight(e);
+            $('<span id="distLockLabel" class="label label-info">District Locked!</span>').insertBefore("#infoText");
           } else {
             resetHighlight(districtLocked);
+            $("#distLockLabel").remove();
           }
           if (districtLocked && (e.target == districtLocked.target)) {
             districtLocked = null;
