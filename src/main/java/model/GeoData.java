@@ -1,32 +1,32 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class GeoData {
-	
-	private Collection<Coordinate>	coordinates;	// district boundary coordinates
-	private double					area;
-	private int 					year;
-	
-	public GeoData() {
-		coordinates = new ArrayList<Coordinate>();
-	}
 
-	public Collection<Coordinate> getCoordinates() {
-		return coordinates;
-	}
+    private int districtNum;
+    private String boundary;    // district boundary as geojson in text format
 
-	public void setCoordinates(ArrayList<Coordinate> coordinates) {
-		this.coordinates = coordinates;
-	}
+    public GeoData() {
+    }
 
-	public double getArea() {
-		return area;
-	}
+    public GeoData(int districtNum, String boundary) {
+        this.districtNum = districtNum;
+        this.boundary = boundary;
+    }
 
-	public void setArea(double area) {
-		this.area = area;
-	}
-	
+    public int getDistrictNum() {
+        return districtNum;
+    }
+
+    public void setDistrictNum(int districtNum) {
+        this.districtNum = districtNum;
+    }
+
+    public String getBoundary() {
+        return boundary;
+    }
+
+    public void setBoundary(String boundary) {
+        this.boundary = boundary;
+    }
+
 }

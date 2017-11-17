@@ -1,6 +1,9 @@
 package service.gerrymandering;
 
-public abstract class GerrymanderingTestService {
-	
-	public abstract TestResult doTest(String stateCode, int year);
+import model.State;
+import model.TestResult;
+
+public interface GerrymanderingTestService {
+
+    public abstract TestResult doTest(State state);
 }

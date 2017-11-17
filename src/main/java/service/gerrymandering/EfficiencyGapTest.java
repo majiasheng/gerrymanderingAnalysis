@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,15 +9,17 @@ package service.gerrymandering;
 import model.State;
 import model.District;
 import model.ElectionData;
+import org.springframework.stereotype.Component;
+import model.TestResult;
 /**
  *
  * @author ldeiulio
  */
-public class EfficiencyGapTest extends GerrymanderingTestService{
+@Component("EGTest")
+public class EfficiencyGapTest implements GerrymanderingTestService{
 
     @Override
-    public TestResult doTest(String stateCode, int year) {
-        State state = new State();
+    public TestResult doTest(State state) {
         int numReps = state.getDistricts().size();
         int totalVotes=0;
         int repWasted = 0;
@@ -44,4 +47,11 @@ public class EfficiencyGapTest extends GerrymanderingTestService{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+
+
+/**
+ *
+ * @author majiasheng
+ */
+
 }
