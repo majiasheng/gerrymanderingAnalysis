@@ -104,21 +104,6 @@ function sendGetOnDataSelect(state, year) {
     });
 }
 
-
-function selectState(e) {
-    console.log(e.target.feature.properties.STUSPS);
-    var selected = 0;
-    $("#stateSelection option").each(function (i, val) {
-        if ($(val).val() === e.target.feature.properties.STUSPS) {
-            selected = 1;
-            $("#stateSelection").val(e.target.feature.properties.STUSPS).change();
-        }
-    });
-    if (!selected) {
-        alert("State " + e.target.feature.properties.STUSPS + " Not Available");
-    }
-}
-
 $(document).ready(function () {
 
     const dataSelectionOrigHTML = $('#dataSelection').html();
@@ -224,7 +209,7 @@ $(document).ready(function () {
                 }
             });
         }
-        
+
     });
 
 
