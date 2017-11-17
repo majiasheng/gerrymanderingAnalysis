@@ -119,9 +119,8 @@ $(document).ready(function () {
       }
       allStates.addTo(map1);
     }
-    /**
-     * send get on state selection
-     */
+
+    // send get on state selection
     $('#stateSelection').change(function () {
         if (districtLocked) {
           resetDistrict(districtLocked);
@@ -172,16 +171,12 @@ $(document).ready(function () {
         });
     });
 
-    /**
-     * send get on data selection
-     */
+    // send get on data selection
     $('#dataSelection').change(function () {
         sendGetOnDataSelect($("#stateSelection").val(), $("#dataSelection").val());
     });
 
-    /**
-     * send get on measure/test selection
-     */
+    // send get on measure/test selection
     $('#gerrymanderingMeasure').change(function () {
         var c = $("#stateSelection").val();
         var y = $("#dataSelection").val();
@@ -205,8 +200,5 @@ $(document).ready(function () {
                 }
             });
         }
-
     });
-
-
 });
