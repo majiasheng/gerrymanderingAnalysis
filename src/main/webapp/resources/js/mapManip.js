@@ -78,8 +78,10 @@ $(document).ready(function() {
           districtBoundary.remove();
           districtBoundary = null;
         }
+        // separate geojson response
+        var distGeoJson = response.distGeoJson;
         // use district boundary data from response
-        districtBoundary = L.geoJson(response, {
+        districtBoundary = L.geoJson(distGeoJson, {
           // style: style,
           onEachFeature: zoomToState
         });
