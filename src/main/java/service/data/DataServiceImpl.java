@@ -1,5 +1,7 @@
 package service.data;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.stereotype.Service;
@@ -57,7 +59,17 @@ public class DataServiceImpl implements DataService {
         boolean ran = false;
         for (District district : districts) {
             ran = true;
-            geojsonStr += district.getGeoData().getBoundary() + ",";
+            ObjectMapper mapper = new ObjectMapper();
+            String electionDataJson = null;
+            try {
+                electionDataJson = mapper.writeValueAsString(district.getElectionData());
+            } catch (JsonProcessingException ex) {
+                System.err.println(ex);
+            }
+            String geojson = district.getGeoData().getBoundary();
+            // geojson = 
+
+            geojsonStr += geojson + ",";
         }
         // remove the extra comma
         if (ran) {
