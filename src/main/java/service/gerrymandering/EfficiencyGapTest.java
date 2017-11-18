@@ -1,3 +1,9 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package service.gerrymandering;
 
 import model.State;
@@ -11,11 +17,12 @@ import model.TestResult;
  * @author ldeiulio
  */
 @Component("EGTest")
-public class EfficiencyGapTest implements GerrymanderingTestService {
+public class EfficiencyGapTest implements GerrymanderingTestService{
 
     @Override
     public TestResult doTest(State state) {
         int numReps = state.getDistricts().size();
+
         int totalVotes = 0;
         int repWasted = 0;
         int demWasted = 0;
@@ -47,6 +54,14 @@ public class EfficiencyGapTest implements GerrymanderingTestService {
         }
 
         return result;
+
     }
+    
+
+
+/**
+ *
+ * @author majiasheng
+ */
 
 }
