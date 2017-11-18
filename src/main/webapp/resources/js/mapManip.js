@@ -1,4 +1,10 @@
 
+function title(str) {
+  if (typeof str !== "string")
+    return str;
+  return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
+
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
   const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -35,6 +41,14 @@ $(document).ready(function() {
     return false;
   }
 
+  function translateElectionDataVal(val) {
+    if (val === "Democratic") {
+      return "Democrat";
+    } else {
+      return val;
+    }
+  }
+
   function lockDistrict(e) {
     var layer = e.target;
     layer.setStyle({
@@ -52,11 +66,11 @@ $(document).ready(function() {
     $.each(layer.feature.properties, function(key, val) {
       if (key == "electionData") {
         $.each(val, function(key2, val2) {
-          if (electionDataExcludeKey(key2)) {
-            return true;
-          }
           if (val2) {
-            electionDataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + val2 + "</p>\n";
+            if (electionDataExcludeKey(key2)) {
+              return true;
+            }
+            electionDataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
           }
         });
         return true;
