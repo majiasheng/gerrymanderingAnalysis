@@ -10,6 +10,7 @@ import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
 
@@ -66,10 +67,15 @@ public class DataServiceImpl implements DataService {
             } catch (JsonProcessingException ex) {
                 System.err.println(ex);
             }
-            String geojson = district.getGeoData().getBoundary();
-            // geojson = 
+            String distJson = district.getGeoData().getBoundary();
+            if (electionDataJson != null) {
+                JSONObject distJsonObj = new JSONObject(distJson);
+                JSONObject childobject=distJsonObj.getJSONObject("properties");
+                childobject.put("electionData", new JSONObject(electionDataJson));
+                distJson = distJsonObj.toString();
+            }
 
-            geojsonStr += geojson + ",";
+            geojsonStr += distJson + ",";
         }
         // remove the extra comma
         if (ran) {
