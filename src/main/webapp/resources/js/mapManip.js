@@ -6,6 +6,16 @@ $(document).ready(function() {
   // flag to identify locked district
   var districtLocked = null;
 
+  function translatePropKeyName(val) {
+    if (val === "STATENAME") {
+      return "State";
+    } else if (val === "DISTRICT") {
+      return "District";
+    } else {
+      return val;
+    }
+  }
+
   function lockDistrict(e) {
     var layer = e.target;
     layer.setStyle({
@@ -20,7 +30,7 @@ $(document).ready(function() {
     // add to info
     $("#infoText").append("<br>");
     $.each(layer.feature.properties, function(key, val) {
-      $("#infoText").append("<p>" + key + ": " + val + "</p>");
+      $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
     });
   }
 
