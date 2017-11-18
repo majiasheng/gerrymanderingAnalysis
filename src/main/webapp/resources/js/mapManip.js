@@ -16,6 +16,18 @@ $(document).ready(function() {
     }
   }
 
+  function translateElectionDataKeyName(val) {
+    if (val === "winner") {
+      return "Winning Party";
+    } else if (val === "demVotes") {
+      return "Democrat Votes";
+    } else if (val === "repVotes") {
+      return "Republican Votes";
+    } else {
+      return val;
+    }
+  }
+
   function electionDataExcludeKey(key) {
     if (key === "districtNum") {
       return true;
@@ -44,7 +56,7 @@ $(document).ready(function() {
             return true;
           }
           if (val2) {
-            electionDataStr += "<p>" + (key2) + ": " + val2 + "</p>\n";
+            electionDataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + val2 + "</p>\n";
           }
         });
         return true;
