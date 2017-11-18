@@ -21,7 +21,11 @@ var allStates = null;
 var districtBoundary = null;
 $.ajax(geojson).done(function(d){
     allStates = L.geoJson(d, {
-        // style: style,
+        style: function(feature) {
+          return {
+            color: 'green'
+          }
+        },
         onEachFeature: onStates
     });
     allStates.addTo(map1);
