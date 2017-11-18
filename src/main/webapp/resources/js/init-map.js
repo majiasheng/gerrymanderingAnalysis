@@ -24,7 +24,6 @@ $.ajax(geojson).done(function(d){
         // style: style,
         onEachFeature: onStates
     });
-
     allStates.addTo(map1);
 });
 
@@ -34,4 +33,18 @@ function onStates(feature, layer) {
         // mouseout: resetHighlight,
         click: selectState
     });
+}
+
+function selectState(e) {
+    console.log(e.target.feature.properties.STUSPS);
+    var selected = 0;
+    $("#stateSelection option").each(function (i, val) {
+        if ($(val).val() === e.target.feature.properties.STUSPS) {
+            selected = 1;
+            $("#stateSelection").val(e.target.feature.properties.STUSPS).change();
+        }
+    });
+    if (!selected) {
+        alert("State " + e.target.feature.properties.STUSPS + " Not Available");
+    }
 }

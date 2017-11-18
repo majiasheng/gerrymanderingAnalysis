@@ -106,14 +106,17 @@ public class MainController {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
             // ArrayList<District> districts = (ArrayList<District>) dataService.getDistrictsDataByYear(selectedState, selectedYear);
-            
+
             // save state object to session for later use in gerrymandering tests
             State state = dataService.getStateByYear(selectedState, selectedYear);
             // State state = new State(selectedYear, selectedState, districts);
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
-            return dataService.districtGeoDataToJson(state.getDistricts());
+            String jsonContainer = "{\"distGeoJson\":";
+            jsonContainer += dataService.districtGeoDataToJson(state.getDistricts());
+            jsonContainer += "}";
+            return jsonContainer;
         }
         return null;
     }
