@@ -16,6 +16,13 @@ $(document).ready(function() {
     }
   }
 
+  function electionDataExcludeKey(key) {
+    if (key === "districtNum") {
+      return true;
+    }
+    return false;
+  }
+
   function lockDistrict(e) {
     var layer = e.target;
     layer.setStyle({
@@ -29,9 +36,22 @@ $(document).ready(function() {
     }
     // add to info
     $("#infoText").append("<br>");
+    var electionDataStr = "";
     $.each(layer.feature.properties, function(key, val) {
+      if (key == "electionData") {
+        $.each(val, function(key2, val2) {
+          if (electionDataExcludeKey(key2)) {
+            return true;
+          }
+          if (val2) {
+            electionDataStr += "<p>" + (key2) + ": " + val2 + "</p>\n";
+          }
+        });
+        return true;
+      }
       $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
     });
+    $("#infoText").append(electionDataStr);
   }
 
   function resetDistrict(e) {
