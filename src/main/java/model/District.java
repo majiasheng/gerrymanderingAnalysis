@@ -33,7 +33,7 @@ public class District {
     public District() {
     }
 
-    public District(String stateShortName, int districtNum, GeoData geoData, ElectionData electionData) {
+    public District(String stateShortName, int districtNum, GeoData geoData, ElectionData electionData, DemographicData demographicData) {
         this.stateShortName = stateShortName;
         this.districtNum = districtNum;
         this.geoData = geoData;

@@ -16,6 +16,19 @@ public class DemographicData {
     private int otherRace;
     private int twoOrMoreRaces;
 
+    public DemographicData(int districtId, int population, int white, int africanAmerican, int americanNative, int asian, int pacificIslander, int otherRace, int twoOrMoreRaces) {
+    		super();
+    		this.districtId = districtId;
+    		this.population = population;
+    		this.white = white;
+    		this.africanAmerican = africanAmerican;
+    		this.americanNative = americanNative;
+    		this.asian = asian;
+    		this.pacificIslander = pacificIslander;
+    		this.otherRace = otherRace;
+    		this.twoOrMoreRaces = twoOrMoreRaces;
+  	}
+
     public int getDistrictId() {
         return districtId;
     }
