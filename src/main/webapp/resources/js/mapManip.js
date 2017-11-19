@@ -245,6 +245,19 @@ $(document).ready(function() {
 
   // send get on data selection
   $("#dataSelection").change(function() {
+    // // zoom to state
+    // map1.fitBounds(
+    //   $.grep(allStates.getLayers(), function(selectedState) {
+    //     // get state boundary for selected state
+    //     return selectedState.feature.properties.STUSPS == $("#stateSelection").val();
+    //   })[0].getBounds()
+    // );
+
+    if (districtLocked) {
+      resetDistrict(districtLocked);
+      districtLocked = null;
+      $("#distLockLabel").remove();
+    }
     sendGetOnDataSelect($("#stateSelection").val(), $("#dataSelection").val());
   });
 
