@@ -1,13 +1,14 @@
 package model;
 
-
 public class User {
 
     private String firstName;
     private String lastName;
     private String username;
     private String password;
+    private String salt;
     private String email;
+    private boolean isAdmin;
 
     public String getFirstName() {
         return firstName;
@@ -41,6 +42,14 @@ public class User {
         this.password = password;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -49,4 +58,11 @@ public class User {
         this.email = email;
     }
 
+    public boolean isIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 }
