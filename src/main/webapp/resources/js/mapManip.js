@@ -119,7 +119,8 @@ $(document).ready(function() {
   }
 
   function sendGetOnDataSelect(state, year) {
-    $('<div id="loadingAlert" class="alert alert-info">Loading</div>').insertBefore('#infoText');
+    var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
+    $(spinStr).insertBefore('#infoText');
     $.ajax({
       url: "/data",
       type: "GET",
