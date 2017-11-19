@@ -26,9 +26,9 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         ArrayList<Double>demDistricts = new ArrayList();
         
         for(District i : state.getDistricts()){
-            if(i.getElectionData().getWinner().getAbbreviation().equals(Party.DEMOCRATIC.getAbbreviation())){
+            if(i.getElectionData().getWinner().getAbbreviation().equals("R")){
                 repDistricts.add(1.0*i.getElectionData().getRepVotes()/(i.getElectionData().getRepVotes()+i.getElectionData().getDemVotes()));
-            }else if(i.getElectionData().getWinner().getAbbreviation().equals(Party.DEMOCRATIC.getAbbreviation())){
+            }else if(i.getElectionData().getWinner().getAbbreviation().equals("D")){
                 demDistricts.add(1.0*i.getElectionData().getDemVotes()/(i.getElectionData().getRepVotes()+i.getElectionData().getDemVotes()));
             }
         }
@@ -37,7 +37,7 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         double[] demDistrictsArray = doubleConverter(demDistricts);
         TTest tTest = new TTest();
         double pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
-        boolean isGerrymandered = !tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, 2*CONFIDENCE_LEVEL);
+        boolean isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
         TestResult ret = new TestResult();
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
