@@ -133,6 +133,9 @@ $(document).ready(function() {
         });
         return true;
       }
+      if (key == "DISTRICT" && val == 0) {
+        val = "At-Large";
+      }
       $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
     });
     $("#infoText").append(dataStr);
