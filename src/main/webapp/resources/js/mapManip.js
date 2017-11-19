@@ -138,7 +138,11 @@ $(document).ready(function() {
         var distGeoJson = response.distGeoJson;
         // use district boundary data from response
         districtBoundary = L.geoJson(distGeoJson, {
-          // style: style,
+          style: function(feature) {
+            return {
+              color: 'purple'
+            }
+          },
           onEachFeature: zoomToState
         });
         districtBoundary.addTo(map1);
