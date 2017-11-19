@@ -72,8 +72,11 @@ public class DataServiceImpl implements DataService {
                 // test data
                 else{
                   DemographicData dm = new DemographicData();
-                  dm.setPopulation(1);
+                  dm.setPopulation(4);
                   dm.setWhite(1);
+                  dm.setAfricanAmerican(1);
+                  dm.setAmericanNative(1);
+                  dm.setAsian(1);
                   demographicDataJson = mapper.writeValueAsString(dm);
                 }
                 // test data //
