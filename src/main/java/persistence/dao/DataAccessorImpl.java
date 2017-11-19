@@ -39,12 +39,12 @@ public class DataAccessorImpl implements DataAccessor {
         Query q = em.createNativeQuery(sql);
         List<Date> years_sql = q.getResultList();
         List<Integer> years = new ArrayList<Integer>();
-        
+
         final int HEAD = 0;
         for (Date d : years_sql) {
             years.add(HEAD,d.toLocalDate().getYear());
         }
-        
+
         em.getTransaction().commit();
         em.close();
 
@@ -113,7 +113,7 @@ public class DataAccessorImpl implements DataAccessor {
                     dto.getWinner());
             GeoData geoData = new GeoData(dto.getDistrictNum(), dto.getBoundary());
 
-            District district = new District(state, dto.getDistrictNum(), geoData, electionData);
+            District district = new District(state, dto.getDistrictNum(), geoData, electionData, null);
 
             districts.add(district);
         }
