@@ -38,6 +38,7 @@ public class District {
         this.districtNum = districtNum;
         this.geoData = geoData;
         this.electionData = electionData;
+        this.demographicData = demographicData;
     }
 
     public String getStateShortName() {
