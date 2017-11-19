@@ -119,6 +119,7 @@ $(document).ready(function() {
   }
 
   function sendGetOnDataSelect(state, year) {
+    $('<div id="loadingAlert" class="alert alert-info">Loading</div>').insertBefore('#infoText');
     $.ajax({
       url: "/data",
       type: "GET",
@@ -126,6 +127,7 @@ $(document).ready(function() {
       data: { state: state, year: year },
       dataType: "json",
       success: function(response, status, xhr) {
+        $('#loadingAlert').remove();
         // display only district boundary, remove all state boundaries
         // allStates.remove();
 
