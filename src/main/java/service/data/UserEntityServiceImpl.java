@@ -1,7 +1,10 @@
 package service.data;
 
 import model.User;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import persistence.dao.UserEntityDao;
 
 /**
  *
@@ -10,20 +13,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserEntityServiceImpl implements UserEntityService {
 
+    @Autowired
+    UserEntityDao userEntityDao;
+    
     public User login(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getUser(username, password);
     }
 
     public User getUser(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userEntityDao.getUser(username, password);
     }
 
     public boolean addUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userEntityDao.addUser(user);
     }
 
     public boolean removeUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userEntityDao.removeUser(user);
     }
 
 }
