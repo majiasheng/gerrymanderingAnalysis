@@ -1,11 +1,13 @@
 package service.data;
 
 import model.User;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author majiasheng
  */
+@Service
 public class UserEntityServiceImpl implements UserEntityService {
 
     public User login(String username, String password) {

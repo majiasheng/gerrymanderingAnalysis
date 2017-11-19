@@ -1,11 +1,13 @@
 package persistence.dao;
 
 import model.User;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author majiasheng
  */
+@Repository
 public class UserEntityDaoImpl implements UserEntityDao {
 
     public User getUser(String username, String password) {
