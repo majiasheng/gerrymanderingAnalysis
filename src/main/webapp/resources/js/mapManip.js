@@ -119,8 +119,11 @@ $(document).ready(function() {
   }
 
   function sendGetOnDataSelect(state, year) {
+    // add spiner
     var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
     $(spinStr).insertBefore('#infoText');
+    // reset gerrymanderingMeasure
+    $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
     $.ajax({
       url: "/data",
       type: "GET",
