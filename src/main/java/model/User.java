@@ -1,15 +1,35 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import persistence.PasswordUtil;
 
+@Entity
+public class User implements Serializable {
+    
+    @Id
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
-    private String salt;
+    private byte[] salt;
     private String email;
     private boolean isAdmin;
 
+    public User () {
+        salt = new byte[PasswordUtil.SALT64];
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getFirstName() {
         return firstName;
     }
@@ -42,11 +62,11 @@ public class User {
         this.password = password;
     }
 
-    public String getSalt() {
+    public byte[] getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(byte[] salt) {
         this.salt = salt;
     }
 

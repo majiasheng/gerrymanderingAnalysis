@@ -1,17 +1,16 @@
 package controller;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import service.RequestService;
 import service.data.UserEntityService;
 
 /**
@@ -23,38 +22,47 @@ import service.data.UserEntityService;
 public class UserController {
 
     @Autowired
-    UserEntityService UserEntityService;
+    UserEntityService userEntityService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView redirectLogin() {
+    /**
+     * PRG - G
+     *
+     * @return @see handleRegistration
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    private ModelAndView redirectRegistration() {
         return new ModelAndView("index");
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView handleLogin(@RequestParam Map<String, String> requestParams,
+    /**
+     * Post,Redirect,Get(PRG) - P,R -- handles user registration form
+     *
+     * @param user
+     * @param result
+     * @param request
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ModelAndView handleRegistration(
+            @ModelAttribute("user") User user,
+            BindingResult result,
             HttpServletRequest request,
             final RedirectAttributes redirectAttributes) {
 
         // redirect to prevent double submission when refreshing page
-        ModelAndView modelAndView = new ModelAndView("redirect:/login");
+        ModelAndView modelAndView = new ModelAndView("redirect:/register");
 
-        User user = UserEntityService.login(
-                requestParams.get(RequestService.USERNAME_REQUEST_PARAM),
-                requestParams.get(RequestService.PASSWORD_REQUEST_PARAM)
-        );
-
-        if (user == null) {
-            //TODO: show an popup to indicate username and password mismatch
-            redirectAttributes.addFlashAttribute("msg", "Username and password do not match");
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("msg", "Error in registration form");
         } else {
-            // add user to session
-            request.getSession().setAttribute(RequestService.USER_ATTRIBUTE, user);
+            // add user to database
+            if (userEntityService.addUser(user)) {
+                redirectAttributes.addFlashAttribute("msg", "Registration success");
+            } else {
+                redirectAttributes.addFlashAttribute("msg", "Error in registering: failed to add user to database");
+            }
         }
         return modelAndView;
     }
-
-    public void register() {
-
-    }
-
 }

@@ -16,7 +16,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordUtil {
 
+    public static final int SALT32 = 32; // length of salt in byte
+    public static final int SALT64 = 64; // length of salt in byte
     private static final Random RANDOM = new SecureRandom();
+    private final String CHARSET = "UTF-8";
+    private final String ALGORITHM = "SHA-256";
+    private final String FORMAT = "%064x";
 
     /**
      * Turns user's (salted) password into a hash for storing into database
@@ -42,9 +47,9 @@ public class PasswordUtil {
     private String generateHashedPassword(String saltedPassword) {
         String hashedPassword = null;
         try {
-            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            byte[] hashedBytes = sha256.digest(saltedPassword.getBytes("UTF-8"));
-            hashedPassword = String.format("%064x", new java.math.BigInteger(1, hashedBytes));
+            MessageDigest sha256 = MessageDigest.getInstance(ALGORITHM);
+            byte[] hashedBytes = sha256.digest(saltedPassword.getBytes(CHARSET));
+            hashedPassword = String.format(FORMAT, new java.math.BigInteger(1, hashedBytes));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException uee) {
@@ -53,6 +58,26 @@ public class PasswordUtil {
 
         return hashedPassword;
 
+    }
+
+    /**
+     *
+     * @return a 32-byte long salt
+     */
+    public static byte[] getSalt32() {
+        byte[] salt = new byte[SALT32];
+        RANDOM.nextBytes(salt);
+        return salt;
+    }
+
+    /**
+     *
+     * @return a 64-byte long salt
+     */
+    public static byte[] getSalt64() {
+        byte[] salt = new byte[SALT64];
+        RANDOM.nextBytes(salt);
+        return salt;
     }
 
 }
