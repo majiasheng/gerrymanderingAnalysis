@@ -16,6 +16,7 @@ import model.GeoData;
 import model.Party;
 import model.State;
 import model.Status;
+import model.DemographicData;
 import org.springframework.stereotype.Repository;
 import persistence.JPAUtils;
 
