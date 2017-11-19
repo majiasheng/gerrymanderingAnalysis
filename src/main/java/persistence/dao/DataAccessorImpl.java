@@ -69,9 +69,9 @@ public class DataAccessorImpl implements DataAccessor {
         List<DistrictDTO> districtDTOes = q.getResultList();
 
         // DEBUG
-        for (DistrictDTO d : districtDTOes) {
-            System.out.println(d);
-        }
+        // for (DistrictDTO d : districtDTOes) {
+        //     System.out.println(d);
+        // }
 
         em.getTransaction().commit();
         em.close();
