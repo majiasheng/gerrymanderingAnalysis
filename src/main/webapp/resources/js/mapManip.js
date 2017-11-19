@@ -5,6 +5,13 @@ function title(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
+function generateRandomColor() {
+  var r = Math.floor(Math.random() * 200);
+  var g = Math.floor(Math.random() * 200);
+  var b = Math.floor(Math.random() * 200);
+  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+}
+
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
   const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -41,6 +48,26 @@ $(document).ready(function() {
     return false;
   }
 
+  function translateDemogDataKeyName(val) {
+    if (val === "white") {
+      return "Non-Hispanic White";
+    } else if (val === "africanAmerican") {
+      return "African American";
+    } else if (val === "americanNative") {
+      return "Native American";
+    } else if (val === "asian") {
+      return "Asian";
+    } else if (val === "pacificIslander") {
+      return "Pacific Islander";
+    } else if (val === "otherRace") {
+      return "Other Race";
+    } else if (val === "twoOrMoreRaces") {
+      return "Two Or More Races";
+    } else {
+      return val;
+    }
+  }
+
   function demogDataExcludeKey(key) {
     if (key === "districtId") {
       return true;
@@ -72,7 +99,8 @@ $(document).ready(function() {
     var dataStr = "";
     var demogData = {
       datasets: [{
-        data: []
+        data: [],
+        backgroundColor: []
       }],
       labels: []
     };
@@ -97,7 +125,9 @@ $(document).ready(function() {
             if (key2 == "population") {
               dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
             } else {
-
+              demogData.labels.push(translateDemogDataKeyName(key2));
+              demogData.datasets[0].data.push(val2);
+              demogData.datasets[0].backgroundColor.push(generateRandomColor());
             }
           }
         });
@@ -108,6 +138,11 @@ $(document).ready(function() {
     $("#infoText").append(dataStr);
     if (demogData.labels) {
       $("#infoText").append('<canvas id="demogChart"></canvas>');
+      var myDoughnutChart = new Chart($('#demogChart'), {
+          type: 'doughnut',
+          data: demogData ,
+          options: Chart.defaults.doughnut
+      });
     }
   }
 
