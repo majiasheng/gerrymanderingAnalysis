@@ -15,4 +15,6 @@ public interface UserEntityService {
     public boolean addUser(User user);
 
     public boolean removeUser(User user);
+
+    public boolean updateUser(User user);
 }

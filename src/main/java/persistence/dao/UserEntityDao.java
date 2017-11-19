@@ -14,4 +14,6 @@ public interface UserEntityDao {
 
     public boolean removeUser(User user);
 
+    public boolean updateUser(User user);
+
 }

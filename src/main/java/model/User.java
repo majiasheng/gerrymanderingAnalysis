@@ -18,6 +18,17 @@ public class User implements Serializable {
     private String email;
     private boolean isAdmin;
 
+    public User(int id, String firstName, String lastName, String username, String password, byte[] salt, String email, boolean isAdmin) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
     public User () {
         salt = new byte[PasswordUtil.SALT64];
     }

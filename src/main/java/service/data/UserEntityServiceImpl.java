@@ -1,5 +1,6 @@
 package service.data;
 
+import javax.transaction.NotSupportedException;
 import model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class UserEntityServiceImpl implements UserEntityService {
 
     public boolean removeUser(User user) {
         return userEntityDao.removeUser(user);
+    }
+    
+    public boolean updateUser(User user) {        
+        return userEntityDao.updateUser(user);
     }
 
 }
