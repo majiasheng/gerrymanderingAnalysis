@@ -36,8 +36,8 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         double[] repDistrictsArray = doubleConverter(repDistricts);
         double[] demDistrictsArray = doubleConverter(demDistricts);
         TTest tTest = new TTest();
-        double pValue = tTest.tTest(repDistrictsArray, demDistrictsArray);
-        boolean isGerrymandered = !tTest.tTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
+        double pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
+        boolean isGerrymandered = !tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, 2*CONFIDENCE_LEVEL);
         TestResult ret = new TestResult();
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
