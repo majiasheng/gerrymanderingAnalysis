@@ -69,17 +69,17 @@ public class DataServiceImpl implements DataService {
                   electionDataJson = mapper.writeValueAsString(district.getElectionData());
                 if (district.getDemographicData() != null)
                   demographicDataJson = mapper.writeValueAsString(district.getDemographicData());
-                // test data
-                else{
-                  DemographicData dm = new DemographicData();
-                  dm.setPopulation(4);
-                  dm.setWhite(1);
-                  dm.setAfricanAmerican(1);
-                  dm.setAmericanNative(1);
-                  dm.setAsian(1);
-                  demographicDataJson = mapper.writeValueAsString(dm);
-                }
-                // test data //
+                // // test data
+                // else{
+                //   DemographicData dm = new DemographicData();
+                //   dm.setPopulation(4);
+                //   dm.setWhite(1);
+                //   dm.setAfricanAmerican(1);
+                //   dm.setAmericanNative(1);
+                //   dm.setAsian(1);
+                //   demographicDataJson = mapper.writeValueAsString(dm);
+                // }
+                // // test data //
             } catch (JsonProcessingException ex) {
                 System.err.println(ex);
             }
