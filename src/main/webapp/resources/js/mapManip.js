@@ -119,6 +119,11 @@ $(document).ready(function() {
   }
 
   function sendGetOnDataSelect(state, year) {
+    // add spiner
+    var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
+    $(spinStr).insertBefore('#infoText');
+    // reset gerrymanderingMeasure
+    $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
     $.ajax({
       url: "/data",
       type: "GET",
@@ -126,6 +131,7 @@ $(document).ready(function() {
       data: { state: state, year: year },
       dataType: "json",
       success: function(response, status, xhr) {
+        $('#loadingAlert').remove();
         // display only district boundary, remove all state boundaries
         // allStates.remove();
 
@@ -242,6 +248,19 @@ $(document).ready(function() {
 
   // send get on data selection
   $("#dataSelection").change(function() {
+    // // zoom to state
+    // map1.fitBounds(
+    //   $.grep(allStates.getLayers(), function(selectedState) {
+    //     // get state boundary for selected state
+    //     return selectedState.feature.properties.STUSPS == $("#stateSelection").val();
+    //   })[0].getBounds()
+    // );
+
+    if (districtLocked) {
+      resetDistrict(districtLocked);
+      districtLocked = null;
+      $("#distLockLabel").remove();
+    }
     sendGetOnDataSelect($("#stateSelection").val(), $("#dataSelection").val());
   });
 

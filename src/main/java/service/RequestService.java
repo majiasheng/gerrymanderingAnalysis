@@ -12,10 +12,14 @@ public class RequestService {
 
     // attribute name for State object in session/request
     public static final String STATE_ATTRIBUTE = "state";
+    public static final String USER_ATTRIBUTE = "user";
+    public static final String INIT_ATTRIBUTE = "init";
 
     // request params
     public static final String STATE_REQUEST_PARAM = "state";
     public static final String YEAR_REQUEST_PARAM = "year";
+    public static final String USERNAME_REQUEST_PARAM = "username";
+    public static final String PASSWORD_REQUEST_PARAM = "password";
 
     /**
      * Determines if a request is an AJAX request, do nothing if request is AJAX
