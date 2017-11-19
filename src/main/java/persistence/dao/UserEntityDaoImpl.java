@@ -23,13 +23,26 @@ public class UserEntityDaoImpl implements UserEntityDao {
      * @return matched user or null if username and password do not match
      */
     public User getUser(String username, String password) {
+        
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+
+        String query = "call GET_LOGIN("
+                + "'" + username + "'"
+                + "'" + password + "'"
+                + ")";
+        
         /*TODO: 
          query database for salt - s, and hashed password - hp, 
          if (getSecuredPassword(password, s).equals(hp)) 
-         getUserById()
+            getUserById()
          */
-
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = null;
+        
+        em.getTransaction().commit();
+        em.close();
+        
+        return user;
     }
 
     /**
