@@ -42,8 +42,8 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
         ret.setGerrymandered(isGerrymandered);
+        System.out.println(ret);
         return ret;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private double[] doubleConverter (ArrayList<Double> x){
