@@ -1,11 +1,14 @@
 package persistence.dao;
 
 import java.util.Arrays;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import persistence.JPAUtils;
+import persistence.PasswordUtil;
 
 /**
  * JPA implementation of user entity DAO
@@ -15,6 +18,14 @@ import persistence.JPAUtils;
 @Repository
 public class UserEntityDaoImpl implements UserEntityDao {
 
+    private final int ID_IDX = 0;
+    private final int USERNAME_IDX = 1;
+    private final int PASSWORD_IDX = 2;
+    private final int SALT_IDX = 3;
+
+    @Autowired
+    PasswordUtil passwordUtil;
+
     /**
      * Retrieves user that matches with username and password
      *
@@ -23,25 +34,51 @@ public class UserEntityDaoImpl implements UserEntityDao {
      * @return matched user or null if username and password do not match
      */
     public User getUser(String username, String password) {
-        
+
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        String query = "call GET_LOGIN("
+        String sql = "call GET_LOGIN("
                 + "'" + username + "'"
-                + "'" + password + "'"
                 + ")";
-        
-        /*TODO: 
-         query database for salt - s, and hashed password - hp, 
-         if (getSecuredPassword(password, s).equals(hp)) 
-            getUserById()
-         */
+
+        Query query = em.createNativeQuery(sql);
+        // query database for salt - s, and hashed password - hp, 
+        List<String> result = query.getResultList();
+        String hashedPassword = result.get(PASSWORD_IDX);
+        String salt = result.get(SALT_IDX);
+
         User user = null;
-        
+
+        if (passwordUtil.isPasswordMatch(password, salt, hashedPassword)) {
+            // retrieve user if username and password match
+            int id = Integer.parseInt(result.get(ID_IDX));
+            user = getUserById(id, em);
+        }
+
         em.getTransaction().commit();
         em.close();
-        
+
+        return user;
+    }
+
+    /**
+     *
+     * @param id
+     * @param em (entity manager) connection to database
+     * @return
+     */
+    private User getUserById(int id, EntityManager em) {
+        User user = null;
+
+        //TODO: 
+        String sql = "call GET_USER_BY_ID("
+                + "'" + id + "'"
+                + ")";
+        Query q = em.createNativeQuery(sql, User.class);
+        //TODO: check javadoc
+        user = (User) q.getSingleResult();
+
         return user;
     }
 
@@ -56,17 +93,17 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.getTransaction().begin();
 
         // call mysql stored procedure
-        String query = "call ADD_USER("
+        String sql = "call ADD_USER("
                 + "'" + user.getUsername() + "',"
                 + "'" + user.getPassword() + "',"
                 + "'" + Arrays.toString(user.getSalt()) + "',"
                 + "'" + user.getFirstName() + "',"
                 + "'" + user.getLastName() + "',"
-                + "'" + user.getEmail() + "',"
-                + "'" + (user.isIsAdmin() ? 1 : 0) + "',"
+                + "'" + user.getEmail() + "'"
                 + ")";
 
-        Query q = em.createNativeQuery(query);
+        //TODO: em.persist a user entity and login entity,
+        Query q = em.createNativeQuery(sql);
 
         //TODO: use this ret
         int ret = q.executeUpdate();

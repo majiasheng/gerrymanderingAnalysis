@@ -37,6 +37,17 @@ public class PasswordUtil {
 
         return hashedPassword;
     }
+    
+    /**
+     * Checks if a plain text password with a salt matches with the hashed password
+     * @param password
+     * @param salt
+     * @param hashedPassword
+     * @return true if match, false otherwise
+     */
+    public boolean isPasswordMatch(String password, String salt, String hashedPassword ) {
+        return getSecuredPassword(password, salt).equals(hashedPassword);
+    }
 
     /**
      * Generates a 64-byte password
