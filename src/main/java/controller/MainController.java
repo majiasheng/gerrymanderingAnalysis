@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import model.District;
-import model.GeoData;
 import model.State;
 import service.data.DataService;
 import service.Init;
@@ -45,11 +43,9 @@ public class MainController {
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
         // if session varialbe doesnt have init object, add
-        if (request.getSession().getAttribute("init") == null) {
-            System.out.println("\n>> Initializing...\n");
-            // read config file, load UI components
+        if (request.getSession().getAttribute(RequestService.INIT_ATTRIBUTE) == null) {
             init.init();
-            request.getSession().setAttribute("init", init);
+            request.getSession().setAttribute(RequestService.INIT_ATTRIBUTE, init);
         }
     }
 
@@ -68,13 +64,9 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
-        // if user entered url to get here, use another handler (or redirect back to home)
-        // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
-
-        // if xhr, use this handler
         String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
         // make sure request params are not null
-        if (selectedState != null /* && !sentHome */) {
+        if (selectedState != null) {
             // get and return a list of years in which the selected state has available
             return (ArrayList<Integer>) dataService.getDataYearSetByState(selectedState);
         }
@@ -95,21 +87,15 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
-        // if user entered url to get here, use another handler (or redirect back to home)
-        // boolean sentHome = requestService.sendHomeIfNotXHR(request, response);
-
-        // if xhr, use this handler
-        String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
+        String selectedState = requestParams.get(RequestService.STATE_REQUEST_PARAM);
         String selectedYear_str = requestParams.get(RequestService.YEAR_REQUEST_PARAM);
         // make sure request params are not null
-        if (selectedState != null && selectedYear_str != null /* && !sentHome*/) {
+        if (selectedState != null && selectedYear_str != null) {
             // get and return a list of districts
             int selectedYear = Integer.parseInt(selectedYear_str);
-            // ArrayList<District> districts = (ArrayList<District>) dataService.getDistrictsDataByYear(selectedState, selectedYear);
 
             // save state object to session for later use in gerrymandering tests
             State state = dataService.getStateByYear(selectedState, selectedYear);
-            // State state = new State(selectedYear, selectedState, districts);
             request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
