@@ -6,86 +6,86 @@ package model;
  */
 public class DemographicData {
 
-    private int DistrictId;
-    private int Population;
-    private int White;
-    private int AfricanAmerican;
-    private int AmericanNative;
-    private int Asian;
-    private int PacificIslander;
-    private int OtherRace;
-    private int TwoOrMoreRaces;
+    private int districtId;
+    private int population;
+    private int white;
+    private int africanAmerican;
+    private int americanNative;
+    private int asian;
+    private int pacificIslander;
+    private int otherRace;
+    private int twoOrMoreRaces;
 
     public int getDistrictId() {
-        return DistrictId;
+        return districtId;
     }
 
     public void setDistrictId(int DistrictId) {
-        this.DistrictId = DistrictId;
+        this.districtId = DistrictId;
     }
 
     public int getPopulation() {
-        return Population;
+        return population;
     }
 
     public void setPopulation(int Population) {
-        this.Population = Population;
+        this.population = Population;
     }
 
     public int getWhite() {
-        return White;
+        return white;
     }
 
     public void setWhite(int White) {
-        this.White = White;
+        this.white = White;
     }
 
     public int getAfricanAmerican() {
-        return AfricanAmerican;
+        return africanAmerican;
     }
 
     public void setAfricanAmerican(int AfricanAmerican) {
-        this.AfricanAmerican = AfricanAmerican;
+        this.africanAmerican = AfricanAmerican;
     }
 
     public int getAmericanNative() {
-        return AmericanNative;
+        return americanNative;
     }
 
     public void setAmericanNative(int AmericanNative) {
-        this.AmericanNative = AmericanNative;
+        this.americanNative = AmericanNative;
     }
 
     public int getAsian() {
-        return Asian;
+        return asian;
     }
 
     public void setAsian(int Asian) {
-        this.Asian = Asian;
+        this.asian = Asian;
     }
 
     public int getPacificIslander() {
-        return PacificIslander;
+        return pacificIslander;
     }
 
     public void setPacificIslander(int PacificIslander) {
-        this.PacificIslander = PacificIslander;
+        this.pacificIslander = PacificIslander;
     }
 
     public int getOtherRace() {
-        return OtherRace;
+        return otherRace;
     }
 
     public void setOtherRace(int OtherRace) {
-        this.OtherRace = OtherRace;
+        this.otherRace = OtherRace;
     }
 
     public int getTwoOrMoreRaces() {
-        return TwoOrMoreRaces;
+        return twoOrMoreRaces;
     }
 
     public void setTwoOrMoreRaces(int TwoOrMoreRaces) {
-        this.TwoOrMoreRaces = TwoOrMoreRaces;
+        this.twoOrMoreRaces = TwoOrMoreRaces;
     }
 
 }
