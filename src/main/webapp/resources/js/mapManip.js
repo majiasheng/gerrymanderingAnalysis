@@ -41,6 +41,13 @@ $(document).ready(function() {
     return false;
   }
 
+  function demogDataExcludeKey(key) {
+    if (key === "districtId") {
+      return true;
+    }
+    return false;
+  }
+
   function translateElectionDataVal(val) {
     if (val === "Democratic") {
       return "Democrat";
@@ -62,7 +69,13 @@ $(document).ready(function() {
     }
     // add to info
     $("#infoText").append("<br>");
-    var electionDataStr = "";
+    var dataStr = "";
+    var demogData = {
+      datasets: [{
+        data: []
+      }],
+      labels: []
+    };
     $.each(layer.feature.properties, function(key, val) {
       if (key == "electionData") {
         $.each(val, function(key2, val2) {
@@ -70,14 +83,32 @@ $(document).ready(function() {
             if (electionDataExcludeKey(key2)) {
               return true;
             }
-            electionDataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+            dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+          }
+        });
+        return true;
+      }
+      if (key == "demographicData") {
+        $.each(val, function(key2, val2) {
+          if (val2) {
+            if (demogDataExcludeKey(key2)) {
+              return true;
+            }
+            if (key2 == "population") {
+              dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
+            } else {
+
+            }
           }
         });
         return true;
       }
       $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
     });
-    $("#infoText").append(electionDataStr);
+    $("#infoText").append(dataStr);
+    if (demogData.labels) {
+      $("#infoText").append('<canvas id="demogChart"></canvas>');
+    }
   }
 
   function resetDistrict(e) {
