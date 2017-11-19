@@ -113,7 +113,7 @@ public class DataAccessorImpl implements DataAccessor {
                     dto.getWinner());
             GeoData geoData = new GeoData(dto.getDistrictNum(), dto.getBoundary());
 
-            // DemographicData demogData = new DemographicData(int districtId, int population, int white, int africanAmerican, int americanNative, int asian, int pacificIslander, int otherRace, int twoOrMoreRaces);
+            DemographicData demogData = null;//= new DemographicData(int districtId, int population, int white, int africanAmerican, int americanNative, int asian, int pacificIslander, int otherRace, int twoOrMoreRaces);
 
             District district = new District(state, dto.getDistrictNum(), geoData, electionData, demogData);
 
