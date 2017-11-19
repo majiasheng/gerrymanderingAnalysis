@@ -24,7 +24,7 @@ public class Init {
      * Do initialization: read, parse configuration file
      */
     public void init() {
-
+        System.out.println("\n>> Initializing...\n");
         config = getConfiguration(CONFIG_FILE);
         System.out.println(this.getConfig());
 
