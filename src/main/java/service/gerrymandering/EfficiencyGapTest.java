@@ -11,6 +11,7 @@ import model.District;
 import model.ElectionData;
 import org.springframework.stereotype.Component;
 import model.TestResult;
+
 /**
  *
  * @author ldeiulio
@@ -21,24 +22,37 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
     @Override
     public TestResult doTest(State state) {
         int numReps = state.getDistricts().size();
-        int totalVotes=0;
+
+        int totalVotes = 0;
         int repWasted = 0;
         int demWasted = 0;
-        for(District x : state.getDistricts()){
+        for (District x : state.getDistricts()) {
             int repVotes = x.getElectionData().getRepVotes();
             int demVotes = x.getElectionData().getDemVotes();
-            int totalDistrictVotes = repVotes+demVotes;
+            int totalDistrictVotes = repVotes + demVotes;
             totalVotes += totalDistrictVotes;
             int minVotesToWin;
-            minVotesToWin = totalVotes/2+1; 
-            if(demVotes>repVotes){
-                demWasted+=demVotes-minVotesToWin;
-                repWasted+=repVotes;
-            }else{
-                demWasted+=demVotes;
-                repWasted+=repVotes-minVotesToWin;
-            }            
+            minVotesToWin = totalVotes / 2 + 1;
+            if (demVotes > repVotes) {
+                demWasted += demVotes - minVotesToWin;
+                repWasted += repVotes;
+            } else {
+                demWasted += demVotes;
+                repWasted += repVotes - minVotesToWin;
+            }
         }
+
+        double efficiencyGap = (demWasted * 1.0 - repWasted * 1.0) / totalVotes;
+        System.out.println("Efficiency Gap: " + efficiencyGap);
+
+        TestResult result = new TestResult();
+
+        if (efficiencyGap * state.getDistricts().size() >= 2) {
+            result.setGerrymandered(true);
+        } else {
+            result.setGerrymandered(false);
+        }
+<<<<<<< HEAD
         
         double efficiencyGap = (demWasted*1.0-repWasted*1.0)/totalVotes;
         System.out.println(efficiencyGap);
@@ -56,6 +70,11 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
         
         
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+=======
+
+        return result;
+
+>>>>>>> d909d9ec7994d8dea74e7d6ad0c2e77fbd5549b4
     }
     
 

@@ -1,5 +1,7 @@
 package service.data;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
 
@@ -57,7 +60,22 @@ public class DataServiceImpl implements DataService {
         boolean ran = false;
         for (District district : districts) {
             ran = true;
-            geojsonStr += district.getGeoData().getBoundary() + ",";
+            ObjectMapper mapper = new ObjectMapper();
+            String electionDataJson = null;
+            try {
+                electionDataJson = mapper.writeValueAsString(district.getElectionData());
+            } catch (JsonProcessingException ex) {
+                System.err.println(ex);
+            }
+            String distJson = district.getGeoData().getBoundary();
+            if (electionDataJson != null) {
+                JSONObject distJsonObj = new JSONObject(distJson);
+                JSONObject childobject=distJsonObj.getJSONObject("properties");
+                childobject.put("electionData", new JSONObject(electionDataJson));
+                distJson = distJsonObj.toString();
+            }
+
+            geojsonStr += distJson + ",";
         }
         // remove the extra comma
         if (ran) {

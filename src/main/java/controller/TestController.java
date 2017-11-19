@@ -44,11 +44,11 @@ public class TestController {
         State state = (State) request.getSession().getAttribute(RequestService.STATE_ATTRIBUTE);
 
         if ("Efficiency Gap Test".equals(measureName)) {
-            result = tTestService.doTest(state);
-        } else if ("T-Test".equals(measureName)) {
-            result = mmTestService.doTest(state);
-        } else if ("Mean-Median Test".equals(measureName)) {
             result = egTestService.doTest(state);
+        } else if ("T-Test".equals(measureName)) {
+            result = tTestService.doTest(state);
+        } else if ("Mean-Median Test".equals(measureName)) {
+            result = mmTestService.doTest(state);
         }
 
         // TEST
