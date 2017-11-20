@@ -16,7 +16,7 @@ body {
 }
 
 #bodyContainer{
-	padding-bottom: 100px;
+	height: auto;
 }
 
 #mapid {
