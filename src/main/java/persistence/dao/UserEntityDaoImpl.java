@@ -2,6 +2,7 @@ package persistence.dao;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import model.User;
@@ -18,10 +19,7 @@ import persistence.PasswordUtil;
 @Repository
 public class UserEntityDaoImpl implements UserEntityDao {
 
-    private final int ID_IDX = 0;
-    private final int USERNAME_IDX = 1;
-    private final int PASSWORD_IDX = 2;
-    private final int SALT_IDX = 3;
+    private final int EXPECTED_NUM_OF_ROW_AFFECTED = 1;
 
     @Autowired
     PasswordUtil passwordUtil;
@@ -38,46 +36,26 @@ public class UserEntityDaoImpl implements UserEntityDao {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        String sql = "call GET_LOGIN("
+        String sql = "call GET_USER_BY_USERNAME("
                 + "'" + username + "'"
                 + ")";
 
-        Query query = em.createNativeQuery(sql);
+        Query query = em.createNativeQuery(sql, User.class);
         // query database for salt - s, and hashed password - hp, 
-        List<String> result = query.getResultList();
-        String hashedPassword = result.get(PASSWORD_IDX);
-        String salt = result.get(SALT_IDX);
+        List<User> result = query.getResultList();
 
         User user = null;
+        for (User u : result) {
+            user = u;
+            break;
+        }
 
-        if (passwordUtil.isPasswordMatch(password, salt, hashedPassword)) {
-            // retrieve user if username and password match
-            int id = Integer.parseInt(result.get(ID_IDX));
-            user = getUserById(id, em);
+        if (user != null && passwordUtil.isPasswordMatch(password, Arrays.toString(user.getSalt()), user.getPassword())) {
+            System.out.println("DEBUG: username and password match");
         }
 
         em.getTransaction().commit();
         em.close();
-
-        return user;
-    }
-
-    /**
-     *
-     * @param id
-     * @param em (entity manager) connection to database
-     * @return
-     */
-    private User getUserById(int id, EntityManager em) {
-        User user = null;
-
-        //TODO: 
-        String sql = "call GET_USER_BY_ID("
-                + "'" + id + "'"
-                + ")";
-        Query q = em.createNativeQuery(sql, User.class);
-        //TODO: check javadoc
-        user = (User) q.getSingleResult();
 
         return user;
     }
@@ -92,26 +70,20 @@ public class UserEntityDaoImpl implements UserEntityDao {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        // call mysql stored procedure
-        String sql = "call ADD_USER("
-                + "'" + user.getUsername() + "',"
-                + "'" + user.getPassword() + "',"
-                + "'" + Arrays.toString(user.getSalt()) + "',"
-                + "'" + user.getFirstName() + "',"
-                + "'" + user.getLastName() + "',"
-                + "'" + user.getEmail() + "'"
-                + ")";
+        boolean success = false;
 
-        //TODO: em.persist a user entity and login entity,
-        Query q = em.createNativeQuery(sql);
-
-        //TODO: use this ret
-        int ret = q.executeUpdate();
+        try {
+            em.persist(user);
+            success = true;
+        } catch (Exception e) {
+            //TODO: check
+            System.err.println("Error in adding user to database");
+        }
 
         em.getTransaction().commit();
         em.close();
 
-        return ret > 0;
+        return success;
     }
 
     /**
@@ -121,12 +93,38 @@ public class UserEntityDaoImpl implements UserEntityDao {
      * @return true on successful deletion, false otherwise
      */
     public boolean removeUser(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+
+        String sql = "call REMOVE_USER("
+                + "'" + user.getUsername() + "'"
+                + ")";
+        Query q = em.createNativeQuery(sql);
+        int rowAffected = q.executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
+
+        return rowAffected == EXPECTED_NUM_OF_ROW_AFFECTED;
     }
 
     public boolean updateUser(User user) {
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
 
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "call UPDATE_USER("
+                + "'" + user.getUsername() + "', "
+                + "'" + user.getPassword() + "', "
+                + "'" + user.getFirstName() + "', "
+                + "'" + user.getLastName() + "', "
+                + "'" + (user.isAdmin() ? 1 : 0) + "'"
+                + ")";
+        Query q = em.createNativeQuery(sql);
+        int rowAffected = q.executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
+        return rowAffected == EXPECTED_NUM_OF_ROW_AFFECTED;
     }
 
 }

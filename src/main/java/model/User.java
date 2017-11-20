@@ -89,7 +89,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public boolean isIsAdmin() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 
