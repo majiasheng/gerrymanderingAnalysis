@@ -51,8 +51,6 @@ public class UserEntityDaoImpl implements UserEntityDao {
             System.err.println("Invalid login");
         }
         
-        System.out.println("\n\nmatched? " + passwordUtil.getSecuredPassword(password, user.getSalt()).equals(user.getPassword()));
-        
         if (user != null && passwordUtil.isPasswordMatch(password, user.getSalt(), user.getPassword())) {
             System.out.println("DEBUG: username and password match");
             return user;
