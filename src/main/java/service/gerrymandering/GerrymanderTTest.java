@@ -2,14 +2,10 @@ package service.gerrymandering;
 
 import model.State;
 import model.District;
-import model.ElectionData;
 import org.springframework.stereotype.Component;
 import model.TestResult;
 import org.apache.commons.math3.stat.inference.TTest;
-import org.apache.commons.math3.stat.StatUtils;
-import java.util.Collection;
 import java.util.ArrayList;
-import model.Party;
 
 /**
  *
@@ -46,7 +42,7 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         return ret;
     }
     
-    private double[] doubleConverter (ArrayList<Double> x){
+    static double[] doubleConverter (ArrayList<Double> x){
         double[] ret = new double[x.size()];
         for(int i=0;i<ret.length;i++){
             ret[i]=x.remove(x.size()-1);
