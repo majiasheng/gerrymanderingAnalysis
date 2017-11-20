@@ -1,7 +1,8 @@
 package controller;
 
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
+//import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +49,7 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView handleRegistration(
-//            @Valid 
+            //@Valid 
             @ModelAttribute("user") User user,
             @RequestParam Map<String, String> requestParams,
             BindingResult result,
@@ -67,11 +68,11 @@ public class UserController {
             //TODO: do validation first
             
             // add user to database
-//            if (userEntityService.addUser(user)) {
-//                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_SUCCESS_MSG);
-//            } else {
-//                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FAILURE_MSG);
-//            }
+            if (userEntityService.addUser(user)) {
+                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_SUCCESS_MSG);
+            } else {
+                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FAILURE_MSG);
+            }
         }
         return modelAndView;
     }

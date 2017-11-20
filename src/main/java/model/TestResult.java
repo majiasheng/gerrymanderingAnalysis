@@ -5,9 +5,13 @@ public class TestResult {
     private boolean gerrymandered;
     private double confidenceLvl;
     private double pValue;
+    private Object uniqueTestResult;
+    private boolean skipped;
 
     public TestResult() {
-
+        // default values
+        uniqueTestResult = null;
+        skipped = false;
     }
 
     public boolean isGerrymandered() {
@@ -33,5 +37,23 @@ public class TestResult {
     public void setpValue(double pValue) {
         this.pValue = pValue;
     }
+
+    public Object getUniqueTestResult() {
+        return uniqueTestResult;
+    }
+
+    public void setUniqueTestResult(Object uniqueTestResult) {
+        this.uniqueTestResult = uniqueTestResult;
+    }
+
+    public boolean isSkipped() {
+        return skipped;
+    }
+
+    public void setSkipped(boolean skipped) {
+        this.skipped = skipped;
+    }
+    
+    
 
 }
