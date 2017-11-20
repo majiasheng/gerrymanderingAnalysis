@@ -32,6 +32,10 @@ $(document).ready(function() {
   function translateElectionDataKeyName(val) {
     if (val === "winner") {
       return "Winning Party";
+    } else if (val === "demStatus") {
+      return "Democrat Standing";
+    } else if (val === "repStatus") {
+      return "Republican Standing";
     } else if (val === "demVotes") {
       return "Democrat Votes";
     } else if (val === "repVotes") {
@@ -83,8 +87,7 @@ $(document).ready(function() {
     }
   }
 
-  function lockDistrict(e) {
-    var layer = e.target;
+  function districtStyling(layer) {
     layer.setStyle({
       weight: 5,
       // color: '#666',
@@ -96,6 +99,37 @@ $(document).ready(function() {
     }
     // add to info
     $("#infoText").append("<br>");
+  }
+
+  function filterData(key, val, demogData) {
+    var dataStr = "";
+    $.each(val, function(key2, val2) {
+      if (val2) {
+        if (key == "electionData") {
+          if (electionDataExcludeKey(key2)) {
+            return true;
+          }
+          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+        } else if (key == "demographicData") {
+          if (demogDataExcludeKey(key2)) {
+            return true;
+          }
+          if (key2 == "population") {
+            dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
+          } else {
+            demogData.labels.push(translateDemogDataKeyName(key2));
+            demogData.datasets[0].data.push(val2);
+            demogData.datasets[0].backgroundColor.push(generateRandomColor());
+          }
+        }
+      }
+    });
+    return dataStr;
+  }
+
+  function lockDistrict(e) {
+    var layer = e.target;
+    districtStyling(layer);
     var dataStr = "";
     var demogData = {
       datasets: [{
@@ -105,32 +139,8 @@ $(document).ready(function() {
       labels: []
     };
     $.each(layer.feature.properties, function(key, val) {
-      if (key == "electionData") {
-        $.each(val, function(key2, val2) {
-          if (val2) {
-            if (electionDataExcludeKey(key2)) {
-              return true;
-            }
-            dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
-          }
-        });
-        return true;
-      }
-      if (key == "demographicData") {
-        $.each(val, function(key2, val2) {
-          if (val2) {
-            if (demogDataExcludeKey(key2)) {
-              return true;
-            }
-            if (key2 == "population") {
-              dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
-            } else {
-              demogData.labels.push(translateDemogDataKeyName(key2));
-              demogData.datasets[0].data.push(val2);
-              demogData.datasets[0].backgroundColor.push(generateRandomColor());
-            }
-          }
-        });
+      if (key == "electionData" || key == "demographicData") {
+        dataStr += filterData(key, val, demogData);
         return true;
       }
       if (key == "DISTRICT" && val == 0) {
@@ -187,6 +197,32 @@ $(document).ready(function() {
     });
   }
 
+  function onGetDistDataSuccess(response, status, xhr) {
+    $('#loadingAlert').remove();
+    // remove old boundary
+    if (districtBoundary) {
+      districtBoundary.remove();
+      districtBoundary = null;
+    }
+    // separate geojson response
+    var distGeoJson = response.distGeoJson;
+    // use district boundary data from response
+    districtBoundary = L.geoJson(distGeoJson, {
+      style: function(feature) {
+        return {
+          color: 'purple'
+        }
+      },
+      onEachFeature: zoomToState
+    });
+    districtBoundary.addTo(map1);
+
+    console.log("Enabling GerrymanderingMeasure drop down menu...");
+    $("#gerrymanderingMeasure").prop({
+      disabled: false
+    });
+  }
+
   function sendGetOnDataSelect(state, year) {
     // add spiner
     var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
@@ -199,34 +235,7 @@ $(document).ready(function() {
       contentType: "application/json",
       data: { state: state, year: year },
       dataType: "json",
-      success: function(response, status, xhr) {
-        $('#loadingAlert').remove();
-        // display only district boundary, remove all state boundaries
-        // allStates.remove();
-
-        // remove old boundary
-        if (districtBoundary) {
-          districtBoundary.remove();
-          districtBoundary = null;
-        }
-        // separate geojson response
-        var distGeoJson = response.distGeoJson;
-        // use district boundary data from response
-        districtBoundary = L.geoJson(distGeoJson, {
-          style: function(feature) {
-            return {
-              color: 'purple'
-            }
-          },
-          onEachFeature: zoomToState
-        });
-        districtBoundary.addTo(map1);
-
-        console.log("Enabling GerrymanderingMeasure drop down menu...");
-        $("#gerrymanderingMeasure").prop({
-          disabled: false
-        });
-      },
+      success: onGetDistDataSuccess,
       error: function(xhr, textStatus, errorThrown) {
         console.log(
           textStatus +
@@ -256,7 +265,6 @@ $(document).ready(function() {
       districtBoundary.remove();
       districtBoundary = null;
     }
-    // allStates.addTo(map1);
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
