@@ -37,8 +37,9 @@ public class UserEntityServiceImpl implements UserEntityService {
         
         // make sure to hash password before inserting user to database
         user.setSalt(PasswordUtil.getSalt32());
-        user.setPassword(passwordUtil.getSecuredPassword(user.getPassword(), user.getSalt().toString()));
+        user.setPassword(passwordUtil.getSecuredPassword(user.getPassword(), user.getSalt()));
         
+        System.out.println("\n\nDEBUG: adding user to db\n" + user.toString() + "\n\n\n");
         return userEntityDao.addUser(user);
     }
 

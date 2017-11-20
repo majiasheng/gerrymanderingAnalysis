@@ -30,10 +30,12 @@ public class PasswordUtil {
      * @param salt
      * @return
      */
-    public String getSecuredPassword(String password, String salt) {
+    public String getSecuredPassword(String password, byte[] salt) {
 
+        String saltStr = salt.toString();
+        
         //TODO: accept byte[] for salt instead
-        String saltedPassword = salt + password;
+        String saltedPassword = saltStr + password;
         String hashedPassword = generateHashedPassword(saltedPassword);
 
         return hashedPassword;
@@ -46,7 +48,8 @@ public class PasswordUtil {
      * @param hashedPassword
      * @return true if match, false otherwise
      */
-    public boolean isPasswordMatch(String password, String salt, String hashedPassword ) {
+    public boolean isPasswordMatch(String password, byte[] salt, String hashedPassword ) {
+        System.out.println("isPasswordMatch: \nhashed-password:" + hashedPassword + "\npass+salt:" + getSecuredPassword(password, salt));
         return getSecuredPassword(password, salt).equals(hashedPassword);
     }
 

@@ -57,8 +57,6 @@ public class UserController {
         // redirect to prevent double submission when refreshing page
         ModelAndView modelAndView = new ModelAndView("redirect:/register");
 
-        System.out.println("\n\n\nDEBUG: \n" + user.toString() + result.toString() + "\n\n\n");
-        
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("msg", "Error in registration form");
         } else {

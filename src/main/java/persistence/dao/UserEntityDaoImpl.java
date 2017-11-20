@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +44,24 @@ public class UserEntityDaoImpl implements UserEntityDao {
         Query q = em.createNativeQuery(sql, User.class);
         // query database for salt - s, and hashed password - hp, 
         User user = null;
-        user = (User)q.getSingleResult();
-
-        if (user != null && passwordUtil.isPasswordMatch(password, Arrays.toString(user.getSalt()), user.getPassword())) {
+        try {
+            user = (User)q.getSingleResult();
+            System.out.println("DEBUG: user retrieved: " + user.toString());
+        } catch (NoResultException e) {
+            System.err.println("Invalid login");
+        }
+        
+        System.out.println("\n\nmatched? " + passwordUtil.getSecuredPassword(password, user.getSalt()).equals(user.getPassword()));
+        
+        if (user != null && passwordUtil.isPasswordMatch(password, user.getSalt(), user.getPassword())) {
             System.out.println("DEBUG: username and password match");
+            return user;
         }
 
         em.getTransaction().commit();
         em.close();
 
-        return user;
+        return null;
     }
     
     private static User getUserByUsername(String username) {
