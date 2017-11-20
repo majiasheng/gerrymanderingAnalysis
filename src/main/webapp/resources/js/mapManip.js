@@ -87,8 +87,7 @@ $(document).ready(function() {
     }
   }
 
-  function lockDistrict(e) {
-    var layer = e.target;
+  function districtStyling(layer) {
     layer.setStyle({
       weight: 5,
       // color: '#666',
@@ -100,6 +99,11 @@ $(document).ready(function() {
     }
     // add to info
     $("#infoText").append("<br>");
+  }
+
+  function lockDistrict(e) {
+    var layer = e.target;
+    districtStyling(layer);
     var dataStr = "";
     var demogData = {
       datasets: [{
