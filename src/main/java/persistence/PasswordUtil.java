@@ -32,6 +32,7 @@ public class PasswordUtil {
      */
     public String getSecuredPassword(String password, String salt) {
 
+        //TODO: accept byte[] for salt instead
         String saltedPassword = salt + password;
         String hashedPassword = generateHashedPassword(saltedPassword);
 

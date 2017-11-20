@@ -1,6 +1,6 @@
 package service.data;
 
-import javax.transaction.NotSupportedException;
+import java.util.Arrays;
 import model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,11 @@ public class UserEntityServiceImpl implements UserEntityService {
      * @return 
      */
     public boolean addUser(User user) {
-        user.setSalt(PasswordUtil.getSalt64());
+        
+        // make sure to hash password before inserting user to database
+        user.setSalt(PasswordUtil.getSalt32());
+        user.setPassword(passwordUtil.getSecuredPassword(user.getPassword(), user.getSalt().toString()));
+        
         return userEntityDao.addUser(user);
     }
 

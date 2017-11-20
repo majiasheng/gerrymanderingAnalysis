@@ -42,7 +42,7 @@ import javax.persistence.SqlResultSetMapping;
                     @ColumnResult(name = "TwoOrMoreRaces", type = Integer.class)
                 }))
 @Entity
-public class DistrictDTO {
+public class DistrictDTO implements Serializable{
 
     @Id
     private int Id;

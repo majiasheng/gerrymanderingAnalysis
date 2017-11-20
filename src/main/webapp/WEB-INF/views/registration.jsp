@@ -8,7 +8,7 @@
         Last Name<br><input type="text" name="lastName" placeholder="Last Name"><br>
         Email<br><input type="text" name="email" placeholder="email"><br>
         Re-enter email<br><input type="text" name="reemail" placeholder="Re-enter email"><br>
-        Username<br><input type="text" name="userName" placeholder="Username"><br>
+        Username<br><input type="text" name="username" placeholder="Username"><br>
         Password<br><input type="password" name="password" placeholder="password"><br>
         Re-enter password<br><input type="password" name="repassword" placeholder="Re-enter password"><br>
         <input type="submit" name="submit" value="Sign Me Up">

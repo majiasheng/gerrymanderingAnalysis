@@ -40,15 +40,10 @@ public class UserEntityDaoImpl implements UserEntityDao {
                 + "'" + username + "'"
                 + ")";
 
-        Query query = em.createNativeQuery(sql, User.class);
+        Query q = em.createNativeQuery(sql, User.class);
         // query database for salt - s, and hashed password - hp, 
-        List<User> result = query.getResultList();
-
         User user = null;
-        for (User u : result) {
-            user = u;
-            break;
-        }
+        user = (User)q.getSingleResult();
 
         if (user != null && passwordUtil.isPasswordMatch(password, Arrays.toString(user.getSalt()), user.getPassword())) {
             System.out.println("DEBUG: username and password match");
@@ -58,6 +53,23 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.close();
 
         return user;
+    }
+    
+    private static User getUserByUsername(String username) {
+
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+       
+        String sql = "call GET_USER_BY_USERNAME('" + username + "')";
+
+        Query q = em.createNativeQuery(sql, User.class);
+        User u = (User)q.getSingleResult();
+        
+        em.getTransaction().commit();
+        em.close();
+        JPAUtils.shutdown();
+        
+        return u;
     }
 
     /**
@@ -75,14 +87,12 @@ public class UserEntityDaoImpl implements UserEntityDao {
         try {
             em.persist(user);
             success = true;
+            em.getTransaction().commit();
+            em.close();
         } catch (Exception e) {
             //TODO: check
             System.err.println("Error in adding user to database");
         }
-
-        em.getTransaction().commit();
-        em.close();
-
         return success;
     }
 
