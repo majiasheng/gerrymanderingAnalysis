@@ -191,6 +191,32 @@ $(document).ready(function() {
     });
   }
 
+  function onGetDistDataSuccess(response, status, xhr) {
+    $('#loadingAlert').remove();
+    // remove old boundary
+    if (districtBoundary) {
+      districtBoundary.remove();
+      districtBoundary = null;
+    }
+    // separate geojson response
+    var distGeoJson = response.distGeoJson;
+    // use district boundary data from response
+    districtBoundary = L.geoJson(distGeoJson, {
+      style: function(feature) {
+        return {
+          color: 'purple'
+        }
+      },
+      onEachFeature: zoomToState
+    });
+    districtBoundary.addTo(map1);
+
+    console.log("Enabling GerrymanderingMeasure drop down menu...");
+    $("#gerrymanderingMeasure").prop({
+      disabled: false
+    });
+  }
+
   function sendGetOnDataSelect(state, year) {
     // add spiner
     var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
@@ -203,31 +229,7 @@ $(document).ready(function() {
       contentType: "application/json",
       data: { state: state, year: year },
       dataType: "json",
-      success: function(response, status, xhr) {
-        $('#loadingAlert').remove();
-        // remove old boundary
-        if (districtBoundary) {
-          districtBoundary.remove();
-          districtBoundary = null;
-        }
-        // separate geojson response
-        var distGeoJson = response.distGeoJson;
-        // use district boundary data from response
-        districtBoundary = L.geoJson(distGeoJson, {
-          style: function(feature) {
-            return {
-              color: 'purple'
-            }
-          },
-          onEachFeature: zoomToState
-        });
-        districtBoundary.addTo(map1);
-
-        console.log("Enabling GerrymanderingMeasure drop down menu...");
-        $("#gerrymanderingMeasure").prop({
-          disabled: false
-        });
-      },
+      success: onGetDistDataSuccess,
       error: function(xhr, textStatus, errorThrown) {
         console.log(
           textStatus +
