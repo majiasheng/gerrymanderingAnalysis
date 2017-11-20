@@ -113,7 +113,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        String sql = "call REMOVE_USER("
+        String sql = "call DELETE_USER("
                 + "'" + user.getUsername() + "'"
                 + ")";
         Query q = em.createNativeQuery(sql);
@@ -129,9 +129,8 @@ public class UserEntityDaoImpl implements UserEntityDao {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        String sql = "call UPDATE_USER("
+        String sql = "call UPDATE_USER_INFO("
                 + "'" + user.getUsername() + "', "
-                + "'" + user.getPassword() + "', "
                 + "'" + user.getFirstName() + "', "
                 + "'" + user.getLastName() + "', "
                 + "'" + (user.isAdmin() ? 1 : 0) + "'"
@@ -143,5 +142,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.close();
         return rowAffected == EXPECTED_NUM_OF_ROW_AFFECTED;
     }
+    
+    //TODO: update password
 
 }

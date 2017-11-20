@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import persistence.PasswordUtil;
 
 @Entity
-@Table(name = "testusers")
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
