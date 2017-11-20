@@ -205,9 +205,6 @@ $(document).ready(function() {
       dataType: "json",
       success: function(response, status, xhr) {
         $('#loadingAlert').remove();
-        // display only district boundary, remove all state boundaries
-        // allStates.remove();
-
         // remove old boundary
         if (districtBoundary) {
           districtBoundary.remove();
@@ -260,7 +257,6 @@ $(document).ready(function() {
       districtBoundary.remove();
       districtBoundary = null;
     }
-    // allStates.addTo(map1);
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
