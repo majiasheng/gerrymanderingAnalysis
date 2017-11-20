@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,8 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView handleRegistration(
-            @Valid @ModelAttribute("user") User user,
+//            @Valid 
+            @ModelAttribute("user") User user,
             @RequestParam Map<String, String> requestParams,
             BindingResult result,
             final RedirectAttributes redirectAttributes) {

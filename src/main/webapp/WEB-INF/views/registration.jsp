@@ -1,10 +1,10 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <h2 id="h">Sign Me Up</h2>
 <div id="regform">
     <form method="POST" action="/register">
-        First Name ${err_firstname}<br>
+        First Name ${err_firstname} <form:errors path="user.firstName"/> <br>
         <input type="text" name="firstName" placeholder="First Name"><br>
         Last Name ${err_lastname}<br>
         <input type="text" name="lastName" placeholder="Last Name"><br>
@@ -12,7 +12,7 @@
         <input type="text" name="email" placeholder="email"><br>
         Re-enter email ${err_reemail}<br>
         <input type="text" name="reemail" placeholder="Re-enter email"><br>
-        Username ${err_username}<br>
+        Username ${err_username} <form:errors path="user.username"/> <br>
         <input type="text" name="username" placeholder="Username"><br>
         Password ${err_password}<br>
         <input type="password" name="password" placeholder="password"><br>

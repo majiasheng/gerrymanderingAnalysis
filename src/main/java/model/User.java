@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import persistence.PasswordUtil;
 
 @Entity
@@ -21,7 +19,7 @@ public class User implements Serializable {
     @Column(name = "Id", nullable = false)
     private int id;
 
-    //@Pattern(regexp = "[a-zA-Z]+")
+//    @Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "Firstname", nullable = false)
     private String firstName;
 
@@ -29,7 +27,7 @@ public class User implements Serializable {
     @Column(name = "Lastname", nullable = false)
     private String lastName;
 
-    @Pattern(regexp = "[a-zA-Z]+[_0-9a-zA-Z]*")
+//    @Pattern(regexp = "[a-zA-Z]+[_0-9a-zA-Z]*")
     @Column(name = "Username", nullable = false)
     private String username;
 
