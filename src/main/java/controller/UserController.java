@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import model.SessionConstant;
 import service.data.UserEntityService;
 
 /**
@@ -40,13 +42,14 @@ public class UserController {
      * Post,Redirect,Get(PRG) - P,R -- handles user registration form
      *
      * @param user
+     * @param requestParams
      * @param result
      * @param redirectAttributes
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView handleRegistration(
-            @ModelAttribute("user") User user,
+            @Valid @ModelAttribute("user") User user,
             @RequestParam Map<String, String> requestParams,
             BindingResult result,
             final RedirectAttributes redirectAttributes) {
@@ -58,14 +61,17 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("redirect:/register");
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("msg", "Error in registration form");
+            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FORM_ERROR_MSG);
+            modelAndView.setViewName("/registration");
         } else {
+            //TODO: do validation first
+            
             // add user to database
-            if (userEntityService.addUser(user)) {
-                redirectAttributes.addFlashAttribute("msg", "<p style=\"color:green;\">Registration success</p>");
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "<p style=\"color:red;\">Error in registering: failed to add user to database</p>");
-            }
+//            if (userEntityService.addUser(user)) {
+//                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_SUCCESS_MSG);
+//            } else {
+//                redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FAILURE_MSG);
+//            }
         }
         return modelAndView;
     }

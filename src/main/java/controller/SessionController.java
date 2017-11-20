@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import service.RequestService;
+import model.SessionConstant;
 import service.data.UserEntityService;
 
 /**
@@ -39,9 +39,8 @@ public class SessionController {
         // redirect to prevent double submission when refreshing page
         ModelAndView modelAndView = new ModelAndView("redirect:/login");
 
-        User user = userEntityService.login(
-                requestParams.get(RequestService.USERNAME_REQUEST_PARAM),
-                requestParams.get(RequestService.PASSWORD_REQUEST_PARAM)
+        User user = userEntityService.login(requestParams.get(SessionConstant.USERNAME_REQUEST_PARAM),
+                requestParams.get(SessionConstant.PASSWORD_REQUEST_PARAM)
         );
 
         if (user == null) {
@@ -49,7 +48,7 @@ public class SessionController {
             redirectAttributes.addFlashAttribute("msg", "Username and password do not match");
         } else {
             // add user to session
-            request.getSession().setAttribute(RequestService.USER_ATTRIBUTE, user);
+            request.getSession().setAttribute(SessionConstant.USER_ATTRIBUTE, user);
         }
         return modelAndView;
     }

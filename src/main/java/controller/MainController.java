@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import model.State;
 import service.data.DataService;
 import service.Init;
-import service.RequestService;
+import model.SessionConstant;
 
 /**
  * @Author Jia Sheng Ma (jiasheng.ma@yahoo.com)
@@ -32,8 +32,6 @@ public class MainController {
     private Init init;
     @Autowired
     private DataService dataService;
-    @Autowired
-    private RequestService requestService;
 
     /**
      * Initializes the application with configurations, and save to session.
@@ -43,9 +41,9 @@ public class MainController {
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
         // if session varialbe doesnt have init object, add
-        if (request.getSession().getAttribute(RequestService.INIT_ATTRIBUTE) == null) {
+        if (request.getSession().getAttribute(SessionConstant.INIT_ATTRIBUTE) == null) {
             init.init();
-            request.getSession().setAttribute(RequestService.INIT_ATTRIBUTE, init);
+            request.getSession().setAttribute(SessionConstant.INIT_ATTRIBUTE, init);
         }
     }
 
@@ -64,7 +62,7 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
+        String selectedState = (String) requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
         // make sure request params are not null
         if (selectedState != null) {
             // get and return a list of years in which the selected state has available
@@ -87,8 +85,8 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedState = requestParams.get(RequestService.STATE_REQUEST_PARAM);
-        String selectedYear_str = requestParams.get(RequestService.YEAR_REQUEST_PARAM);
+        String selectedState = requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
+        String selectedYear_str = requestParams.get(SessionConstant.YEAR_REQUEST_PARAM);
         // make sure request params are not null
         if (selectedState != null && selectedYear_str != null) {
             // get and return a list of districts
@@ -96,7 +94,7 @@ public class MainController {
 
             // save state object to session for later use in gerrymandering tests
             State state = dataService.getStateByYear(selectedState, selectedYear);
-            request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
+            request.getSession().setAttribute(SessionConstant.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
             String jsonContainer = "{\"distGeoJson\":";

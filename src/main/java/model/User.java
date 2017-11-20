@@ -21,11 +21,11 @@ public class User implements Serializable {
     @Column(name = "Id", nullable = false)
     private int id;
 
-    @Pattern(regexp = "[a-zA-Z]+")
+    //@Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "Firstname", nullable = false)
     private String firstName;
 
-    @Pattern(regexp = "[a-zA-Z]+")
+    //@Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "Lastname", nullable = false)
     private String lastName;
 
@@ -33,14 +33,15 @@ public class User implements Serializable {
     @Column(name = "Username", nullable = false)
     private String username;
 
-    @Pattern(regexp = "[0-9a-zA-Z.!?,]+")
+    //@Pattern(regexp = "[0-9a-zA-Z.!?,]+")
+    //@Size(min = SessionConstant.MIN_PW_LEN, max = SessionConstant.MAX_PW_LEN)
     @Column(name = "Pass", nullable = false)
     private String password;
 
     @Column(name = "Salt", nullable = false)
     private byte[] salt;
 
-    @Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.com")
+    //@Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.com")
     @Column(name = "Email", nullable = false)
     private String email;
 

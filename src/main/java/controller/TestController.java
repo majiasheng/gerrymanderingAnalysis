@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.TestResult;
-import service.RequestService;
+import model.SessionConstant;
 import service.gerrymandering.GerrymanderingTestService;
 
 /**
@@ -41,7 +41,7 @@ public class TestController {
             HttpServletRequest request) {
 
         TestResult result = null;
-        State state = (State) request.getSession().getAttribute(RequestService.STATE_ATTRIBUTE);
+        State state = (State) request.getSession().getAttribute(SessionConstant.STATE_ATTRIBUTE);
 
         if ("Efficiency Gap Test".equals(measureName)) {
             result = egTestService.doTest(state);
