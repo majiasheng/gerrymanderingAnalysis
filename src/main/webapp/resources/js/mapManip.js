@@ -32,6 +32,10 @@ $(document).ready(function() {
   function translateElectionDataKeyName(val) {
     if (val === "winner") {
       return "Winning Party";
+    } else if (val === "demStatus") {
+      return "Democrat Standing";
+    } else if (val === "repStatus") {
+      return "Republican Standing";
     } else if (val === "demVotes") {
       return "Democrat Votes";
     } else if (val === "repVotes") {
