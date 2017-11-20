@@ -101,6 +101,19 @@ $(document).ready(function() {
     $("#infoText").append("<br>");
   }
 
+  function filterData(key, val) {
+    var dataStr = "";
+    $.each(val, function(key2, val2) {
+      if (val2) {
+        if (electionDataExcludeKey(key2)) {
+          return true;
+        }
+        dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+      }
+    });
+    return dataStr;
+  }
+
   function lockDistrict(e) {
     var layer = e.target;
     districtStyling(layer);
@@ -114,14 +127,7 @@ $(document).ready(function() {
     };
     $.each(layer.feature.properties, function(key, val) {
       if (key == "electionData") {
-        $.each(val, function(key2, val2) {
-          if (val2) {
-            if (electionDataExcludeKey(key2)) {
-              return true;
-            }
-            dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
-          }
-        });
+        dataStr += filterData(key, val);
         return true;
       }
       if (key == "demographicData") {
