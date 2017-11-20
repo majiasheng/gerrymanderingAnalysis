@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 /**
@@ -21,7 +21,7 @@ public class Config {
 
     public Config() {
         // initialize and set default
-        states = new HashMap<String, String>();
+        states = new TreeMap<String, String>();
         measures = new ArrayList<String>();
         strokeColor = new int[3];
     }
@@ -30,7 +30,7 @@ public class Config {
         return states;
     }
 
-    public void setStates(HashMap<String, String> states) {
+    public void setStates(TreeMap<String, String> states) {
         this.states = states;
     }
 
