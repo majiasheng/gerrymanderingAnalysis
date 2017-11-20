@@ -101,14 +101,27 @@ $(document).ready(function() {
     $("#infoText").append("<br>");
   }
 
-  function filterData(key, val) {
+  function filterData(key, val, demogData) {
     var dataStr = "";
     $.each(val, function(key2, val2) {
       if (val2) {
-        if (electionDataExcludeKey(key2)) {
-          return true;
+        if (key == "electionData") {
+          if (electionDataExcludeKey(key2)) {
+            return true;
+          }
+          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+        } else if (key == "demographicData") {
+          if (demogDataExcludeKey(key2)) {
+            return true;
+          }
+          if (key2 == "population") {
+            dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
+          } else {
+            demogData.labels.push(translateDemogDataKeyName(key2));
+            demogData.datasets[0].data.push(val2);
+            demogData.datasets[0].backgroundColor.push(generateRandomColor());
+          }
         }
-        dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
       }
     });
     return dataStr;
@@ -126,25 +139,8 @@ $(document).ready(function() {
       labels: []
     };
     $.each(layer.feature.properties, function(key, val) {
-      if (key == "electionData") {
-        dataStr += filterData(key, val);
-        return true;
-      }
-      if (key == "demographicData") {
-        $.each(val, function(key2, val2) {
-          if (val2) {
-            if (demogDataExcludeKey(key2)) {
-              return true;
-            }
-            if (key2 == "population") {
-              dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
-            } else {
-              demogData.labels.push(translateDemogDataKeyName(key2));
-              demogData.datasets[0].data.push(val2);
-              demogData.datasets[0].backgroundColor.push(generateRandomColor());
-            }
-          }
-        });
+      if (key == "electionData" || key == "demographicData") {
+        dataStr += filterData(key, val, demogData);
         return true;
       }
       if (key == "DISTRICT" && val == 0) {
