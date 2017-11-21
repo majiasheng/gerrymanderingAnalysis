@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Collection;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,4 +89,41 @@ public class UserController {
         return mv;
     }
 
+    @RequestMapping(value = "/account", method = RequestMethod.GET)
+    public ModelAndView manageAccountSettings() {
+        ModelAndView mv = new ModelAndView("user-setting");
+        return mv;
+    }
+
+    @RequestMapping(value = "/confirmEdit", method = RequestMethod.POST)
+    public ModelAndView confirmEdit(@RequestParam Map<String, String> requestParams,
+            HttpServletRequest request,
+            final RedirectAttributes redirectAttributes) {
+        ModelAndView mv = new ModelAndView();
+        // get user from session
+        User user = (User) request.getSession().getAttribute(SessionConstant.USER_ATTRIBUTE);
+        // update user 
+        user.setFirstName(requestParams.get(SessionConstant.FIRSTNAME_REQUEST_PARAM));
+        user.setLastName(requestParams.get(SessionConstant.LASTNAME_REQUEST_PARAM));
+
+        if (userEntityService.updateUser(user)) {
+            mv = new ModelAndView("redirect:/confirmEdit");
+            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_SUCCESS_MSG);
+        } else {
+            // send user back to user setting page with error message 
+            mv.setViewName(request.getRequestURI());
+            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_FAILURE_MSG);
+        }
+        return mv;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @RequestMapping(value = "/confirmEdit", method = RequestMethod.GET)
+    public ModelAndView redirectConfirmEdit() {
+        ModelAndView mv = new ModelAndView("user-setting");
+        return mv;
+    }
 }
