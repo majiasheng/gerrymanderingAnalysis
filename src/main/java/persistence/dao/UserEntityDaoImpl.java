@@ -93,11 +93,12 @@ public class UserEntityDaoImpl implements UserEntityDao {
 
         try {
             em.persist(user);
-            success = true;
             em.getTransaction().commit();
             em.close();
+            success = true;
         } catch (Exception e) {
             //TODO: check
+            e.printStackTrace();
             System.err.println("Error in adding user to database");
         }
         return success;

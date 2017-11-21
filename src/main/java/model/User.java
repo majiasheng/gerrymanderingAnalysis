@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-//import javax.validation.constraints.Pattern;
-//import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import persistence.PasswordUtil;
 
 @Entity
@@ -21,27 +21,27 @@ public class User implements Serializable {
     @Column(name = "Id", nullable = false)
     private int id;
 
-    // @Pattern(regexp = "[a-zA-Z]+")
+    @Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "Firstname", nullable = false)
     private String firstName;
 
-    //@Pattern(regexp = "[a-zA-Z]+")
+    @Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "Lastname", nullable = false)
     private String lastName;
 
-    //@Pattern(regexp = "[a-zA-Z]+[_0-9a-zA-Z]*")
+    @Pattern(regexp = "[a-zA-Z]+[_0-9a-zA-Z]*")
     @Column(name = "Username", nullable = false)
     private String username;
 
-    //@Pattern(regexp = "[0-9a-zA-Z.!?,]+")
-    //@Size(min = SessionConstant.MIN_PW_LEN, max = SessionConstant.MAX_PW_LEN)
+    @Pattern(regexp = "[0-9a-zA-Z.!?,]+", message = "Password must be of length 8-16, and contains only alpha-numeric characters and symbols of the following: [. , !]")
+//    @Size(min = SessionConstant.MIN_PW_LEN, max = SessionConstant.MAX_PW_LEN)
     @Column(name = "Pass", nullable = false)
     private String password;
 
     @Column(name = "Salt", nullable = false)
     private byte[] salt;
 
-    //@Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.com")
+    @Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.com")
     @Column(name = "Email", nullable = false)
     private String email;
 

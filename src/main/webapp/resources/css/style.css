@@ -27,3 +27,7 @@ body {
 #infowindow {
 	background: rgba(219, 219, 219, .6);
 }
+
+.error {
+    color: red;
+}

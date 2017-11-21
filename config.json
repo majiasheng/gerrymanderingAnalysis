@@ -58,5 +58,6 @@
     ],
     "strokeWidth": 1,
     "strokeColor": [255, 255, 255],
-    "defaultYear": 2016
+    "defaultYear": 2016,
+    "confidenceLvl": 0.05
 }

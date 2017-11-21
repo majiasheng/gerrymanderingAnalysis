@@ -1,8 +1,8 @@
 package controller;
 
 import java.util.Map;
-//import javax.servlet.http.HttpServletRequest;
-//import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,20 +49,15 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView handleRegistration(
-            //@Valid 
-            @ModelAttribute("user") User user,
-            @RequestParam Map<String, String> requestParams,
+            @Valid @ModelAttribute(SessionConstant.USER_ATTRIBUTE) User user,
             BindingResult result,
+            @RequestParam Map<String, String> requestParams,
             final RedirectAttributes redirectAttributes) {
 
-        /*TODO: check email and password, validate all fields, 
-            redirect back to registration.jsp if error, set up ids for error message */
-        
         // redirect to prevent double submission when refreshing page
         ModelAndView modelAndView = new ModelAndView("redirect:/register");
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FORM_ERROR_MSG);
             modelAndView.setViewName("/registration");
         } else {
             //TODO: do validation first

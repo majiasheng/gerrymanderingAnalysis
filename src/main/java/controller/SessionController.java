@@ -45,7 +45,7 @@ public class SessionController {
 
         if (user == null) {
             //TODO: show an popup to indicate username and password mismatch
-            redirectAttributes.addFlashAttribute("msg", "Username and password do not match");
+            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.LOGIN_FAILURE_MSG);
         } else {
             // add user to session
             request.getSession().setAttribute(SessionConstant.USER_ATTRIBUTE, user);

@@ -12,7 +12,7 @@ public class SessionConstant {
     public static final String REG_FORM_ERROR_MSG = "<p style=\"color:red;\">Error in registration form</p>";
     public static final String REG_SUCCESS_MSG = "<p style=\"color:green;\">Registration success</p>";
     public static final String REG_FAILURE_MSG = "<p style=\"color:red;\">Error in registering: failed to add user to database</p>";
-
+    public static final String LOGIN_FAILURE_MSG = "<p style=\"color:red\">Username and password do not match</p>";
     // request params
     public static final String STATE_REQUEST_PARAM = "state";
     public static final String YEAR_REQUEST_PARAM = "year";

@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Holds configuration data from external configuration file (config.json)
+ *
  * @author Jia Sheng Ma (jiasheng.ma@yahoo.com)
  *
  */
@@ -18,6 +19,7 @@ public class Config {
     private double strokeWidth;
     private int[] strokeColor;
     private int defaultYear;
+    private double confidenceLvl;
 
     public Config() {
         // initialize and set default
@@ -66,6 +68,14 @@ public class Config {
         this.defaultYear = defaultYear;
     }
 
+    public double getConfidenceLvl() {
+        return confidenceLvl;
+    }
+
+    public void setConfidenceLvl(double confidenceLvl) {
+        this.confidenceLvl = confidenceLvl;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Config: \n");
@@ -74,6 +84,7 @@ public class Config {
         s.append("Measures: ").append(measures.toString()).append("\n");
         s.append("State: ").append(states.toString()).append("\n");
         s.append("Default Year: ").append(defaultYear).append("\n");
+        s.append("Confidence Level: ").append(confidenceLvl).append("\n");
         return s.toString();
     }
 }
