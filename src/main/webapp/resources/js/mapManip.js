@@ -222,6 +222,17 @@ $(document).ready(function() {
     });
   }
 
+  function onGetDistDataFailure(xhr, textStatus, errorThrown) {
+    console.log(
+      textStatus +
+        ": Cannot enable GerrymanderingMeasure drop down menu" +
+        "\nIt can be caused by empty response"
+    );
+    $("#gerrymanderingMeasure").prop({
+      disabled: true
+    });
+  }
+
   function sendGetOnDataSelect(state, year) {
     // add spiner
     var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
@@ -235,16 +246,7 @@ $(document).ready(function() {
       data: { state: state, year: year },
       dataType: "json",
       success: onGetDistDataSuccess,
-      error: function(xhr, textStatus, errorThrown) {
-        console.log(
-          textStatus +
-            ": Cannot enable GerrymanderingMeasure drop down menu" +
-            "\nIt can be caused by empty response"
-        );
-        $("#gerrymanderingMeasure").prop({
-          disabled: true
-        });
-      }
+      error: onGetDistDataFailure
     });
   }
 
