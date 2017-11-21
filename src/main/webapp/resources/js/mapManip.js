@@ -178,19 +178,18 @@ $(document).ready(function() {
       },
       click: function(e) {
         if (!districtLocked) {
-          resetDistrict(e);
           $(
             '<span id="distLockLabel" class="label label-info">District Locked!</span>'
           ).insertBefore("#infoText");
         } else {
           resetDistrict(districtLocked);
+          lockDistrict(e);
         }
         if (districtLocked && e.target == districtLocked.target) {
           districtLocked = null;
           $("#distLockLabel").remove();
         } else {
           map1.fitBounds(e.target.getBounds());
-          lockDistrict(e);
           districtLocked = e;
         }
       }
@@ -223,6 +222,17 @@ $(document).ready(function() {
     });
   }
 
+  function onGetDistDataFailure(xhr, textStatus, errorThrown) {
+    console.log(
+      textStatus +
+        ": Cannot enable GerrymanderingMeasure drop down menu" +
+        "\nIt can be caused by empty response"
+    );
+    $("#gerrymanderingMeasure").prop({
+      disabled: true
+    });
+  }
+
   function sendGetOnDataSelect(state, year) {
     // add spiner
     var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
@@ -236,16 +246,7 @@ $(document).ready(function() {
       data: { state: state, year: year },
       dataType: "json",
       success: onGetDistDataSuccess,
-      error: function(xhr, textStatus, errorThrown) {
-        console.log(
-          textStatus +
-            ": Cannot enable GerrymanderingMeasure drop down menu" +
-            "\nIt can be caused by empty response"
-        );
-        $("#gerrymanderingMeasure").prop({
-          disabled: true
-        });
-      }
+      error: onGetDistDataFailure
     });
   }
 
@@ -268,14 +269,6 @@ $(document).ready(function() {
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
-    // zoom to state
-    map1.fitBounds(
-      $.grep(allStates.getLayers(), function(selectedState) {
-        // get state boundary for selected state
-        return selectedState.feature.properties.STUSPS == state;
-      })[0].getBounds()
-    );
-
     // response is a list of years for populating data drop down
     $.each(response, function(index, v) {
       options += "<option value" + "=" + v + ">" + v + "</option>";
@@ -321,6 +314,13 @@ $(document).ready(function() {
         });
       }
     });
+    // zoom to state
+    map1.fitBounds(
+      $.grep(allStates.getLayers(), function(selectedState) {
+        // get state boundary for selected state
+        return selectedState.feature.properties.STUSPS == state;
+      })[0].getBounds()
+    );
   });
 
   // send get on data selection
@@ -357,12 +357,12 @@ $(document).ready(function() {
           //TODO: display measure result
           // response is a TestResult object
           alert("response: " + JSON.stringify(response));
-          
+
           //TEST
           var result = "Is This State Gerrymandered? " + response.gerrymandered + "<br/>";
           result += (response.skipped ? "<p style=\"color:red\">Skipped</p>" : "");
           // $("#testResult").html(result);
-          
+
         },
         error: function(xhr, textStatus, errorThrown) {
           console.log(textStatus + "; errorThrown: " + errorThrown);
