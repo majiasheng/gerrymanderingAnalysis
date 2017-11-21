@@ -41,9 +41,9 @@ public class MainController {
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
         // if session varialbe doesnt have init object, add
-        if (request.getSession().getAttribute(SessionConstant.INIT_ATTRIBUTE) == null) {
+        if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
             init.init();
-            request.getSession().setAttribute(SessionConstant.INIT_ATTRIBUTE, init);
+            request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
         }
     }
 

@@ -36,3 +36,8 @@ table, th, td {
     padding: 0.2em;
     border: 1px solid black;
 }
+
+#testResultContainer {
+    font-size: 2em;
+    padding: 1em;
+}

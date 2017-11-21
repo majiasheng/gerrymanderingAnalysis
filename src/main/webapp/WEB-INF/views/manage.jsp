@@ -14,6 +14,7 @@
         <th>user</th>
         <th>Can Save Result</th>
         <th>Can Delete Result</th>
+        <th>Can Upload</th>
     </tr>
     <c:forEach var="normalUser" items="${normalUsers}">
         <!--TODO: list all normal users, and add option for admin to edit-->
@@ -21,6 +22,7 @@
             <td>${normalUser.username}</td>
             <td><input type="checkbox" name="canSave"></td>
             <td><input type="checkbox" name="canDelete"></td>
+            <td><input type="checkbox" name="canUpload"></td>
             <td><input type="button" name="edit" value="Edit"></td>
             <td><input type="button" name="delete" value="Delete"></td>
         </tr>

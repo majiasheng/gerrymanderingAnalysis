@@ -356,9 +356,14 @@ $(document).ready(function() {
         success: function(response, status, xhr) {
           //TODO: display measure result
           // response is a TestResult object
-          alert("response: " + JSON.stringify(response));
+          // alert("response: " + JSON.stringify(response));
+          
           //TEST
-          // $('.info').html(measure);
+          var result = "Is This State Gerrymandered? " + response.gerrymandered + "<br/>";
+          result += (response.skipped ? "<p style=\"color:red\">Skipped</p>" : "");
+          
+          $("#testResult").html(result);
+          
         },
         error: function(xhr, textStatus, errorThrown) {
           console.log(textStatus + "; errorThrown: " + errorThrown);

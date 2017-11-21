@@ -5,7 +5,7 @@ public class SessionConstant {
     // attribute name in session/response
     public static final String STATE_ATTRIBUTE = "state";
     public static final String USER_ATTRIBUTE = "user";
-    public static final String INIT_ATTRIBUTE = "init";
+    public static final String CONFIG_ATTRIBUTE = "config";
     public static final String MSG_ATTRIBUTE = "msg";
     public static final String NORMAL_USER_ATTRIBUTE = "normalUsers";
     
