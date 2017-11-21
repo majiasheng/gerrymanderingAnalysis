@@ -43,7 +43,7 @@ public class DataAccessorImpl implements DataAccessor {
 
         final int HEAD = 0;
         for (Date d : years_sql) {
-            years.add(HEAD,d.toLocalDate().getYear());
+            years.add(HEAD, d.toLocalDate().getYear());
         }
 
         em.getTransaction().commit();
@@ -72,11 +72,10 @@ public class DataAccessorImpl implements DataAccessor {
         // for (DistrictDTO d : districtDTOes) {
         //     System.out.println(d);
         // }
-
         em.getTransaction().commit();
         em.close();
 
-        // TODO: close connection pool when app exits
+        // TODO: close connection pool when app exits?
         // JPAUtils.shutdown();
         return districtDTOes;
     }
@@ -99,10 +98,9 @@ public class DataAccessorImpl implements DataAccessor {
      * @return a collection of district models
      */
     public Collection<District> getDistrictsDataByYear(String state, int year) {
-
+        // retrieve district from database
         ArrayList<DistrictDTO> districtDTOes = (ArrayList<DistrictDTO>) getDistrictDTOByYear(state, year);
         ArrayList<District> districts = new ArrayList<District>();
-
         // convert dto to district model
         for (DistrictDTO dto : districtDTOes) {
             ElectionData electionData = new ElectionData(
@@ -111,15 +109,25 @@ public class DataAccessorImpl implements DataAccessor {
                     dto.getRepVotes(),
                     dto.getDemStatus(),
                     dto.getRepStatus(),
-                    dto.getWinner());
-            GeoData geoData = new GeoData(dto.getDistrictNum(), dto.getBoundary());
-
-            DemographicData demogData = new DemographicData(dto.getDistrictNum(), dto.getPopulation(),
-              dto.getWhite(), dto.getAfricanAmerican(), dto.getAmericanNative(), dto.getAsian(),
-              dto.getPacificIslander(), dto.getOtherRace(), dto.getTwoOrMoreRaces());
-
+                    dto.getWinner()
+            );
+            GeoData geoData = new GeoData(
+                    dto.getDistrictNum(),
+                    dto.getBoundary()
+            );
+            DemographicData demogData = new DemographicData(
+                    dto.getDistrictNum(),
+                    dto.getPopulation(),
+                    dto.getWhite(),
+                    dto.getAfricanAmerican(),
+                    dto.getAmericanNative(),
+                    dto.getAsian(),
+                    dto.getPacificIslander(),
+                    dto.getOtherRace(),
+                    dto.getTwoOrMoreRaces()
+            );
             District district = new District(state, dto.getDistrictNum(), geoData, electionData, demogData);
-
+            // add district to list
             districts.add(district);
         }
         return districts;

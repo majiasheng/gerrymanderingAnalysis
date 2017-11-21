@@ -14,6 +14,7 @@ public class TestResult {
         skipped = false;
     }
 
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public boolean isGerrymandered() {
         return gerrymandered;
     }
@@ -53,7 +54,6 @@ public class TestResult {
     public void setSkipped(boolean skipped) {
         this.skipped = skipped;
     }
-    
-    
+    // </editor-fold>
 
 }

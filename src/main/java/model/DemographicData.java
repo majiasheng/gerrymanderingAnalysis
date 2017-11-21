@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author majiasheng
+ * @author tianyilan
  */
 public class DemographicData {
 
@@ -29,6 +29,7 @@ public class DemographicData {
     		this.twoOrMoreRaces = twoOrMoreRaces;
   	}
 
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public int getDistrictId() {
         return districtId;
     }
@@ -100,5 +101,5 @@ public class DemographicData {
     public void setTwoOrMoreRaces(int TwoOrMoreRaces) {
         this.twoOrMoreRaces = TwoOrMoreRaces;
     }
-
+    // </editor-fold>
 }

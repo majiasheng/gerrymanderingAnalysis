@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Collection;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,28 +58,34 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("redirect:/register");
 
         if (result.hasErrors()) {
+            // go back to regitration page if form has errors
             modelAndView.setViewName("/registration");
         } else {
-            //TODO: do validation first
-
             // add user to database
             if (userEntityService.addUser(user)) {
+                // report success
                 redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_SUCCESS_MSG);
             } else {
+                // report failure
                 redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_FAILURE_MSG);
             }
         }
         return modelAndView;
     }
 
+    /**
+     * Retrieves a list of normal users from the database, and adds the list to
+     * the admin's "manage page"
+     *
+     * @return
+     */
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public ModelAndView manageNormalUser() {
-        
+
         ModelAndView mv = new ModelAndView("manage");
         Collection<User> normalUsers = userEntityService.getAllNormalUsers();
         mv.addObject(SessionConstant.NORMAL_USER_ATTRIBUTE, normalUsers);
         return mv;
     }
-    
 
 }

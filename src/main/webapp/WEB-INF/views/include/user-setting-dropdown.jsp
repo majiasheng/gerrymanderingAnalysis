@@ -11,11 +11,8 @@
     <li><a href="/account">Account</a></li>
     <li><a href="/saved">Saved</a></li>
 
+    <li class="divider"></li>
 
-    <li class="divider">
-    </li>
-    <li>
-        <a href="/logout">Log out</a>
-    </li>
+    <li><a href="/logout">Log out</a></li>
 </ul>
 

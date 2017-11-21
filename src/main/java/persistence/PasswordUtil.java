@@ -76,7 +76,7 @@ public class PasswordUtil {
 
     /**
      *
-     * @return a 32-byte long salt
+     * @return a 32-byte salt
      */
     public static byte[] getSalt32() {
         byte[] salt = new byte[SALT32];
@@ -86,7 +86,7 @@ public class PasswordUtil {
 
     /**
      *
-     * @return a 64-byte long salt
+     * @return a 64-byte salt
      */
     public static byte[] getSalt64() {
         byte[] salt = new byte[SALT64];

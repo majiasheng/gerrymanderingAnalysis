@@ -40,7 +40,7 @@ public class MainController {
      */
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
-        // if session varialbe doesnt have init object, add
+        // if session varialbe doesnt have config object, add
         if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
             init.init();
             request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
@@ -61,11 +61,12 @@ public class MainController {
     public ArrayList<Integer> handleSelectState(
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
-
+        // get selected state from request
         String selectedState = (String) requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
+
         // make sure request params are not null
         if (selectedState != null) {
-            // get and return a list of years in which the selected state has available
+            // get and return a list of years in which the selected state has available in db
             return (ArrayList<Integer>) dataService.getDataYearSetByState(selectedState);
         }
         return null;
@@ -85,22 +86,21 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
+        // get selected state and year as strings from request
         String selectedState = requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
         String selectedYear_str = requestParams.get(SessionConstant.YEAR_REQUEST_PARAM);
+
         // make sure request params are not null
         if (selectedState != null && selectedYear_str != null) {
-            // get and return a list of districts
-            int selectedYear = Integer.parseInt(selectedYear_str);
-
             // save state object to session for later use in gerrymandering tests
-            State state = dataService.getStateByYear(selectedState, selectedYear);
+            State state = dataService.getStateByYear(selectedState, Integer.parseInt(selectedYear_str));
             request.getSession().setAttribute(SessionConstant.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
-            String jsonContainer = "{\"distGeoJson\":";
-            jsonContainer += dataService.districtGeoDataToJson(state.getDistricts());
-            jsonContainer += "}";
-            return jsonContainer;
+            String distGeoJson = "{\"distGeoJson\":";
+            distGeoJson += dataService.districtGeoDataToJson(state.getDistricts());
+            distGeoJson += "}";
+            return distGeoJson;
         }
         return null;
     }
@@ -136,7 +136,7 @@ public class MainController {
      * @return name of credit page
      */
     @RequestMapping(value = "/credit", method = RequestMethod.GET)
-    public ModelAndView creditPage() {
+    public ModelAndView showCredit() {
         return new ModelAndView("credit");
     }
 
@@ -146,7 +146,7 @@ public class MainController {
      * @return name of help page
      */
     @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public ModelAndView helpPage() {
+    public ModelAndView showHelp() {
         return new ModelAndView("help");
     }
 

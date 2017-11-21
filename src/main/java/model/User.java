@@ -34,7 +34,7 @@ public class User implements Serializable {
     private String username;
 
     @Pattern(regexp = "[0-9a-zA-Z.!?,]+", message = "Password must be of length 8-16, and contains only alpha-numeric characters and symbols of the following: [. , !]")
-//    @Size(min = SessionConstant.MIN_PW_LEN, max = SessionConstant.MAX_PW_LEN)
+    //@Size(min = SessionConstant.MIN_PW_LEN, max = SessionConstant.MAX_PW_LEN)
     @Column(name = "Pass", nullable = false)
     private String password;
 
@@ -63,6 +63,7 @@ public class User implements Serializable {
         salt = new byte[PasswordUtil.SALT32];
     }
 
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public int getId() {
         return id;
     }
@@ -126,7 +127,7 @@ public class User implements Serializable {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-    //</editor-fold>
+    // </editor-fold>
 
     @Override
     public String toString() {

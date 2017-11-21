@@ -1,18 +1,16 @@
 package model;
 
 import java.io.Serializable;
-import static java.sql.JDBCType.LONGVARCHAR;
-import static java.sql.Types.LONGVARCHAR;
-import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.SqlResultSetMapping;
 
 /**
- *
+ * Data Transfer Object for resulting table to map to.
+ * This is used to transfer district data from database 
+ * to different objects in District object
  * @author tianyilan
  */
 @SqlResultSetMapping(
@@ -250,7 +248,7 @@ public class DistrictDTO implements Serializable{
     public void setTwoOrMoreRaces(int twoOrMoreRaces) {
         this.twoOrMoreRaces = twoOrMoreRaces;
     }
-    //</editor-fold>
+    // </editor-fold>
 
     @Override
     public String toString() {

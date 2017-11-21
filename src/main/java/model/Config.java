@@ -28,6 +28,7 @@ public class Config {
         strokeColor = new int[3];
     }
 
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public Map<String, String> getStates() {
         return states;
     }
@@ -75,6 +76,7 @@ public class Config {
     public void setConfidenceLvl(double confidenceLvl) {
         this.confidenceLvl = confidenceLvl;
     }
+    // </editor-fold>
 
     @Override
     public String toString() {
