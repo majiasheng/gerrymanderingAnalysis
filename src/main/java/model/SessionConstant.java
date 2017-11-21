@@ -14,10 +14,10 @@ public class SessionConstant {
     public static final String NORMAL_USER_ATTRIBUTE = "normalUsers";
 
     // messages
-    public static final String REG_FORM_ERROR_MSG = "<p style=\"color:red;\">Error in registration form</p>";
-    public static final String REG_SUCCESS_MSG = "<p style=\"color:green;\">Registration success</p>";
-    public static final String REG_FAILURE_MSG = "<p style=\"color:red;\">Error in registering: failed to add user to database</p>";
-    public static final String LOGIN_FAILURE_MSG = "<p style=\"color:red\">Username and password do not match</p>";
+    public static final String REG_FORM_ERROR_MSG = "<div class='alert alert-danger'>Error in registration form</p></div>";
+    public static final String REG_SUCCESS_MSG = "<div class='alert alert-success'>Registration success</div>";
+    public static final String REG_FAILURE_MSG = "<div class='alert alert-danger'>Error in registering: failed to add user to database</div>";
+    public static final String LOGIN_FAILURE_MSG = "<div class='alert alert-danger'>Username and password do not match</div>";
 
     // request params
     public static final String STATE_REQUEST_PARAM = "state";
