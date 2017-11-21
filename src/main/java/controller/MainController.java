@@ -34,8 +34,8 @@ public class MainController {
     private DataService dataService;
 
     /**
-     * Initializes the application with configurations, and save to session.
-     *
+     * Initializes the application with configurations, 
+     * and saves config to session.
      * @param request any incoming http request
      */
     @ModelAttribute

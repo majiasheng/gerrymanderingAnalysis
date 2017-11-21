@@ -79,7 +79,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
             em.close();
             success = true;
         } catch (Exception e) {
-            //TODO: check
+            //TODO: check specific exception
             e.printStackTrace();
             System.err.println("Error in adding user to database");
         }
