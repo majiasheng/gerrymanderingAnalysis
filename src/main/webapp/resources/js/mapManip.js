@@ -267,14 +267,6 @@ $(document).ready(function() {
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
-    // zoom to state
-    map1.fitBounds(
-      $.grep(allStates.getLayers(), function(selectedState) {
-        // get state boundary for selected state
-        return selectedState.feature.properties.STUSPS == state;
-      })[0].getBounds()
-    );
-
     // response is a list of years for populating data drop down
     $.each(response, function(index, v) {
       options += "<option value" + "=" + v + ">" + v + "</option>";
@@ -320,6 +312,13 @@ $(document).ready(function() {
         });
       }
     });
+    // zoom to state
+    map1.fitBounds(
+      $.grep(allStates.getLayers(), function(selectedState) {
+        // get state boundary for selected state
+        return selectedState.feature.properties.STUSPS == state;
+      })[0].getBounds()
+    );
   });
 
   // send get on data selection
