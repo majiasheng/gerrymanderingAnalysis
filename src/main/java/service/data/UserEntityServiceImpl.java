@@ -1,6 +1,7 @@
 package service.data;
 
 import java.util.Arrays;
+import java.util.Collection;
 import model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,20 @@ public class UserEntityServiceImpl implements UserEntityService {
         return userEntityDao.addUser(user);
     }
 
-    public boolean removeUser(User user) {
-        return userEntityDao.removeUser(user);
+    public boolean deleteUser(User user) {
+        return userEntityDao.deleteUser(user);
     }
     
     public boolean updateUser(User user) {        
         return userEntityDao.updateUser(user);
+    }
+    
+    public Collection<User> getAllNormalUsers() {
+        return userEntityDao.getAllNormalUsers();
+    }
+    
+    public boolean updatePassword(String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

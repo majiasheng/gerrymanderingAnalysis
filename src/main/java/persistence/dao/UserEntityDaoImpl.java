@@ -1,6 +1,7 @@
 package persistence.dao;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -33,24 +34,22 @@ public class UserEntityDaoImpl implements UserEntityDao {
      * @return matched user or null if username and password do not match
      */
     public User getUser(String username, String password) {
-
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
-        String sql = "call GET_USER_BY_USERNAME("
-                + "'" + username + "'"
-                + ")";
+        String sql = "call GET_USER_BY_USERNAME"
+                + "('" + username + "')";
 
         Query q = em.createNativeQuery(sql, User.class);
         // query database for salt - s, and hashed password - hp, 
         User user = null;
         try {
-            user = (User)q.getSingleResult();
+            user = (User) q.getSingleResult();
             System.out.println("DEBUG: user retrieved: " + user.toString());
         } catch (NoResultException e) {
             System.err.println("Invalid login");
         }
-        
+
         if (user != null && passwordUtil.isPasswordMatch(password, user.getSalt(), user.getPassword())) {
             System.out.println("DEBUG: username and password match");
             return user;
@@ -60,23 +59,6 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.close();
 
         return null;
-    }
-    
-    private static User getUserByUsername(String username) {
-
-        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
-        em.getTransaction().begin();
-       
-        String sql = "call GET_USER_BY_USERNAME('" + username + "')";
-
-        Query q = em.createNativeQuery(sql, User.class);
-        User u = (User)q.getSingleResult();
-        
-        em.getTransaction().commit();
-        em.close();
-        JPAUtils.shutdown();
-        
-        return u;
     }
 
     /**
@@ -110,7 +92,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
      * @param user
      * @return true on successful deletion, false otherwise
      */
-    public boolean removeUser(User user) {
+    public boolean deleteUser(User user) {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 
@@ -143,7 +125,33 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.close();
         return rowAffected == EXPECTED_NUM_OF_ROW_AFFECTED;
     }
-    
-    //TODO: update password
+
+    /**
+     * 
+     * @return list all normal users (isAdmin attribute = 0 in database)
+     */
+    public Collection<User> getAllNormalUsers() {
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+
+        String sql = "call GET_ALL_NORMAL_USERS";
+        Query q = em.createNativeQuery(sql,User.class);
+
+        List<User> normalUsers = null;
+
+        try {
+            normalUsers = q.getResultList();
+        } catch (NoResultException e) {
+            e.printStackTrace();
+            System.err.println("No users or error in retrieving users");
+        }
+        em.getTransaction().commit();
+        em.close();
+        return normalUsers;
+    }
+
+    public boolean updatePassword(String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

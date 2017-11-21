@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Collection;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -61,7 +62,7 @@ public class UserController {
             modelAndView.setViewName("/registration");
         } else {
             //TODO: do validation first
-            
+
             // add user to database
             if (userEntityService.addUser(user)) {
                 redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.REG_SUCCESS_MSG);
@@ -71,4 +72,15 @@ public class UserController {
         }
         return modelAndView;
     }
+
+    @RequestMapping(value = "/manage", method = RequestMethod.GET)
+    public ModelAndView manageNormalUser() {
+        
+        ModelAndView mv = new ModelAndView("manage");
+        Collection<User> normalUsers = userEntityService.getAllNormalUsers();
+        mv.addObject(SessionConstant.NORMAL_USER_ATTRIBUTE, normalUsers);
+        return mv;
+    }
+    
+
 }

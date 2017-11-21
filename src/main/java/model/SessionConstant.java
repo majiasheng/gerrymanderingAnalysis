@@ -7,7 +7,8 @@ public class SessionConstant {
     public static final String USER_ATTRIBUTE = "user";
     public static final String INIT_ATTRIBUTE = "init";
     public static final String MSG_ATTRIBUTE = "msg";
-
+    public static final String NORMAL_USER_ATTRIBUTE = "normalUsers";
+    
     // messages
     public static final String REG_FORM_ERROR_MSG = "<p style=\"color:red;\">Error in registration form</p>";
     public static final String REG_SUCCESS_MSG = "<p style=\"color:green;\">Registration success</p>";
