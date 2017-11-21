@@ -178,19 +178,18 @@ $(document).ready(function() {
       },
       click: function(e) {
         if (!districtLocked) {
-          resetDistrict(e);
           $(
             '<span id="distLockLabel" class="label label-info">District Locked!</span>'
           ).insertBefore("#infoText");
         } else {
           resetDistrict(districtLocked);
+          lockDistrict(e);
         }
         if (districtLocked && e.target == districtLocked.target) {
           districtLocked = null;
           $("#distLockLabel").remove();
         } else {
           map1.fitBounds(e.target.getBounds());
-          lockDistrict(e);
           districtLocked = e;
         }
       }
@@ -357,12 +356,12 @@ $(document).ready(function() {
           //TODO: display measure result
           // response is a TestResult object
           alert("response: " + JSON.stringify(response));
-          
+
           //TEST
           var result = "Is This State Gerrymandered? " + response.gerrymandered + "<br/>";
           result += (response.skipped ? "<p style=\"color:red\">Skipped</p>" : "");
           // $("#testResult").html(result);
-          
+
         },
         error: function(xhr, textStatus, errorThrown) {
           console.log(textStatus + "; errorThrown: " + errorThrown);
