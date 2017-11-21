@@ -69,17 +69,6 @@ public class DataServiceImpl implements DataService {
                   electionDataJson = mapper.writeValueAsString(district.getElectionData());
                 if (district.getDemographicData() != null)
                   demographicDataJson = mapper.writeValueAsString(district.getDemographicData());
-                // // test data
-                // else{
-                //   DemographicData dm = new DemographicData();
-                //   dm.setPopulation(4);
-                //   dm.setWhite(1);
-                //   dm.setAfricanAmerican(1);
-                //   dm.setAmericanNative(1);
-                //   dm.setAsian(1);
-                //   demographicDataJson = mapper.writeValueAsString(dm);
-                // }
-                // // test data //
             } catch (JsonProcessingException ex) {
                 System.err.println(ex);
             }
@@ -87,21 +76,17 @@ public class DataServiceImpl implements DataService {
             if (electionDataJson != null || demographicDataJson != null) {
                 JSONObject distJsonObj = new JSONObject(distJson);
                 JSONObject childobject=distJsonObj.getJSONObject("properties");
-                if (electionDataJson != null) {
+                if (electionDataJson != null)
                   childobject.put("electionData", new JSONObject(electionDataJson));
-                }
-                if (demographicDataJson != null) {
+                if (demographicDataJson != null)
                   childobject.put("demographicData", new JSONObject(demographicDataJson));
-                }
                 distJson = distJsonObj.toString();
             }
-
             geojsonStr += distJson + ",";
         }
         // remove the extra comma
-        if (ran) {
+        if (ran)
             geojsonStr = geojsonStr.substring(0, geojsonStr.length() - 1);
-        }
         return geojsonStr + geojsonStrEnd;
     }
 
