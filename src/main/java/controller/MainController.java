@@ -43,8 +43,14 @@ public class MainController {
         // if session varialbe doesnt have config object, add
         if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
             init.init();
+            // TODO: add this to servlet context
             request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
         }
+//        if (request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
+//            request.getSession().getServletContext().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
+//            System.out.println(request.getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
+//            System.out.println(request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
+//        } 
     }
 
     /**

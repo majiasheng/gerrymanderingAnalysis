@@ -23,7 +23,7 @@
 [x]  29. Approve User Account
 [x]  32. Load Data
 
-[]  3. Edit user information
+[x]  3. Edit user information
 []  12. Perform excess seat measure
 []  13. Aggregate Excess Seat Results
 []  15. Perform Consistent Advantage Test (mean median)

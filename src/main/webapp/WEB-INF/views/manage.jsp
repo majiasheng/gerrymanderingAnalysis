@@ -22,20 +22,17 @@
         <!--TODO: list all normal users, and add option for admin to edit-->
         <tr>
             <td>${normalUser.username}</td>
-            <!--TODO: check permissions based on user's rights-->
-            <td><input type="checkbox" name="canSave"></td>
-            <td><input type="checkbox" name="canDelete"></td>
-            <td><input type="checkbox" name="canUpload"></td>
-
-            
-            <form method="POST" action="#">
-                <input type="hidden" name="user" value="${normalUser.username}">
+            <form class="adminManageForm" method="POST" action="#">
+                <!--TODO: check permissions based on user's rights-->
+                <td><input type="checkbox" name="canSave"></td>
+                <td><input type="checkbox" name="canDelete"></td>
+                <td><input type="checkbox" name="canUpload"></td>
+                <input type="hidden" name="username" value="${normalUser.username}">
                 <!--TODO: change action on click with jquery-->
                 <td><input type="button" name="edit" value="Edit"></td>
                 <td><input type="button" name="delete" value="Delete"></td>
             </form>
         </tr>
-
     </c:forEach>
 </table>
 
