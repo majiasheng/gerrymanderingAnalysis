@@ -47,6 +47,10 @@ public class UserEntityServiceImpl implements UserEntityService {
         return userEntityDao.deleteUser(user);
     }
     
+    public boolean deleteUser(String username) {
+        return userEntityDao.deleteUser(username);
+    }
+    
     public boolean updateUser(User user) {        
         return userEntityDao.updateUser(user);
     }

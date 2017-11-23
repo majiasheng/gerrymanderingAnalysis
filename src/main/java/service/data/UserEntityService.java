@@ -18,6 +18,8 @@ public interface UserEntityService {
     public boolean addUser(User user);
 
     public boolean deleteUser(User user);
+    
+    public boolean deleteUser(String username);
 
     public boolean updateUser(User user);
 

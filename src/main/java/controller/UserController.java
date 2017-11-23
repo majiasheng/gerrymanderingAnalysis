@@ -126,4 +126,25 @@ public class UserController {
         ModelAndView mv = new ModelAndView("user-setting");
         return mv;
     }
+    
+    @RequestMapping(value = "/admin/delete", method = RequestMethod.GET)
+    public ModelAndView adminDeleteUser(@RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String username, HttpServletRequest request) {
+        
+        ModelAndView mv = new ModelAndView(request.getRequestURI());
+        
+        if (userEntityService.deleteUser(username)) {
+            mv.addObject("msg", "<p style=\"color:green\">Successfully deleted " + username + " from database</p>");
+        } else {
+            mv.addObject("msg", "<p style=\"color:red\">Fail to delete " + username + " from database</p>");
+        }
+        return mv;
+        
+    }
+    
+    @RequestMapping(value = "/admin/edit", method = RequestMethod.GET)
+    public void adminEditUser(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
+        for(String k : requestParams.keySet()) {
+            System.out.println(k + ": " + requestParams.get(k));
+        }
+    }
 }

@@ -87,7 +87,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
     }
 
     /**
-     * Removes user from database
+     * Removes user from database given user object
      *
      * @param user
      * @return true on successful deletion, false otherwise
@@ -98,6 +98,28 @@ public class UserEntityDaoImpl implements UserEntityDao {
 
         String sql = "call DELETE_USER("
                 + "'" + user.getUsername() + "'"
+                + ")";
+        Query q = em.createNativeQuery(sql);
+        int rowAffected = q.executeUpdate();
+
+        em.getTransaction().commit();
+        em.close();
+
+        return rowAffected == EXPECTED_NUM_OF_ROW_AFFECTED;
+    }
+
+    /**
+     * Removes user from database given username
+     *
+     * @param username
+     * @return
+     */
+    public boolean deleteUser(String username) {
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+
+        String sql = "call DELETE_USER("
+                + "'" + username + "'"
                 + ")";
         Query q = em.createNativeQuery(sql);
         int rowAffected = q.executeUpdate();
@@ -127,7 +149,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
     }
 
     /**
-     * 
+     *
      * @return list all normal users (isAdmin attribute = 0 in database)
      */
     public Collection<User> getAllNormalUsers() {
@@ -135,7 +157,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
         em.getTransaction().begin();
 
         String sql = "call GET_ALL_NORMAL_USERS";
-        Query q = em.createNativeQuery(sql,User.class);
+        Query q = em.createNativeQuery(sql, User.class);
 
         List<User> normalUsers = null;
 
