@@ -82,6 +82,7 @@ public class UserController {
      */
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     public ModelAndView manageNormalUser() {
+        //TODO: change manage to admin
 
         ModelAndView mv = new ModelAndView("manage");
         Collection<User> normalUsers = userEntityService.getAllNormalUsers();
@@ -130,7 +131,7 @@ public class UserController {
     @RequestMapping(value = "/admin/delete", method = RequestMethod.GET)
     public ModelAndView adminDeleteUser(@RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String username, HttpServletRequest request) {
         
-        ModelAndView mv = new ModelAndView(request.getRequestURI());
+        ModelAndView mv = new ModelAndView("/manage");
         
         if (userEntityService.deleteUser(username)) {
             mv.addObject("msg", "<p style=\"color:green\">Successfully deleted " + username + " from database</p>");
