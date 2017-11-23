@@ -68,10 +68,6 @@ public class DataAccessorImpl implements DataAccessor {
         Query q = em.createNativeQuery(sql, "DistrictDTO");
         List<DistrictDTO> districtDTOes = q.getResultList();
 
-        // DEBUG
-        // for (DistrictDTO d : districtDTOes) {
-        //     System.out.println(d);
-        // }
         em.getTransaction().commit();
         em.close();
 
