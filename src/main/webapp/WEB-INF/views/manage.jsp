@@ -13,7 +13,7 @@
 
 <h2>Manage User</h2>
 <hr>
-${msg}
+<section id="ok">${msg}</section>
 <table>
     <tr>
         <th>user</th>
@@ -23,11 +23,11 @@ ${msg}
     </tr>
     <c:forEach var="normalUser" items="${normalUsers}">
         <!--TODO: list all normal users, and add option for admin to edit-->
-        <tr>
+        <tr id="${normalUser.username}">
             <td>${normalUser.username}</td>
-            <form class="adminManageForm" id="${normalUser.username}" method="GET" action="#">
+            <form class="adminManageForm" method="GET" action="#">
                 <!--TODO: check permissions based on user's rights-->
-                <td><input type="checkbox" name="canSave"></td>
+                <td><input type="checkbox" name="canSave" checked="checked"></td>
                 <td><input type="checkbox" name="canDelete"></td>
                 <td><input type="checkbox" name="canUpload"></td>
                 <input type="hidden" name="username" value="${normalUser.username}">

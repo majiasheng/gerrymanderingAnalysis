@@ -5,7 +5,7 @@
 <ul class="dropdown-menu">
 
     <c:if test="${user.isAdmin()}">
-        <li><a href="/manage">Manager Users</a></li>
+        <li><a href="/manage">Manage Users</a></li>
     </c:if>
 
     <li><a href="/account">Account</a></li>

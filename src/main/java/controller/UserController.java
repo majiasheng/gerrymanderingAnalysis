@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import model.SessionConstant;
+import org.springframework.web.bind.annotation.ResponseBody;
 import service.data.UserEntityService;
 
 /**
@@ -127,25 +128,22 @@ public class UserController {
         ModelAndView mv = new ModelAndView("user-setting");
         return mv;
     }
-    
-    @RequestMapping(value = "/admin/delete", method = RequestMethod.GET)
-    public ModelAndView adminDeleteUser(@RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String username, HttpServletRequest request) {
-        
-        ModelAndView mv = new ModelAndView("/manage");
-        
-        if (userEntityService.deleteUser(username)) {
-            mv.addObject("msg", "<p style=\"color:green\">Successfully deleted " + username + " from database</p>");
-        } else {
-            mv.addObject("msg", "<p style=\"color:red\">Fail to delete " + username + " from database</p>");
-        }
-        return mv;
-        
+
+    @RequestMapping(value = "/admin/delete", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public boolean adminDeleteUser(@RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String username, HttpServletRequest request) {
+
+        return userEntityService.deleteUser(username);
     }
-    
-    @RequestMapping(value = "/admin/edit", method = RequestMethod.GET)
-    public void adminEditUser(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
-        for(String k : requestParams.keySet()) {
+
+    @RequestMapping(value = "/admin/edit", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public boolean adminEditUser(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
+        for (String k : requestParams.keySet()) {
             System.out.println(k + ": " + requestParams.get(k));
         }
+
+        return true;
+        //return userEntityService.updateUser(user);
     }
 }
