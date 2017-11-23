@@ -132,7 +132,6 @@ public class UserController {
     @RequestMapping(value = "/admin/delete", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public boolean adminDeleteUser(@RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String username, HttpServletRequest request) {
-
         return userEntityService.deleteUser(username);
     }
 

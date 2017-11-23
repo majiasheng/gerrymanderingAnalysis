@@ -44,9 +44,9 @@ $(document).ready(function () {
                         $('#' + data["username"]).remove();
                     } else if (action === "Edit") {
                         //TODO: update row
-                        console.log($('#' + data["username"] + ' form input[name=canSave]').is(':checked') );
-                        console.log($('#' + data["username"] + ' form input[name=canDelete]').is(':checked') );
-                        $('#' + data["username"] + ' form input[name=canUpload]').prop('checked', true);
+                        // console.log(data["canSave"]);
+                        // console.log($('tr#' + data["username"] + ' > form > input[name=canDelete]').is(':checked') );
+                        // $('tr#' + data["username"] + ' > form > input[name=canUpload]').removeAttr('checked');
                     } else {
                         //DEBUG/
                         console.log("Response: " + response + ". Something went astray");
@@ -62,7 +62,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
-
+                $("#msg").html("ERROR");
             }
         });
 

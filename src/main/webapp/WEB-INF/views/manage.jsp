@@ -13,7 +13,7 @@
 
 <h2>Manage User</h2>
 <hr>
-<section id="ok">${msg}</section>
+<div id="msg"></div>
 <table>
     <tr>
         <th>user</th>
@@ -27,7 +27,7 @@
             <td>${normalUser.username}</td>
             <form class="adminManageForm" method="GET" action="#">
                 <!--TODO: check permissions based on user's rights-->
-                <td><input type="checkbox" name="canSave" checked="checked"></td>
+                <td><input type="checkbox" name="canSave" <%--><c:if test="${user.canSave}}">checked</c:if><--%>></td>
                 <td><input type="checkbox" name="canDelete"></td>
                 <td><input type="checkbox" name="canUpload"></td>
                 <input type="hidden" name="username" value="${normalUser.username}">
