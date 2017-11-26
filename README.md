@@ -21,13 +21,14 @@
 [x]  27. Show credit page
 [x]  28. Logout
 [x]  29. Approve User Account
+[x]  30. Delete User Account
 [x]  32. Load Data
 
 [x]  3. Edit user information
 []  12. Perform excess seat measure
 []  13. Aggregate Excess Seat Results
 []  15. Perform Consistent Advantage Test (mean median)
-[]  16. Perform reliable wins test 
+[]  16. Perform reliable wins test
 []  17. Calculate Compactness measure
 []  18. Compare Gerrymandering measure results
 []  19. Create Super District manually
@@ -39,9 +40,8 @@
 []  25. View previous election results for the district
 
 ADMIN (29-36)
-[]  30. Delete User Account
 []  31. Manage User permissions
 []  33. View Website Statistics
 []  34. Delete/View/Save Test Results
 []  35. Upload new geopolitical data
-[]  36. Upload new demographic data 
+[]  36. Upload new demographic data
