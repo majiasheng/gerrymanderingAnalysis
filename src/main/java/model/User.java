@@ -41,7 +41,7 @@ public class User implements Serializable {
     @Column(name = "Salt", nullable = false)
     private byte[] salt;
 
-    @Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.com")
+    @Pattern(regexp = "[0-9a-zA-Z.]+@[0-9a-zA-Z.]*\\.[a-zA-Z]+")
     @Column(name = "Email", nullable = false)
     private String email;
 
