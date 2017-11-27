@@ -16,7 +16,7 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 }).addTo(map1);
 
 // state boundary
-var geojson = "/resources/js/state-boundary-cenus-bureau.json";
+var geojson = "/resources/json/state-boundary-cenus-bureau.json";
 var allStates = null;
 var districtBoundary = null;
 $.ajax(geojson).done(function(d){

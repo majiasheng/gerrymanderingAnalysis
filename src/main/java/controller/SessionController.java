@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import service.RequestService;
+import model.SessionConstant;
 import service.data.UserEntityService;
 
 /**
@@ -26,32 +26,44 @@ public class SessionController {
     @Autowired
     UserEntityService userEntityService;
 
+    /**
+     * Redirects to home page for usre login
+     *
+     * @return homepage view and models associated with it
+     */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView redirectLogin() {
         return new ModelAndView("index");
     }
 
+    /**
+     * Handles user login
+     *
+     * @param requestParams
+     * @param request
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView handleLogin(@RequestParam Map<String, String> requestParams,
             HttpServletRequest request,
             final RedirectAttributes redirectAttributes) {
 
-        // redirect to prevent double submission when refreshing page
-        ModelAndView modelAndView = new ModelAndView("redirect:/login");
-
-        User user = userEntityService.login(
-                requestParams.get(RequestService.USERNAME_REQUEST_PARAM),
-                requestParams.get(RequestService.PASSWORD_REQUEST_PARAM)
+        // process login request
+        User user = userEntityService.login(requestParams.get(SessionConstant.USERNAME_REQUEST_PARAM),
+                requestParams.get(SessionConstant.PASSWORD_REQUEST_PARAM)
         );
 
         if (user == null) {
-            //TODO: show an popup to indicate username and password mismatch
-            redirectAttributes.addFlashAttribute("msg", "Username and password do not match");
+            // report login failure
+            redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.LOGIN_FAILURE_MSG);
         } else {
             // add user to session
-            request.getSession().setAttribute(RequestService.USER_ATTRIBUTE, user);
+            request.getSession().setAttribute(SessionConstant.USER_ATTRIBUTE, user);
         }
-        return modelAndView;
+
+        // redirect to prevent double submission when refreshing page
+        return new ModelAndView("redirect:/login");
     }
 
     /**
@@ -60,9 +72,9 @@ public class SessionController {
      * @return
      */
     @RequestMapping("/logout")
-    public ModelAndView handleLogout(HttpServletRequest request) {
+    public String handleLogout(HttpServletRequest request) {
         // destroy session
         request.getSession(false).invalidate();
-        return new ModelAndView("index");
+        return "redirect:/";
     }
 }

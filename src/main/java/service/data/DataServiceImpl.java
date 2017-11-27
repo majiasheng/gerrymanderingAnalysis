@@ -10,6 +10,7 @@ import model.District;
 import model.ElectionData;
 import model.GeoData;
 import model.State;
+import model.DemographicData;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
@@ -62,25 +63,30 @@ public class DataServiceImpl implements DataService {
             ran = true;
             ObjectMapper mapper = new ObjectMapper();
             String electionDataJson = null;
+            String demographicDataJson = null;
             try {
-                electionDataJson = mapper.writeValueAsString(district.getElectionData());
+                if (district.getElectionData() != null)
+                  electionDataJson = mapper.writeValueAsString(district.getElectionData());
+                if (district.getDemographicData() != null)
+                  demographicDataJson = mapper.writeValueAsString(district.getDemographicData());
             } catch (JsonProcessingException ex) {
                 System.err.println(ex);
             }
             String distJson = district.getGeoData().getBoundary();
-            if (electionDataJson != null) {
+            if (electionDataJson != null || demographicDataJson != null) {
                 JSONObject distJsonObj = new JSONObject(distJson);
                 JSONObject childobject=distJsonObj.getJSONObject("properties");
-                childobject.put("electionData", new JSONObject(electionDataJson));
+                if (electionDataJson != null)
+                  childobject.put("electionData", new JSONObject(electionDataJson));
+                if (demographicDataJson != null)
+                  childobject.put("demographicData", new JSONObject(demographicDataJson));
                 distJson = distJsonObj.toString();
             }
-
             geojsonStr += distJson + ",";
         }
         // remove the extra comma
-        if (ran) {
+        if (ran)
             geojsonStr = geojsonStr.substring(0, geojsonStr.length() - 1);
-        }
         return geojsonStr + geojsonStrEnd;
     }
 

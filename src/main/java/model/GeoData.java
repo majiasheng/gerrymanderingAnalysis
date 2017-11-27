@@ -3,7 +3,7 @@ package model;
 public class GeoData {
 
     private int districtNum;
-    private String boundary;    // district boundary as geojson in text format
+    private String boundary;    // district boundary as geojson
 
     public GeoData() {
     }
@@ -12,7 +12,8 @@ public class GeoData {
         this.districtNum = districtNum;
         this.boundary = boundary;
     }
-
+    
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public int getDistrictNum() {
         return districtNum;
     }
@@ -28,5 +29,5 @@ public class GeoData {
     public void setBoundary(String boundary) {
         this.boundary = boundary;
     }
-
+    // </editor-fold>
 }

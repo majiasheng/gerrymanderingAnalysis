@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import model.State;
 import service.data.DataService;
 import service.Init;
-import service.RequestService;
+import model.SessionConstant;
 
 /**
  * @Author Jia Sheng Ma (jiasheng.ma@yahoo.com)
@@ -32,21 +32,25 @@ public class MainController {
     private Init init;
     @Autowired
     private DataService dataService;
-    @Autowired
-    private RequestService requestService;
 
     /**
-     * Initializes the application with configurations, and save to session.
-     *
+     * Initializes the application with configurations, 
+     * and saves config to session.
      * @param request any incoming http request
      */
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
-        // if session varialbe doesnt have init object, add
-        if (request.getSession().getAttribute(RequestService.INIT_ATTRIBUTE) == null) {
+        // if session varialbe doesnt have config object, add
+        if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
             init.init();
-            request.getSession().setAttribute(RequestService.INIT_ATTRIBUTE, init);
+            // TODO: add this to servlet context
+            request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
         }
+//        if (request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
+//            request.getSession().getServletContext().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
+//            System.out.println(request.getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
+//            System.out.println(request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
+//        } 
     }
 
     /**
@@ -63,11 +67,12 @@ public class MainController {
     public ArrayList<Integer> handleSelectState(
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
+        // get selected state from request
+        String selectedState = (String) requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
 
-        String selectedState = (String) requestParams.get(RequestService.STATE_REQUEST_PARAM);
         // make sure request params are not null
         if (selectedState != null) {
-            // get and return a list of years in which the selected state has available
+            // get and return a list of years in which the selected state has available in db
             return (ArrayList<Integer>) dataService.getDataYearSetByState(selectedState);
         }
         return null;
@@ -87,22 +92,21 @@ public class MainController {
             @RequestParam Map<String, String> requestParams,
             HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedState = requestParams.get(RequestService.STATE_REQUEST_PARAM);
-        String selectedYear_str = requestParams.get(RequestService.YEAR_REQUEST_PARAM);
+        // get selected state and year as strings from request
+        String selectedState = requestParams.get(SessionConstant.STATE_REQUEST_PARAM);
+        String selectedYear_str = requestParams.get(SessionConstant.YEAR_REQUEST_PARAM);
+
         // make sure request params are not null
         if (selectedState != null && selectedYear_str != null) {
-            // get and return a list of districts
-            int selectedYear = Integer.parseInt(selectedYear_str);
-
             // save state object to session for later use in gerrymandering tests
-            State state = dataService.getStateByYear(selectedState, selectedYear);
-            request.getSession().setAttribute(RequestService.STATE_ATTRIBUTE, state);
+            State state = dataService.getStateByYear(selectedState, Integer.parseInt(selectedYear_str));
+            request.getSession().setAttribute(SessionConstant.STATE_ATTRIBUTE, state);
 
             // convert districts to JSON
-            String jsonContainer = "{\"distGeoJson\":";
-            jsonContainer += dataService.districtGeoDataToJson(state.getDistricts());
-            jsonContainer += "}";
-            return jsonContainer;
+            String distGeoJson = "{\"distGeoJson\":";
+            distGeoJson += dataService.districtGeoDataToJson(state.getDistricts());
+            distGeoJson += "}";
+            return distGeoJson;
         }
         return null;
     }
@@ -138,7 +142,7 @@ public class MainController {
      * @return name of credit page
      */
     @RequestMapping(value = "/credit", method = RequestMethod.GET)
-    public ModelAndView creditPage() {
+    public ModelAndView showCredit() {
         return new ModelAndView("credit");
     }
 
@@ -148,7 +152,7 @@ public class MainController {
      * @return name of help page
      */
     @RequestMapping(value = "/help", method = RequestMethod.GET)
-    public ModelAndView helpPage() {
+    public ModelAndView showHelp() {
         return new ModelAndView("help");
     }
 

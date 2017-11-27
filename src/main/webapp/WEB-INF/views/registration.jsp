@@ -1,16 +1,37 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <h2 id="h">Sign Me Up</h2>
 <div id="regform">
-    <form method="POST" action="/register">
-        First Name<br><input type="text" name="firstName" placeholder="First Name"><br>
-        Last Name<br><input type="text" name="lastName" placeholder="Last Name"><br>
-        Email<br><input type="text" name="email" placeholder="email"><br>
-        Re-enter email<br><input type="text" name="reemail" placeholder="Re-enter email"><br>
-        Username<br><input type="text" name="userName" placeholder="Username"><br>
-        Password<br><input type="password" name="password" placeholder="password"><br>
-        Re-enter password<br><input type="password" name="repassword" placeholder="Re-enter password"><br>
+   <form method="POST" action="/register">
+        First Name <br>
+        <input type="text" name="firstName" placeholder="First Name" required>
+       <span class="error"><form:errors path="user.firstName"/></span><br>
+
+        Last Name <br>
+        <input type="text" name="lastName" placeholder="Last Name" required>
+       <span class="error"><form:errors path="user.firstName"/></span><br>
+
+        Email <br>
+        <input type="text" name="email" placeholder="email" required>
+       <span class="error"><form:errors path="user.email"/></span><br>
+
+        Re-enter email <br>
+        <input type="text" name="reemail" placeholder="Re-enter email" required><br>
+
+        Username <br>
+        <input type="text" name="username" placeholder="Username" required>
+       <span class="error"><form:errors path="user.username"/></span><br>
+
+        Password <br>
+        <input type="password" name="password" placeholder="password" required>
+       <span class="error"><form:errors path="user.password"/></span><br>
+
+        Re-enter password ${err_repassword}<br>
+        <input type="password" name="repassword" placeholder="Re-enter password" required><br>
+
+        <!--TODO: check double password and email-->
+
         <input type="submit" name="submit" value="Sign Me Up">
     </form>
 </div>

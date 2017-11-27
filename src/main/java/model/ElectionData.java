@@ -9,8 +9,9 @@ public class ElectionData {
     private Status repStatus;
     private Party winner;
 
-    public ElectionData(){}
-    
+    public ElectionData() {
+    }
+
     public ElectionData(int districtNum, int demVotes, int repVotes, String demStatus, String repStatus, String winner) {
         this.districtNum = districtNum;
         this.demVotes = demVotes;
@@ -19,7 +20,8 @@ public class ElectionData {
         this.repStatus = Status.get(repStatus);
         this.winner = Party.get(winner);
     }
-    
+
+    // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public int getDistrictNum() {
         return districtNum;
     }
@@ -67,5 +69,5 @@ public class ElectionData {
     public void setWinner(Party winner) {
         this.winner = winner;
     }
-
+    //</editor-fold>
 }

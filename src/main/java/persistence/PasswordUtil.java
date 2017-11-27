@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
@@ -30,12 +31,25 @@ public class PasswordUtil {
      * @param salt
      * @return
      */
-    public String getSecuredPassword(String password, String salt) {
+    public String getSecuredPassword(String password, byte[] salt) {
 
-        String saltedPassword = salt + password;
+        String saltStr = Arrays.toString(salt);
+        
+        String saltedPassword = saltStr + password;
         String hashedPassword = generateHashedPassword(saltedPassword);
 
         return hashedPassword;
+    }
+    
+    /**
+     * Checks if a plain text password with a salt matches with the hashed password
+     * @param password
+     * @param salt
+     * @param hashedPassword
+     * @return true if match, false otherwise
+     */
+    public boolean isPasswordMatch(String password, byte[] salt, String hashedPassword ) {
+        return getSecuredPassword(password, salt).equals(hashedPassword);
     }
 
     /**
@@ -62,7 +76,7 @@ public class PasswordUtil {
 
     /**
      *
-     * @return a 32-byte long salt
+     * @return a 32-byte salt
      */
     public static byte[] getSalt32() {
         byte[] salt = new byte[SALT32];
@@ -72,7 +86,7 @@ public class PasswordUtil {
 
     /**
      *
-     * @return a 64-byte long salt
+     * @return a 64-byte salt
      */
     public static byte[] getSalt64() {
         byte[] salt = new byte[SALT64];

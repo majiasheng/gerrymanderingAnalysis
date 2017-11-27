@@ -25,9 +25,10 @@ public class Init {
      */
     public void init() {
         System.out.println("\n>> Initializing...\n");
+        
         config = getConfiguration(CONFIG_FILE);
+        
         System.out.println(this.getConfig());
-
     }
 
     /**
@@ -37,10 +38,9 @@ public class Init {
      * @return configuration object
      */
     public Config getConfiguration(String configFile) {
-        //read and parse config file
         byte[] jsonData;
         try {
-            // read getConfiguration file
+            // read Configuration file
             jsonData = Files.readAllBytes(Paths.get(configFile));
             ObjectMapper objectMapper = new ObjectMapper();
 

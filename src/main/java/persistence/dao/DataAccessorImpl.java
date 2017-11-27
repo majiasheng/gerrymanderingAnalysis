@@ -16,6 +16,7 @@ import model.GeoData;
 import model.Party;
 import model.State;
 import model.Status;
+import model.DemographicData;
 import org.springframework.stereotype.Repository;
 import persistence.JPAUtils;
 
@@ -39,12 +40,12 @@ public class DataAccessorImpl implements DataAccessor {
         Query q = em.createNativeQuery(sql);
         List<Date> years_sql = q.getResultList();
         List<Integer> years = new ArrayList<Integer>();
-        
+
         final int HEAD = 0;
         for (Date d : years_sql) {
-            years.add(HEAD,d.toLocalDate().getYear());
+            years.add(HEAD, d.toLocalDate().getYear());
         }
-        
+
         em.getTransaction().commit();
         em.close();
 
@@ -67,15 +68,10 @@ public class DataAccessorImpl implements DataAccessor {
         Query q = em.createNativeQuery(sql, "DistrictDTO");
         List<DistrictDTO> districtDTOes = q.getResultList();
 
-        // DEBUG
-        for (DistrictDTO d : districtDTOes) {
-            System.out.println(d);
-        }
-
         em.getTransaction().commit();
         em.close();
 
-        // TODO: close connection pool when app exits
+        // TODO: close connection pool when app exits?
         // JPAUtils.shutdown();
         return districtDTOes;
     }
@@ -98,10 +94,9 @@ public class DataAccessorImpl implements DataAccessor {
      * @return a collection of district models
      */
     public Collection<District> getDistrictsDataByYear(String state, int year) {
-
+        // retrieve district from database
         ArrayList<DistrictDTO> districtDTOes = (ArrayList<DistrictDTO>) getDistrictDTOByYear(state, year);
         ArrayList<District> districts = new ArrayList<District>();
-
         // convert dto to district model
         for (DistrictDTO dto : districtDTOes) {
             ElectionData electionData = new ElectionData(
@@ -110,11 +105,25 @@ public class DataAccessorImpl implements DataAccessor {
                     dto.getRepVotes(),
                     dto.getDemStatus(),
                     dto.getRepStatus(),
-                    dto.getWinner());
-            GeoData geoData = new GeoData(dto.getDistrictNum(), dto.getBoundary());
-
-            District district = new District(state, dto.getDistrictNum(), geoData, electionData);
-
+                    dto.getWinner()
+            );
+            GeoData geoData = new GeoData(
+                    dto.getDistrictNum(),
+                    dto.getBoundary()
+            );
+            DemographicData demogData = new DemographicData(
+                    dto.getDistrictNum(),
+                    dto.getPopulation(),
+                    dto.getWhite(),
+                    dto.getAfricanAmerican(),
+                    dto.getAmericanNative(),
+                    dto.getAsian(),
+                    dto.getPacificIslander(),
+                    dto.getOtherRace(),
+                    dto.getTwoOrMoreRaces()
+            );
+            District district = new District(state, dto.getDistrictNum(), geoData, electionData, demogData);
+            // add district to list
             districts.add(district);
         }
         return districts;
