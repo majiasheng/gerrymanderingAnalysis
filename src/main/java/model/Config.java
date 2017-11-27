@@ -3,8 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Holds configuration data from external configuration file (config.json)
@@ -15,7 +17,7 @@ import java.util.Map;
 public class Config {
 
     private Map<String, String> states;
-    private Collection<String> measures;
+    private Set<String> measures;
     private double strokeWidth;
     private int[] strokeColor;
     private int defaultYear;
@@ -24,7 +26,7 @@ public class Config {
     public Config() {
         // initialize and set default
         states = new TreeMap<String, String>();
-        measures = new ArrayList<String>();
+        measures = new HashSet<String>();
         strokeColor = new int[3];
     }
 
@@ -41,10 +43,10 @@ public class Config {
         return measures;
     }
 
-    public void setMeasures(ArrayList<String> measures) {
+    public void setMeasures(Set<String> measures) {
         this.measures = measures;
     }
-
+    
     public double getStrokeWidth() {
         return strokeWidth;
     }

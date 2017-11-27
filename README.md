@@ -29,19 +29,19 @@
 []  13. Aggregate Excess Seat Results
 []  15. Perform Consistent Advantage Test (mean median)
 []  16. Perform reliable wins test
-[]  17. Calculate Compactness measure
+[x]  17. Calculate Compactness measure
 []  18. Compare Gerrymandering measure results
 []  19. Create Super District manually
 []  20. Create Super District using Automated methods
-[]  21. Validate super district
+[\]  21. Validate super district
 []  22. Simulate super district
 []  23. Export current work to a database
 []  24. Import saved work from a database
-[]  25. View previous election results for the district
+[x]  25. View previous election results for the district
 
 ADMIN (29-36)
 []  31. Manage User permissions
 []  33. View Website Statistics
 []  34. Delete/View/Save Test Results
-[]  35. Upload new geopolitical data
-[]  36. Upload new demographic data
+[\]  35. Upload new geopolitical data
+[\]  36. Upload new demographic data
