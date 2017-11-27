@@ -34,7 +34,7 @@ public class MainController {
     private DataService dataService;
 
     /**
-     * Initializes the application with configurations, 
+     * Initializes the application with configurations,
      * and saves config to session.
      * @param request any incoming http request
      */
@@ -50,7 +50,7 @@ public class MainController {
 //            request.getSession().getServletContext().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
 //            System.out.println(request.getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
 //            System.out.println(request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
-//        } 
+//        }
     }
 
     /**
@@ -154,6 +154,16 @@ public class MainController {
     @RequestMapping(value = "/help", method = RequestMethod.GET)
     public ModelAndView showHelp() {
         return new ModelAndView("help");
+    }
+
+    /**
+     * Goes to analytics page
+     *
+     * @return name of analytics page
+     */
+    @RequestMapping(value = "/analytics", method = RequestMethod.GET)
+    public ModelAndView showAnalytics() {
+        return new ModelAndView("analytics");
     }
 
 }
