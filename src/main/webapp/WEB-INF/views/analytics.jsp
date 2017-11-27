@@ -12,7 +12,7 @@
 <script src="/resources/js/analytics/dashboard.js"></script>
 
 <div id="embed-api-auth-container"></div>
-<div id="chart-container"></div>
 <div id="view-selector-container"></div>
+<div id="chart-container"></div>
 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
