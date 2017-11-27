@@ -27,6 +27,16 @@
         <script src="/resources/js/mapManip.js"></script>
         <%-- /JS LOAD --%>
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110037798-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-110037798-1');
+        </script>
+
     </head>
     <body>
         <div class="container-fluid">
