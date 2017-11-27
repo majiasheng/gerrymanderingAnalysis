@@ -9,6 +9,7 @@
 }(window,document,'script'));
 </script>
 
+<script src="/resources/js/analytics/auth.js"></script>
 <script src="/resources/js/analytics/dashboard.js"></script>
 
 <div id="embed-api-auth-container"></div>
