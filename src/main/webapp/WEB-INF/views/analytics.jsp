@@ -16,6 +16,7 @@
 <div id="embed-api-auth-container"></div>
 <div id="view-selector-container"></div>
 <div id="chart-container"></div>
+<br>
 <div id="chart-1-container"></div>
 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
