@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import model.TestResult;
 import org.apache.commons.math3.stat.inference.TTest;
 import java.util.ArrayList;
+import java.util.HashMap;
+import model.Party;
 
 /**
  *
@@ -18,6 +20,7 @@ public class GerrymanderingTTest implements GerrymanderingTestService {
 
     public TestResult doTest(State state) {
         //TODO: check if state is null
+        System.out.println("test");
         ArrayList<Double> repDistricts = new ArrayList();
         ArrayList<Double> demDistricts = new ArrayList();
 
@@ -35,6 +38,10 @@ public class GerrymanderingTTest implements GerrymanderingTestService {
         double pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
         boolean isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
         TestResult ret = new TestResult();
+        HashMap unique = new HashMap();
+        unique.put(Party.DEMOCRATIC, demDistrictsArray);
+        unique.put(Party.REPUBLICAN,repDistrictsArray);
+        ret.setUniqueTestResult(unique);
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
         ret.setGerrymandered(isGerrymandered);

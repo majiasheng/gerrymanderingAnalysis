@@ -11,6 +11,8 @@ import model.District;
 import model.ElectionData;
 import org.springframework.stereotype.Component;
 import model.TestResult;
+import java.util.HashMap;
+import model.Party;
 
 /**
  *
@@ -42,11 +44,15 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
             }
         }
 
+        HashMap wastedVotes = new HashMap();
+        wastedVotes.put(Party.DEMOCRATIC,demWasted);
+        wastedVotes.put(Party.REPUBLICAN, repWasted);
+        
         double efficiencyGap = (demWasted * 1.0 - repWasted * 1.0) / totalVotes;
         System.out.println("Efficiency Gap: " + efficiencyGap);
 
         TestResult result = new TestResult();
-
+        result.setUniqueTestResult(wastedVotes);
         if (efficiencyGap * state.getDistricts().size() >= 2) {
             result.setGerrymandered(true);
         } else {

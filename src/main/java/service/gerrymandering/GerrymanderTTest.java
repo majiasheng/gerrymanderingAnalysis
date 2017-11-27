@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author majiasheng
  */
-@Component(value = "TTest")
+@Component(value = "GerrymanderTTest")
 public class GerrymanderTTest implements GerrymanderingTestService {
 
     double CONFIDENCE_LEVEL = .05;

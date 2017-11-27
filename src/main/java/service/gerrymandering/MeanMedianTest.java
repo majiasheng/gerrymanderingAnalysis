@@ -46,6 +46,7 @@ public class MeanMedianTest implements GerrymanderingTestService {
         stderr /= Math.sqrt(voteShareArray.length);
         double zScore = CORRECTION_FACTOR * meanMedDiff / stderr;
         TestResult ret = new TestResult();
+        ret.setUniqueTestResult(voteShareArray);
         ret.setConfidenceLvl(.05);
         ret.setpValue(1-.975);
         if(Math.abs(zScore) > ZTEST){
