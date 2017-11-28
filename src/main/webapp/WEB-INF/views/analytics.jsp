@@ -1,4 +1,8 @@
 <%@include file="/WEB-INF/views/include/header.jsp" %>
+<!--send home if user is empty or user is not admin-->
+<c:if test="${empty user || not user.isAdmin()}">
+    <c:redirect url="/"/>
+</c:if>
 <h2>Analytics</h2>
 <script>
 (function(w,d,s,g,js,fs){
