@@ -15,8 +15,9 @@
 
 <div id="embed-api-auth-container"></div>
 <div id="view-selector-container"></div>
+<h3>Visit by Date</h3>
 <div id="chart-container"></div>
-<br>
+<h3>Visit by Country</h3>
 <div id="chart-1-container"></div>
 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
