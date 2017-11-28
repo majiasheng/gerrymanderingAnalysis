@@ -51,11 +51,6 @@ public class TestController {
             result = mmTestService.doTest(state);
         }
 
-        // TEST
-        // System.out.println("/measure/" + measureName);
-        // result = new TestResult();
-        // result.setpValue(9.0);
-        // END TEST
         return result;
     }
 }
