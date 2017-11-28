@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Map;
+import javax.servlet.ServletContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,9 @@ public class MainController {
     private Init init;
     @Autowired
     private DataService dataService;
+    @Autowired
+    private ServletContext servletContext;
+
 
     /**
      * Initializes the application with configurations, 
@@ -40,17 +44,12 @@ public class MainController {
      */
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
-        // if session varialbe doesnt have config object, add
-        if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
+        // if application scope doesnt have config object, add
+        if (servletContext.getAttribute(SessionConstant.CONFIG_ATTRIBUTE)==null) {
             init.init();
-            // TODO: add this to servlet context
-            request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
+            // add to servlet context
+            servletContext.setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
         }
-//        if (request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
-//            request.getSession().getServletContext().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
-//            System.out.println(request.getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
-//            System.out.println(request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
-//        } 
     }
 
     /**

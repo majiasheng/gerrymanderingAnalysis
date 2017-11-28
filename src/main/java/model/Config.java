@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,7 +45,7 @@ public class Config {
     public void setMeasures(Set<String> measures) {
         this.measures = measures;
     }
-    
+
     public double getStrokeWidth() {
         return strokeWidth;
     }
