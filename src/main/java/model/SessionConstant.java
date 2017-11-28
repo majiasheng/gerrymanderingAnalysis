@@ -18,7 +18,7 @@ public class SessionConstant {
     public static final String REG_SUCCESS_MSG = "<p style=\"color:green;\">Registration success</p>";
     public static final String REG_FAILURE_MSG = "<p style=\"color:red;\">Error in registering: failed to add user to database</p>";
     public static final String LOGIN_FAILURE_MSG = "<p style=\"color:red\">Username and password do not match</p>";
-    public static final String UPDATE_INFO_SUCCESS_MSG = "<p style=\"color:green\">Update info successfully.</p>";
+    public static final String UPDATE_INFO_SUCCESS_MSG = "<p style=\"color:green\">Updated info successfully.</p>";
     public static final String UPDATE_INFO_FAILURE_MSG = "<p style=\"color:red\">Failed to update info.</p>";
     
     // request params
