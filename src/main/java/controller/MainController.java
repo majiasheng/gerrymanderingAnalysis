@@ -156,14 +156,4 @@ public class MainController {
         return new ModelAndView("help");
     }
 
-    /**
-     * Goes to analytics page
-     *
-     * @return name of analytics page
-     */
-    @RequestMapping(value = "/analytics", method = RequestMethod.GET)
-    public ModelAndView showAnalytics() {
-        return new ModelAndView("analytics");
-    }
-
 }

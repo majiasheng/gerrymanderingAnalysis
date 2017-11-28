@@ -104,7 +104,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         // get user from session
         User user = (User) request.getSession().getAttribute(SessionConstant.USER_ATTRIBUTE);
-        // update user 
+        // update user
         user.setFirstName(requestParams.get(SessionConstant.FIRSTNAME_REQUEST_PARAM));
         user.setLastName(requestParams.get(SessionConstant.LASTNAME_REQUEST_PARAM));
 
@@ -112,7 +112,7 @@ public class UserController {
             mv = new ModelAndView("redirect:/confirmEdit");
             redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_SUCCESS_MSG);
         } else {
-            // send user back to user setting page with error message 
+            // send user back to user setting page with error message
             mv.setViewName(request.getRequestURI());
             redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_FAILURE_MSG);
         }
@@ -144,5 +144,18 @@ public class UserController {
 
         return true;
         //return userEntityService.updateUser(user);
+    }
+
+    /**
+     * Goes to analytics page
+     *
+     * @return name of analytics page
+     */
+    @RequestMapping(value = "/analytics", method = RequestMethod.GET)
+    public ModelAndView showAnalytics() {
+        ModelAndView mv = new ModelAndView("analytics");
+        Collection<User> normalUsers = userEntityService.getAllNormalUsers();
+        mv.addObject(SessionConstant.NORMAL_USER_ATTRIBUTE, normalUsers);
+        return mv;
     }
 }
