@@ -26,7 +26,11 @@
 [x]  29. Approve User Account
 [x]  30. Delete User Account
 [x]  32. Load Data
+[x]  33. View Website Statistics
+
 [\]  21. Validate super district
+[\]  35. Upload new geopolitical data
+[\]  36. Upload new demographic data
 
 []  12. Perform excess seat measure
 []  13. Aggregate Excess Seat Results
@@ -41,7 +45,4 @@
 
 ADMIN (29-36)
 []  31. Manage User permissions
-[]  33. View Website Statistics
 []  34. Delete/View/Save Test Results
-[\]  35. Upload new geopolitical data
-[\]  36. Upload new demographic data

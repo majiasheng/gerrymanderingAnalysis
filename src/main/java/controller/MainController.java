@@ -38,7 +38,7 @@ public class MainController {
 
 
     /**
-     * Initializes the application with configurations, 
+     * Initializes the application with configurations,
      * and saves config to session.
      * @param request any incoming http request
      */
