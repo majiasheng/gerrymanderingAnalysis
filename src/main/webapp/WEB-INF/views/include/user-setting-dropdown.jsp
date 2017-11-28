@@ -5,6 +5,7 @@
 <ul class="dropdown-menu">
 
     <c:if test="${user.isAdmin()}">
+        <li><a href="/analytics">Site Statistics</a></li>
         <li><a href="/manage">Manage Users</a></li>
     </c:if>
 
@@ -15,4 +16,3 @@
 
     <li><a href="/logout">Log out</a></li>
 </ul>
-
