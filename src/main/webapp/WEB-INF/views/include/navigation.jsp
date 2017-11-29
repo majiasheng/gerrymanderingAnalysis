@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-default" role="navigation">
-    
+
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
@@ -15,7 +16,14 @@
             <li>
                 <a href="compare">Compare</a>
             </li>
-            <li class="disabled">
+            <c:choose>
+                <c:when test="${user.isAdmin()}">
+                    <li>
+                    </c:when>
+                    <c:otherwise>
+                    <li class="disabled">
+                    </c:otherwise>
+                </c:choose>
                 <a href="file-upload">File Upload</a>
             </li>
             <li>
@@ -34,12 +42,12 @@
                 <c:when test="${empty user}">
                     <li><a href="registration">Register</a></li>
                     <li><%@include file="/WEB-INF/views/include/login-modal.jsp" %></li>
-                </c:when>
+                    </c:when>
 
                 <c:otherwise>
                     <li class="dropdown"><%@include file="/WEB-INF/views/include/user-setting-dropdown.jsp" %></li>
-                </c:otherwise>
-            </c:choose>
+                    </c:otherwise>
+                </c:choose>
         </ul>
         <!--end nav bar right-->
     </div>
