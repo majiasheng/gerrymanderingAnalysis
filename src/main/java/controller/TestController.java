@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import model.TestResult;
 import model.SessionConstant;
+import org.springframework.stereotype.Component;
 import service.gerrymandering.GerrymanderingTestService;
 
 /**
@@ -33,6 +34,10 @@ public class TestController {
     @Autowired
     @Qualifier("EGTest")
     private GerrymanderingTestService egTestService;
+    
+    @Autowired
+    @Qualifier("CompactnessTest")
+    private GerrymanderingTestService compactnessTestService;
 
     @RequestMapping(value = "/measure/{measureName}", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -49,6 +54,8 @@ public class TestController {
             result = tTestService.doTest(state);
         } else if ("Mean-Median Test".equals(measureName)) {
             result = mmTestService.doTest(state);
+        } else if ("Compactness Test".equals(measureName)) {
+            result = compactnessTestService.doTest(state);
         }
 
         return result;
