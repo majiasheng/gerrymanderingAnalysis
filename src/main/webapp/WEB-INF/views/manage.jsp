@@ -14,6 +14,7 @@
 <h2>Manage User</h2>
 <hr>
 <div id="msg"></div>
+<h2 style="color:red">TODO: ask for confirmation before deleting user</h2>
 <table>
     <tr>
         <th>user</th>
@@ -31,7 +32,6 @@
                 <td><input type="checkbox" name="canDelete"></td>
                 <td><input type="checkbox" name="canUpload"></td>
                 <input type="hidden" name="username" value="${normalUser.username}">
-                <!--TODO: change action on click with jquery-->
                 <td><input type="submit" name="operation" value="Edit"></td>
                 <td><input type="submit" name="operation" value="Delete"></td>
             </form>

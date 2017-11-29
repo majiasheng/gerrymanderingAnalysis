@@ -7,10 +7,11 @@
 <h1>File Upload</h1>
 <hr>
 ${msg}
+<h2 style="color:red">TODO: check all files are included before sending request to server</h2>
 <h5>Please upload files in .csv format</h5><br>
 <form action="/upload" method="POST">
     Geospatial Data<input type="file" name="geoData"/><br>
-    Dempgraphic Data<input type="file" name="demoData"/><br>
+    Dempgraphic Data<input type="file" name="demographicData"/><br>
     Election Data<input type="file" name="electionData"/><br>
     <input type='submit' value="Upload">
 </form>
