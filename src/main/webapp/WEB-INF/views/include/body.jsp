@@ -43,6 +43,7 @@
 
             <%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
 
+            <hr>
             <!-- Info window -->
             <div class="row" id="infowindow">
                 <div class="col-md-12">
