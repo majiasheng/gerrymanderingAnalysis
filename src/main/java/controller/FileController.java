@@ -37,22 +37,21 @@ public class FileController {
             mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.WRONG_FILE_FORMAT_MSG);
             return mv;
         }
-
         MultipartFile demographicMultipartFile = multipartFile.get(SessionConstant.DEMOGRAPHIC_DATA_ATTRIBUTE);
         if (!fileUploadService.isCSV(demographicMultipartFile)) {
             mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.WRONG_FILE_FORMAT_MSG);
             return mv;
         }
-
         MultipartFile electionMultipartFile = multipartFile.get(SessionConstant.GEO_DATA_ATTRIBUTE);
         if (!fileUploadService.isCSV(electionMultipartFile)) {
             mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.WRONG_FILE_FORMAT_MSG);
             return mv;
         }
 
+        // convert MultipartFile to File
         try {
             Map<String, File> files = new HashMap<String, File>();
-            // convert MultipartFile to File
+            
             File geoFile = fileUploadService.multipartFileToFile(geoMultipartFile);
             File demographicFile = fileUploadService.multipartFileToFile(demographicMultipartFile);
             File electionFile = fileUploadService.multipartFileToFile(electionMultipartFile);
