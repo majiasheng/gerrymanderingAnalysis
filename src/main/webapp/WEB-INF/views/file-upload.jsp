@@ -11,10 +11,10 @@ ${msg}
 <br>show user what is the exact format for each of the csv file
 </h2>
 <h5>Please upload files in .csv format</h5><br>
-<form action="/upload" method="POST">
-    Geospatial Data<input type="file" name="geoData"/><br>
-    Dempgraphic Data<input type="file" name="demographicData"/><br>
-    Election Data<input type="file" name="electionData"/><br>
+<form action="/upload" enctype="multipart/form-data" method="POST">
+    Geospatial Data<input type="file" name="geoData" required/><br>
+    Demographic Data<input type="file" name="demographicData" required/><br>
+    Election Data<input type="file" name="electionData" required/><br>
     <input type='submit' value="Upload">
 </form>
 
