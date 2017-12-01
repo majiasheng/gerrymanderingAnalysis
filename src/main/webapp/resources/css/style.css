@@ -41,3 +41,13 @@ table, th, td {
     font-size: 2em;
     padding: 1em;
 }
+
+.blue {
+    background-color: #232066;
+    color: white;
+}
+
+.red {
+    background-color: #E91D0E;
+    color: white;
+}

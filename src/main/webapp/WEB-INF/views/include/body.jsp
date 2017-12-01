@@ -47,7 +47,7 @@
             <!-- Info window -->
             <div class="row" id="infowindow">
                 <div class="col-md-12">
-                    <span class="label label-default">Info</span>
+                    <!--<span class="label label-default">Info</span>-->
                     <div class="info" id="infoText">
 
                     </div>

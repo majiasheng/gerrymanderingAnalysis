@@ -28,13 +28,16 @@ $(document).ready(function() {
           if (electionDataExcludeKey(key2)) {
             return true;
           }
-          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+          var v = translateElectionDataVal(title(val2));
+          v = isNaN(v) ? v : Number(v).toLocaleString('en');
+          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + v + "</p>\n";
+          //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
         } else if (key == "demographicData") {
           if (demogDataExcludeKey(key2)) {
             return true;
           }
           if (key2 == "population") {
-            dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
+            dataStr += "<p>" + title(key2) + ": " + Number(val2).toLocaleString('en') + "</p>\n";
           } else {
             demogData.labels.push(translateDemogDataKeyName(key2));
             demogData.datasets[0].data.push(val2);
