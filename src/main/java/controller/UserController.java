@@ -143,24 +143,12 @@ public class UserController {
             @RequestParam(SessionConstant.LASTNAME_REQUEST_PARAM) String lname,
             @RequestParam(SessionConstant.ALLOWED_TO_UPLOAD_REQUEST_PARAM) String atu
             ) {
-        
-        
-        
+        // updateUser() only use these four fields
         User user = new User();
         user.setFirstName(fname);
         user.setLastName(lname);
         user.setUsername(uname);
         user.setAllowedToUpload(Boolean.parseBoolean(atu));
-        
-        System.out.println(uname);
-        System.out.println(fname);
-        System.out.println(lname);
-        System.out.println(atu);
-        
-//        System.out.println(requestParams.get(SessionConstant.FIRSTNAME_REQUEST_PARAM));
-//        System.out.println(requestParams.get(SessionConstant.LASTNAME_REQUEST_PARAM));
-//        System.out.println(requestParams.get(SessionConstant.USERNAME_REQUEST_PARAM));
-//        System.out.println(requestParams.get(SessionConstant.ALLOWED_TO_UPLOAD_REQUEST_PARAM));
 
         return userEntityService.updateUser(user);
     }

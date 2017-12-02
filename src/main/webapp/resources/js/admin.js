@@ -29,7 +29,7 @@ $(document).ready(function () {
         }
 
         //TODO: ask for confirmation to send request
-        console.log(data);
+
         $.ajax({
             url: url,
             type: "GET",
