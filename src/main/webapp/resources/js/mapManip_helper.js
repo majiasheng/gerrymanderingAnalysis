@@ -13,9 +13,7 @@ function generateRandomColor() {
 }
 
 function translatePropKeyName(val) {
-  if (val === "STATENAME") {
-    return "State";
-  } else if (val === "DISTRICT") {
+  if (val === "DISTRICT") {
     return "District";
   } else {
     return val;

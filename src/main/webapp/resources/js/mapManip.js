@@ -80,7 +80,9 @@ $(document).ready(function() {
       if (key == "DISTRICT" && val == 0) {
         val = "At-Large";
       }
-      $("#infoText").append("<p>" + translatePropKeyName(key) + " : " + val + "</p>");
+      if (key !== "STATENAME") { // no need to display state name again
+        $("#infoText").append("<p>" + translatePropKeyName(key) + " : " + val + "</p>");
+      }
     });
     $("#infoText").append(dataStr);
     if (demogData.labels) {
