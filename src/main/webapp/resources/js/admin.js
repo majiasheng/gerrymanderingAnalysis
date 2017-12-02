@@ -8,8 +8,8 @@ $(document).ready(function () {
         action = this.value;
         if (action === "Delete") {
             url = "/admin/delete";
-        } else if (action === "Edit") {
-            url = "/admin/edit";
+        } else if (action === "Update") {
+            url = "/admin/update";
         }
     });
 
@@ -22,14 +22,14 @@ $(document).ready(function () {
         data["username"] = this.username.value;
 
         // only use these for edit operation
-        if (action === "Edit") {
-            data["canSave"] = this.canSave.checked;
-            data["canDelete"] = this.canDelete.checked;
-            data["canUpload"] = this.canUpload.checked;
+        if (action === "Update") {
+            data["firstname"] = this.firstname.value;
+            data["lastname"] = this.lastname.value;
+            data["allowedToUpload"] = this.allowedToUpload.checked;
         }
 
         //TODO: ask for confirmation to send request
-
+        console.log(data);
         $.ajax({
             url: url,
             type: "GET",
@@ -42,13 +42,11 @@ $(document).ready(function () {
                     if (action === "Delete") {
                         // remove row
                         $('#' + data["username"]).remove();
-                    } else if (action === "Edit") {
-                        //TODO: update row
-                        // console.log(data["canSave"]);
-                        // console.log($('tr#' + data["username"] + ' > form > input[name=canDelete]').is(':checked') );
-                        // $('tr#' + data["username"] + ' > form > input[name=canUpload]').removeAttr('checked');
+                        $("#msg").html("<p class=\"green\">Deleted successfully</p>");
+                    } else if (action === "Update") {
+                        $("#msg").html("<p class=\"green\">Updated successfully</p>");
                     } else {
-                        //DEBUG/
+                        //DEBUG
                         console.log("Response: " + response + ". Something went astray");
                     }
 
@@ -62,7 +60,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
-                $("#msg").html("ERROR");
+                $("#msg").html("<p style=\"color:red;\">ERROR</p>");
             }
         });
 

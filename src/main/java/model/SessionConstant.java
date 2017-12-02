@@ -35,6 +35,7 @@ public class SessionConstant {
     public static final String PASSWORD_REQUEST_PARAM = "password";
     public static final String FIRSTNAME_REQUEST_PARAM = "firstname";
     public static final String LASTNAME_REQUEST_PARAM = "lastname";
+    public static final String ALLOWED_TO_UPLOAD_REQUEST_PARAM = "allowedToUpload";
 
     // user password length range
     public static final int MIN_PW_LEN = 8;

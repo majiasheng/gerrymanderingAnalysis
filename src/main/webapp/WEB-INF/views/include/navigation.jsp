@@ -17,7 +17,7 @@
                 <a href="compare">Compare</a>
             </li>
             <c:choose>
-                <c:when test="${user.isAdmin()}">
+                <c:when test="${user.isAllowedToUpload()}">
                     <li>
                     </c:when>
                     <c:otherwise>

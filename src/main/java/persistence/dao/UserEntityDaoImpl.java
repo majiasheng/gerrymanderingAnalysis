@@ -138,7 +138,7 @@ public class UserEntityDaoImpl implements UserEntityDao {
                 + "'" + user.getUsername() + "', "
                 + "'" + user.getFirstName() + "', "
                 + "'" + user.getLastName() + "', "
-                + "'" + (user.isAdmin() ? 1 : 0) + "'"
+                + (user.isAllowedToUpload() ? 1 : 0)
                 + ")";
         Query q = em.createNativeQuery(sql);
         int rowAffected = q.executeUpdate();
