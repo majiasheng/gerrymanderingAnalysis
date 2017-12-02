@@ -26,9 +26,9 @@ function translateElectionDataKeyName(val) {
   if (val === "winner") {
     return "Winning Party";
   } else if (val === "demStatus") {
-    return "Democrat Standing";
+    return "<span class=\"blue\">Democrat Standing</span>";
   } else if (val === "repStatus") {
-    return "Republican Standing";
+    return "<span class=\"red\">Republican Standing</span>";
   } else if (val === "demVotes") {
     return "<span class=\"blue\">Democrat Votes</span>";
   } else if (val === "repVotes") {

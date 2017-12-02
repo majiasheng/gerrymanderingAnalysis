@@ -44,5 +44,5 @@
 []  24. Import saved work from a database
 
 ADMIN (29-36)
-[]  31. Manage User permissions
+[x]  31. Manage User permissions
 []  34. Delete/View/Save Test Results

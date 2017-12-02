@@ -29,15 +29,26 @@ $(document).ready(function() {
             return true;
           }
           var v = translateElectionDataVal(title(val2));
-          v = isNaN(v) ? v : Number(v).toLocaleString('en');
-          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + v + "</p>\n";
+          
+          // decorate value
+          if (isNaN(v)) {
+              if (v==="Republican") {
+                  v = "<span class=\"red\">" + v + "</span>";
+              } else if (v==="Democrat") {
+                  v = "<span class=\"blue\">" + v + "</span>";
+              }
+          } else {
+              v = Number(v).toLocaleString('en');
+          }
+          
+          dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
           //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
         } else if (key == "demographicData") {
           if (demogDataExcludeKey(key2)) {
             return true;
           }
           if (key2 == "population") {
-            dataStr += "<p>" + title(key2) + ": " + Number(val2).toLocaleString('en') + "</p>\n";
+            dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
           } else {
             demogData.labels.push(translateDemogDataKeyName(key2));
             demogData.datasets[0].data.push(val2);
@@ -69,7 +80,7 @@ $(document).ready(function() {
       if (key == "DISTRICT" && val == 0) {
         val = "At-Large";
       }
-      $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
+      $("#infoText").append("<p>" + translatePropKeyName(key) + " : " + val + "</p>");
     });
     $("#infoText").append(dataStr);
     if (demogData.labels) {
