@@ -30,7 +30,7 @@
     <label id="radioButton" style="display:none">
         <input type="radio" name="sdmode" value="manual" id="manualRadio" onclick="checkManAuto()">Manual<br>
         <input type="radio" name="sdmode" value="automatic" id="autoRadio" onclick="checkManAuto()">Automatic<br>
-        <select name="superDistricting" id="numOfSD" style="display:none";>
+        <select name="superDistricting" id="numOfSD" style="display:none">
             <option value="">Number of Super-District</option>
         </select>
     </label>
