@@ -20,7 +20,7 @@ function splitDistricts(numOfDistricts) {
     var numOf4 = 0;
     var numOf3 = 0;
     var sd = [];
-     
+
     switch (numOfDistricts % SD_SIZE_SHOULD_BE_MAX) {
         case 0:
             numOf5 = Math.floor(numOfDistricts / SD_SIZE_SHOULD_BE_MAX);
@@ -53,9 +53,7 @@ function splitDistricts(numOfDistricts) {
             }
             break;
     }
-console.log("5: " + numOf5 + " ");
-console.log("3: " + numOf3+ " ");
-console.log("4: " + numOf4+" ");
+
     if (numOf5 > 0) {
         for (i = 0; i < numOf5; i++) {
             sd.push(SD_SIZE_SHOULD_BE_MAX);

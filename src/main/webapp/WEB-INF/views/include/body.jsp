@@ -43,19 +43,21 @@
 
             <%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
 
-            <hr>
-            <!-- Info window -->
-            <div class="row" id="infowindow">
-                <div class="col-md-12">
-                    <!--<span class="label label-default">Info</span>-->
-                    <div class="info" id="infoText">
+        </form>
+        <script src="/resources/js/snapshot-util.js"></script>
+        <button id="saveWorkBtn" <c:if test="${empty user}">disabled</c:if>>Save Current Work</button>
 
-                    </div>
+        <!--<hr>-->
+        <!-- Info window -->
+        <div class="row" id="infowindow">
+            <div class="col-md-12">
+                <!--<span class="label label-default">Info</span>-->
+                <div class="info" id="infoText">
+
                 </div>
             </div>
-            <!-- End Info window -->
-
-        </form>
+        </div>
+        <!-- End Info window -->
     </div>
 </div>
 <hr>

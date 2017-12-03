@@ -31,14 +31,11 @@
         <input type="radio" name="sdmode" value="manual" id="manualRadio" onclick="checkManAuto()">Manual<br>
         <input type="radio" name="sdmode" value="automatic" id="autoRadio" onclick="checkManAuto()">Automatic<br>
         <select name="superDistricting" id="numOfSD" style="display:none";>
-            <!-- TODO: 
-                     - set "disabled to a jsp variable"
-                     - read from an external file -->
             <option value="">Number of Super-District</option>
         </select>
     </label>
 
     <label>	
-        <button type="submit" class="btn btn-default" id="createButton" style="display:none"; %{isDisabled}>Create</button>
+        <button type="submit" class="btn btn-default" id="createButton" style="display:none">Create</button>
     </label>
 </div> 
