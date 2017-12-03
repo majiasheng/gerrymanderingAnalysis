@@ -72,7 +72,7 @@ $(document).ready(function() {
       }],
       labels: []
     };
-    $("#infoText").append('<h4>District Congressional Election</h4>');
+    $("#infoText").append('<hr><h4>District Congressional Election</h4>');
     $.each(layer.feature.properties, function(key, val) {
       if (key == "electionData" || key == "demographicData") {
         dataStr += filterData(key, val, demogData);
