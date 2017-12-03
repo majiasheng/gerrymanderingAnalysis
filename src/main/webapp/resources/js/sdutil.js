@@ -74,20 +74,28 @@ function splitDistricts(numOfDistricts) {
 }
 
 $(document).ready(function () {
-    $("#sdcheck").click(function() {
+    $("#sdcheck").click(function () {
         // add 
         if ($(this).prop("checked")) {
-            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\">Manual<br>");
-            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"automatic\" id=\"autoRadio\">Automatic<br>");
+            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\"> Manual<br>");
+            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"auto\" id=\"autoRadio\"> Automatic<br>");
+            // container for auto sd controls
+            $("#sdModeContainer").append("<div class=\"audoSDCtrl\"></div>");
+            // bind
+            $('input[name=sdmode]:radio').change(function () {
+                if (this.value === "auto") {
+                    var audoSDNumSelection = "<select name=\"audoSDNum\" id=\"numOfSD\">"
+                            + "<option value=\"a\">Number of Super-District</option>"
+                            + "</select>";
+                    $(".audoSDCtrl").html(audoSDNumSelection);
+                } else {
+                    $(".audoSDCtrl").empty();
+                }
+            });
         } else {
             $("#sdModeContainer").empty();
         }
     });
-    
-    if ($("radio[name=sdmode]")==="autoRadio") {
-        $("#sdModeContainer").append("<select name=\"superDistricting\" id=\"numOfSD\" style=\"display:none\">");
-        $("#sdModeContainer").append("<option value=\"\">Number of Super-District</option></select>");
-    }
-    
-    
+
+
 });
