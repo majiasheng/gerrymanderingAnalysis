@@ -30,7 +30,7 @@ $(document).ready(function() {
             return true;
           }
           var v = translateElectionDataVal(title(val2));
-          
+
           // decorate value
           if (isNaN(v)) {
               if (v==="Republican") {
@@ -41,7 +41,7 @@ $(document).ready(function() {
           } else {
               v = Number(v).toLocaleString('en');
           }
-          
+
           dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
           //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
         } else if (key == "demographicData") {
@@ -158,7 +158,7 @@ $(document).ready(function() {
     $("#gerrymanderingMeasure").prop({
       disabled: false
     });
-    
+
     // check number of districts, n, enable super district creation if n>5
     console.log(distGeoJson.features.length);
     if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
@@ -166,7 +166,7 @@ $(document).ready(function() {
     } else {
         $("#sdcheck").prop('disabled', true);
     }
-    
+
   }
 
   function onGetDistDataFailure(xhr, textStatus, errorThrown) {
@@ -305,7 +305,12 @@ $(document).ready(function() {
         success: function(response, status, xhr) {
           //TODO: display measure result
           // response is a TestResult object
-          alert("response: " + JSON.stringify(response));
+          $("#testResultContainer").append('<h1>'+ $('#gerrymanderingMeasure').val() +' Result</h1>');
+          var dataStr = "";
+          $.each(response, function(key, val) {
+            dataStr += "<p>" + key + " : " + val + "</p>";
+          });
+          $("#testResultContainer").append(dataStr);
 
           //TEST
           var result = "Is This State Gerrymandered? " + response.gerrymandered + "<br/>";
@@ -317,6 +322,8 @@ $(document).ready(function() {
           console.log(textStatus + "; errorThrown: " + errorThrown);
         }
       });
+    } else {
+      $("#testResultContainer").empty();
     }
   });
 });
