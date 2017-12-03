@@ -2,6 +2,7 @@
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
   const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
+  const MIN_NUM_OF_DIST_FOR_SD = 5;
 
   // flag to identify locked district
   var districtLocked = null;
@@ -86,7 +87,7 @@ $(document).ready(function() {
     });
     $("#infoText").append(dataStr);
     if (demogData.labels) {
-      $("#infoText").append('<hr><h4>Demographics</h4>');
+      $("#infoText").append('<hr><h4>District Demographics</h4>');
       $("#infoText").append('<canvas id="demogChart"></canvas>');
       var myDoughnutChart = new Chart($('#demogChart'), {
           type: 'doughnut',
@@ -157,6 +158,15 @@ $(document).ready(function() {
     $("#gerrymanderingMeasure").prop({
       disabled: false
     });
+    
+    // check number of districts, n, enable super district creation if n>5
+    console.log(distGeoJson.features.length);
+    if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
+        $("#sdcheck").prop('disabled', false);
+    } else {
+        $("#sdcheck").prop('disabled', true);
+    }
+    
   }
 
   function onGetDistDataFailure(xhr, textStatus, errorThrown) {
@@ -203,6 +213,8 @@ $(document).ready(function() {
       districtBoundary.remove();
       districtBoundary = null;
     }
+    // disable sd checkbox
+    $("#sdcheck").prop('disabled', true);
   }
 
   function loadSelectedState(response, status, xhr, state, options) {

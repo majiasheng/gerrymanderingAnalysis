@@ -45,7 +45,7 @@ function electionDataExcludeKey(key) {
 
 function translateDemogDataKeyName(val) {
   if (val === "white") {
-    return "Non-Hispanic White";
+    return "White";
   } else if (val === "africanAmerican") {
     return "African American";
   } else if (val === "americanNative") {

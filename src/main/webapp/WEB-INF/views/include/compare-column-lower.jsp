@@ -1,41 +1,55 @@
+            </div>
+        </div>
 
-		</div>
-	</div>
-	<!-- end map -->
-	
-	<!-- controls -->
-	<div class="row">
-		<form role="form">
-			<div class="form-group">
-				 <select name="stateSelection">
-					 <option value="">State</option>
-					 <!-- TODO: read from an external file, 
-						 move each of the "disabled" to a separate var -->
-				 </select>
-				 <select name="dataSelection" disabled>
-					 <!-- TODO: read from an external file -->
-					 <option value="">Data</option>
-				 </select>
-				 <select name="gerrymanderingMeasure" disabled>
-					 <!-- TODO: read from an external file -->
-					 <option value="">Gerrymandering Measure</option>
-				 </select>
-			</div>
-			<%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
+    </div>
+    <div class="col-md-4">
+        <form role="form">
+            <div class="form-group">
 
-		</form>
-	</div>
-	<!-- end controls -->
-	
-	<!-- info window -->
-	<div class="row">
-		<div class="col-md-12">
-			 <span class="label label-default">Info</span>
-			 
-		</div>
-	</div>
-	<!-- end info window -->
-	
+                <!-- state drop down -->
+                <select autocomplete="off" name="stateSelection" id="stateSelection">
+                    <option value="">State</option>
+                    <c:forEach var="state" items="${config.states}">
+                        <option value ="${state.key}">${state.value}</option>
+                    </c:forEach>
+                </select>
+                <!-- end state drop down -->
+
+                <!-- data drop down -->
+                <select autocomplete="off" name="dataSelection" id="dataSelection" disabled>
+                    <option value="${config.defaultYear}">Data</option> <!-- default -->
+                </select>
+                <!-- end data drop down -->
+
+                <!-- measure drop down -->
+                <select autocomplete="off" name="gerrymanderingMeasure" id="gerrymanderingMeasure" disabled>
+                    <option value="">Gerrymandering Measure</option>
+                    <c:forEach var="measure" items="${config.measures}">
+                        <option value ="${measure}">${measure}</option>
+                    </c:forEach>
+                </select>
+                <!-- end measure drop down -->
+            </div>
+
+            <%@include file="/WEB-INF/views/include/super-district-control.jsp" %>
+
+            <hr>
+            <!-- Info window -->
+            <div class="row" id="infowindow">
+                <div class="col-md-12">
+                    <!--<span class="label label-default">Info</span>-->
+                    <div class="info" id="infoText">
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Info window -->
+
+        </form>
+    </div>
 </div>
-
+<hr>
+<div id="testResultContainer" class="row">
+    <div id="testResult"></div>
+</div>
 <!-- end body -->
