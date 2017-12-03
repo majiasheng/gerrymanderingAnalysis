@@ -72,3 +72,22 @@ function splitDistricts(numOfDistricts) {
 
     return sd;
 }
+
+$(document).ready(function () {
+    $("#sdcheck").click(function() {
+        // add 
+        if ($(this).prop("checked")) {
+            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\">Manual<br>");
+            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"automatic\" id=\"autoRadio\">Automatic<br>");
+        } else {
+            $("#sdModeContainer").empty();
+        }
+    });
+    
+    if ($("radio[name=sdmode]")==="autoRadio") {
+        $("#sdModeContainer").append("<select name=\"superDistricting\" id=\"numOfSD\" style=\"display:none\">");
+        $("#sdModeContainer").append("<option value=\"\">Number of Super-District</option></select>");
+    }
+    
+    
+});

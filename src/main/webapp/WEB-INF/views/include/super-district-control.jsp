@@ -1,4 +1,4 @@
-<div class="checkbox">
+<div class="checkbox sdctrl">
     <label>
         <script>
             function checkSD() {
@@ -24,18 +24,19 @@
                 }
             }
         </script>
-        <input type="checkbox" id="sdcheck" onclick="checkSD()" disabled/> Create Super-District
+        <!--<input type="checkbox" id="sdcheck" onclick="checkSD()" disabled/> Create Super-District-->
+        <input type="checkbox" id="sdcheck" disabled/> Create Super-District
     </label>
 
-    <label id="radioButton" style="display:none">
-        <input type="radio" name="sdmode" value="manual" id="manualRadio" onclick="checkManAuto()">Manual<br>
+    <div id="sdModeContainer">
+<!--        <input type="radio" name="sdmode" value="manual" id="manualRadio" onclick="checkManAuto()">Manual<br>
         <input type="radio" name="sdmode" value="automatic" id="autoRadio" onclick="checkManAuto()">Automatic<br>
         <select name="superDistricting" id="numOfSD" style="display:none">
             <option value="">Number of Super-District</option>
-        </select>
-    </label>
+        </select>-->
+    </div>
 
-    <label>	
-        <button type="submit" class="btn btn-default" id="createButton" style="display:none">Create</button>
-    </label>
+    <!--<label>-->	
+        <!--<button type="submit" class="btn btn-default" id="createButton" style="display:none">Create</button>-->
+    <!--</label>-->
 </div> 

@@ -160,7 +160,6 @@ $(document).ready(function() {
     });
     
     // check number of districts, n, enable super district creation if n>5
-    console.log(distGeoJson.features.length);
     if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
         $("#sdcheck").prop('disabled', false);
     } else {
