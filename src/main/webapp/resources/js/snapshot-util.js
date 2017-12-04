@@ -2,8 +2,27 @@ const USERID = "userId";
 const SELECTED_STATE = "selectedState";
 const SELECTED_YEAR = "selectedYear";
 const SELECTED_TEST = "selectedTest";
-const MANUAL_SD_JSON = "manualSDSet";
-const AUTO_SD_JSON = "autoSDSet";
+const MANUAL_SD_SET = "manualSDSet";
+const AUTO_SD_SET = "autoSDSet";
+
+/**
+ * 
+ * @param {type} whichSet either MANUAL_SD_SET or AUTO_SD_SET
+ * @returns {String} json string in the format of 
+ *      {sd_i:
+ *          [a,b,c...]
+ *      }
+ */
+function getSDSet(whichSet) {
+    var sdSet = "";
+    if (whichSet === AUTO_SD_SET) {
+        
+    } else {
+        
+    }
+    
+    return sdSet;
+}
 
 $(document).ready(function () {
 //    $("#saveWorkBtn").click(function (e) {
@@ -51,8 +70,8 @@ $(document).ready(function () {
         controls[SELECTED_YEAR] = $("#" + SELECTED_YEAR).val();
         controls[SELECTED_TEST] = $("#" + SELECTED_TEST).val();
         // TODO: make sd jsons
-        controls[MANUAL_SD_JSON] = "{manual:"+ + "}";
-        controls[AUTO_SD_JSON] = "{auto:"+ + "}";
+        controls[MANUAL_SD_SET] = "{manual:"+ getSDSet(MANUAL_SD_SET) + "}";
+        controls[AUTO_SD_SET] = "{auto:"+ getSDSet(AUTO_SD_SET) + "}";
         
 
         console.log(controls);

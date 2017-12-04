@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,8 +37,7 @@ public class Snapshot implements Serializable {
     @Column(name = "selectedTest")
     private int selectedTest;
 
-    @Column(name = "timeSaved", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" , insertable = false, updatable = false)
     private Timestamp timeSaved;
 
     // JSON object, one of these will be null: {manual:[ , , ,]}

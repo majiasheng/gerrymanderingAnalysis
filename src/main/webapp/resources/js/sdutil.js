@@ -78,12 +78,19 @@ $(document).ready(function () {
      * Interacting with Super-districting controls will trigger the following
      */
     $("#sdcheck").click(function () {
-        // add 
+
         if ($(this).prop("checked")) {
+            
+            /* add super districting options */
+            
             $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\"> Manual<br>");
+            // container for manual sd controls
+            $("#sdModeContainer").append("<div class=\"manualSDCtrl\"></div>");
+            
             $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"auto\" id=\"autoRadio\"> Automatic<br>");
             // container for auto sd controls
             $("#sdModeContainer").append("<div class=\"audoSDCtrl\"></div>");
+            
             // bind 
             $('input[name=sdmode]:radio').change(function () {
                 if (this.value === "auto") {
@@ -91,11 +98,14 @@ $(document).ready(function () {
                             + "<option value=\"\">Number of Super-District</option>"
                             + "</select>";
                     $(".audoSDCtrl").html(audoSDNumSelection);
-                    //TODO: bind functions to auto
+                    //TODO: bind functions to dropdown
                     
                 } else {
                     $(".audoSDCtrl").empty();
                     //TODO: bind functions to manual 
+                    //TODO: call splitDistrict?
+                    console.log("in manual: number of districts: " + splitDistricts(numDist));
+                    
                 }
             });
         } else {

@@ -1,3 +1,4 @@
+var numDist = 0;
 
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
@@ -143,6 +144,10 @@ $(document).ready(function() {
     }
     // separate geojson response
     var distGeoJson = response.distGeoJson;
+    
+    // assign number of districts for the state to global variable
+    numDist = distGeoJson.features.length;
+    
     // use district boundary data from response
     districtBoundary = L.geoJson(distGeoJson, {
       style: function(feature) {
@@ -214,6 +219,8 @@ $(document).ready(function() {
     }
     // disable sd checkbox
     $("#sdcheck").prop('disabled', true);
+    // set number of district back to 0
+    numDist = 0;
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
