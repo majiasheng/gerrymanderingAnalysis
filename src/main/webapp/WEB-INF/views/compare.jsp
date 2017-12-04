@@ -1,41 +1,39 @@
 <%@include file="/WEB-INF/views/include/header.jsp" %>
 
-<div class="container-fluid">
-	<h2>Compare</h2>
 
-	<div class="row">
-		<!-- 1 -->
-		<div class="col-md-6">
-			<%@include file="/WEB-INF/views/include/compare-column-upper.jsp" %>
+<h2>Compare</h2>
 
-			<!-- map -->
-			<div id="mapid" style="height: 500px;">
-				<script src="/resources/js/init-map.js"></script>
-			</div>
+<!--<div class="row">-->
+    <!-- 1 -->
+    <!--<div class="col-md-6">-->
+        <%@include file="/WEB-INF/views/include/compare-column-upper.jsp" %>
 
-			<%@include file="/WEB-INF/views/include/compare-column-lower.jsp" %>
-		</div> 
-		<!-- end 1 -->
+        <!-- map -->
+        <div id="mapid" style="height: 500px;">
+            <script src="/resources/js/init-map.js"></script>
+        </div>
 
-		<!-- TODO: add a border to separate two maps -->
+        <%@include file="/WEB-INF/views/include/compare-column-lower.jsp" %>
+    </div> 
+    <!-- end 1 -->
 
-		<!-- 2	 -->
-		<div class="col-md-6"">
-			<%@include file="/WEB-INF/views/include/compare-column-upper.jsp" %>
+    <!-- TODO: add a border to separate two maps -->
 
-			<!-- map -->
-			<div id="mapid2" style="height: 500px;">
-				<script src="/resources/js/init-map2.js"></script>
-			</div>
+    <!-- 2	 -->
+    <!--<div class="col-md-6"">-->
+        <%@include file="/WEB-INF/views/include/compare-column-upper.jsp" %>
 
-			<%@include file="/WEB-INF/views/include/compare-column-lower.jsp" %>
+        <!-- map -->
+        <div id="mapid2" style="height: 500px;">
+            <script src="/resources/js/init-map2.js"></script>
+        </div>
 
-		</div>
-		<!-- end 2 -->
-	
-	</div>
-	<!-- end row -->
-	
-</div>
+        <%@include file="/WEB-INF/views/include/compare-column-lower.jsp" %>
+
+    <!--</div>-->
+    <!-- end 2 -->
+
+<!--</div>-->
+<!-- end row -->
 
 <%@include file="/WEB-INF/views/include/footer.jsp" %>

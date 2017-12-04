@@ -2,15 +2,14 @@ package service.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.stereotype.Service;
 
 import model.District;
 import model.ElectionData;
 import model.GeoData;
+import model.Snapshot;
 import model.State;
-import model.DemographicData;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
@@ -26,7 +25,7 @@ public class DataServiceImpl implements DataService {
      * @see service.DataService#getDataYearSet(String)
      */
     public Collection<Integer> getDataYearSetByState(String state) {
-         return dao.getDataYearSetByState(state);
+        return dao.getDataYearSetByState(state);
     }
 
     /**
@@ -65,54 +64,59 @@ public class DataServiceImpl implements DataService {
             String electionDataJson = null;
             String demographicDataJson = null;
             try {
-                if (district.getElectionData() != null)
-                  electionDataJson = mapper.writeValueAsString(district.getElectionData());
-                if (district.getDemographicData() != null)
-                  demographicDataJson = mapper.writeValueAsString(district.getDemographicData());
+                if (district.getElectionData() != null) {
+                    electionDataJson = mapper.writeValueAsString(district.getElectionData());
+                }
+                if (district.getDemographicData() != null) {
+                    demographicDataJson = mapper.writeValueAsString(district.getDemographicData());
+                }
             } catch (JsonProcessingException ex) {
                 System.err.println(ex);
             }
             String distJson = district.getGeoData().getBoundary();
             if (electionDataJson != null || demographicDataJson != null) {
                 JSONObject distJsonObj = new JSONObject(distJson);
-                JSONObject childobject=distJsonObj.getJSONObject("properties");
-                if (electionDataJson != null)
-                  childobject.put("electionData", new JSONObject(electionDataJson));
-                if (demographicDataJson != null)
-                  childobject.put("demographicData", new JSONObject(demographicDataJson));
+                JSONObject childobject = distJsonObj.getJSONObject("properties");
+                if (electionDataJson != null) {
+                    childobject.put("electionData", new JSONObject(electionDataJson));
+                }
+                if (demographicDataJson != null) {
+                    childobject.put("demographicData", new JSONObject(demographicDataJson));
+                }
                 distJson = distJsonObj.toString();
             }
             geojsonStr += distJson + ",";
         }
         // remove the extra comma
-        if (ran)
+        if (ran) {
             geojsonStr = geojsonStr.substring(0, geojsonStr.length() - 1);
+        }
         return geojsonStr + geojsonStrEnd;
+    }
+    
+    
+    public boolean takeSnapShot(Snapshot snapshot) {
+        return dao.takeSnapShot(snapshot);
     }
 
     public Collection<ElectionData> getElectionDataByYear(String state, int year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public String getDistrictInfo(int districtId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public boolean upload(Object uploadTarget) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Collection<GeoData> getGeoDataByYear(String state, int year) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public Collection<State> getStates() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

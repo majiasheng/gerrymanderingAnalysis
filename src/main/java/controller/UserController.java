@@ -104,7 +104,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         // get user from session
         User user = (User) request.getSession().getAttribute(SessionConstant.USER_ATTRIBUTE);
-        // update user 
+        // update user
         user.setFirstName(requestParams.get(SessionConstant.FIRSTNAME_REQUEST_PARAM));
         user.setLastName(requestParams.get(SessionConstant.LASTNAME_REQUEST_PARAM));
 
@@ -112,7 +112,7 @@ public class UserController {
             mv = new ModelAndView("redirect:/confirmEdit");
             redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_SUCCESS_MSG);
         } else {
-            // send user back to user setting page with error message 
+            // send user back to user setting page with error message
             mv.setViewName(request.getRequestURI());
             redirectAttributes.addFlashAttribute(SessionConstant.MSG_ATTRIBUTE, SessionConstant.UPDATE_INFO_FAILURE_MSG);
         }
@@ -135,14 +135,34 @@ public class UserController {
         return userEntityService.deleteUser(username);
     }
 
-    @RequestMapping(value = "/admin/edit", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/admin/update", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public boolean adminEditUser(@RequestParam Map<String, String> requestParams, HttpServletRequest request) {
-        for (String k : requestParams.keySet()) {
-            System.out.println(k + ": " + requestParams.get(k));
-        }
+    public boolean adminEditUser(
+            @RequestParam(SessionConstant.USERNAME_REQUEST_PARAM) String uname,
+            @RequestParam(SessionConstant.FIRSTNAME_REQUEST_PARAM) String fname,
+            @RequestParam(SessionConstant.LASTNAME_REQUEST_PARAM) String lname,
+            @RequestParam(SessionConstant.ALLOWED_TO_UPLOAD_REQUEST_PARAM) String atu
+            ) {
+        // updateUser() only use these four fields
+        User user = new User();
+        user.setFirstName(fname);
+        user.setLastName(lname);
+        user.setUsername(uname);
+        user.setAllowedToUpload(Boolean.parseBoolean(atu));
 
-        return true;
-        //return userEntityService.updateUser(user);
+        return userEntityService.updateUser(user);
+    }
+
+    /**
+     * Goes to analytics page
+     *
+     * @return name of analytics page
+     */
+    @RequestMapping(value = "/analytics", method = RequestMethod.GET)
+    public ModelAndView showAnalytics() {
+        ModelAndView mv = new ModelAndView("analytics");
+        Collection<User> normalUsers = userEntityService.getAllNormalUsers();
+        mv.addObject(SessionConstant.NORMAL_USER_ATTRIBUTE, normalUsers);
+        return mv;
     }
 }

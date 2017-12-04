@@ -2,6 +2,7 @@ package service.data;
 
 import java.util.Arrays;
 import java.util.Collection;
+import model.Snapshot;
 import model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,9 +13,7 @@ function generateRandomColor() {
 }
 
 function translatePropKeyName(val) {
-  if (val === "STATENAME") {
-    return "State";
-  } else if (val === "DISTRICT") {
+  if (val === "DISTRICT") {
     return "District";
   } else {
     return val;
@@ -26,13 +24,13 @@ function translateElectionDataKeyName(val) {
   if (val === "winner") {
     return "Winning Party";
   } else if (val === "demStatus") {
-    return "Democrat Standing";
+    return "<span class=\"blue\">Democrat Standing</span>";
   } else if (val === "repStatus") {
-    return "Republican Standing";
+    return "<span class=\"red\">Republican Standing</span>";
   } else if (val === "demVotes") {
-    return "Democrat Votes";
+    return "<span class=\"blue\">Democrat Votes</span>";
   } else if (val === "repVotes") {
-    return "Republican Votes";
+    return "<span class=\"red\">Republican Votes</span>";
   } else {
     return val;
   }
@@ -47,7 +45,7 @@ function electionDataExcludeKey(key) {
 
 function translateDemogDataKeyName(val) {
   if (val === "white") {
-    return "Non-Hispanic White";
+    return "White";
   } else if (val === "africanAmerican") {
     return "African American";
   } else if (val === "americanNative") {

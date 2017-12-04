@@ -47,8 +47,11 @@ public class User implements Serializable {
 
     @Column(name = "IsAdmin", nullable = false)
     private boolean isAdmin;
+    
+    @Column(name = "AllowedToUpload", nullable = false)
+    private boolean allowedToUpload;
 
-    public User(int id, String firstName, String lastName, String username, String password, byte[] salt, String email, boolean isAdmin) {
+    public User(int id, String firstName, String lastName, String username, String password, byte[] salt, String email, boolean isAdmin, boolean allowedToUpload) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,6 +60,7 @@ public class User implements Serializable {
         this.salt = salt;
         this.email = email;
         this.isAdmin = isAdmin;
+        this.allowedToUpload = allowedToUpload;
     }
 
     public User() {
@@ -126,6 +130,14 @@ public class User implements Serializable {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+    
+    public boolean isAllowedToUpload() {
+        return allowedToUpload;
+    }
+    
+    public void setAllowedToUpload(boolean allowedToUpload) {
+        this.allowedToUpload = allowedToUpload;
     }
     // </editor-fold>
 

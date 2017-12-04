@@ -54,7 +54,8 @@
     "measures": [
         "Efficiency Gap Test",
         "T-Test",
-        "Mean-Median Test"
+        "Mean-Median Test",
+        "Compactness Test"
     ],
     "strokeWidth": 1,
     "strokeColor": [255, 255, 255],

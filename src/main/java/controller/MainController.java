@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Map;
+import javax.servlet.ServletContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,8 @@ import model.State;
 import service.data.DataService;
 import service.Init;
 import model.SessionConstant;
+import model.Snapshot;
+import org.springframework.validation.BindingResult;
 
 /**
  * @Author Jia Sheng Ma (jiasheng.ma@yahoo.com)
@@ -32,25 +35,23 @@ public class MainController {
     private Init init;
     @Autowired
     private DataService dataService;
+    @Autowired
+    private ServletContext servletContext;
+
 
     /**
-     * Initializes the application with configurations, 
+     * Initializes the application with configurations,
      * and saves config to session.
      * @param request any incoming http request
      */
     @ModelAttribute
     public void initialize(HttpServletRequest request) {
-        // if session varialbe doesnt have config object, add
-        if (request.getSession().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
+        // if application scope doesnt have config object, add
+        if (servletContext.getAttribute(SessionConstant.CONFIG_ATTRIBUTE)==null) {
             init.init();
-            // TODO: add this to servlet context
-            request.getSession().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
+            // add to servlet context
+            servletContext.setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
         }
-//        if (request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE) == null) {
-//            request.getSession().getServletContext().setAttribute(SessionConstant.CONFIG_ATTRIBUTE, init.getConfig());
-//            System.out.println(request.getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
-//            System.out.println(request.getSession().getServletContext().getAttribute(SessionConstant.CONFIG_ATTRIBUTE).toString());
-//        } 
     }
 
     /**
@@ -110,6 +111,28 @@ public class MainController {
         }
         return null;
     }
+    
+    /**
+     * Handles request to save current work to database
+     * (takes snapshot of the work space)
+     * @param snapshot
+     * @param result
+     * @param request
+     * @return 
+     */
+    @RequestMapping(value = "/takeSnapshot", method = RequestMethod.POST , produces = "application/json")
+    public boolean takeSnapshot(
+            @ModelAttribute("snapshot") Snapshot snapshot,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return false;
+        }
+        
+        //TEST
+        return false;
+        // return dataService.takeSnapShot(snapshot);
+    }
+    
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView goHome() {

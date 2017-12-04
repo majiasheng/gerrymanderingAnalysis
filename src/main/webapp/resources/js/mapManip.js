@@ -1,7 +1,9 @@
+var numDist = 0;
 
 $(document).ready(function() {
   const dataSelectionOrigHTML = $("#dataSelection").html();
   const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
+  const MIN_NUM_OF_DIST_FOR_SD = 5;
 
   // flag to identify locked district
   var districtLocked = null;
@@ -28,13 +30,27 @@ $(document).ready(function() {
           if (electionDataExcludeKey(key2)) {
             return true;
           }
-          dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
+          var v = translateElectionDataVal(title(val2));
+
+          // decorate value
+          if (isNaN(v)) {
+              if (v==="Republican") {
+                  v = "<span class=\"red\">" + v + "</span>";
+              } else if (v==="Democrat") {
+                  v = "<span class=\"blue\">" + v + "</span>";
+              }
+          } else {
+              v = Number(v).toLocaleString('en');
+          }
+
+          dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
+          //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
         } else if (key == "demographicData") {
           if (demogDataExcludeKey(key2)) {
             return true;
           }
           if (key2 == "population") {
-            dataStr += "<p>" + title(key2) + ": " + val2 + "</p>\n";
+            dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
           } else {
             demogData.labels.push(translateDemogDataKeyName(key2));
             demogData.datasets[0].data.push(val2);
@@ -57,6 +73,7 @@ $(document).ready(function() {
       }],
       labels: []
     };
+    $("#infoText").append('<hr><h4>District Congressional Election</h4>');
     $.each(layer.feature.properties, function(key, val) {
       if (key == "electionData" || key == "demographicData") {
         dataStr += filterData(key, val, demogData);
@@ -65,10 +82,13 @@ $(document).ready(function() {
       if (key == "DISTRICT" && val == 0) {
         val = "At-Large";
       }
-      $("#infoText").append("<p>" + translatePropKeyName(key) + ": " + val + "</p>");
+      if (key !== "STATENAME") { // no need to display state name again
+        $("#infoText").append("<p>" + translatePropKeyName(key) + " : " + val + "</p>");
+      }
     });
     $("#infoText").append(dataStr);
     if (demogData.labels) {
+      $("#infoText").append('<hr><h4>District Demographics</h4>');
       $("#infoText").append('<canvas id="demogChart"></canvas>');
       var myDoughnutChart = new Chart($('#demogChart'), {
           type: 'doughnut',
@@ -124,6 +144,10 @@ $(document).ready(function() {
     }
     // separate geojson response
     var distGeoJson = response.distGeoJson;
+    
+    // assign number of districts for the state to global variable
+    numDist = distGeoJson.features.length;
+    
     // use district boundary data from response
     districtBoundary = L.geoJson(distGeoJson, {
       style: function(feature) {
@@ -139,6 +163,14 @@ $(document).ready(function() {
     $("#gerrymanderingMeasure").prop({
       disabled: false
     });
+
+    // check number of districts, n, enable super district creation if n>5
+    if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
+        $("#sdcheck").prop('disabled', false);
+    } else {
+        $("#sdcheck").prop('disabled', true);
+    }
+
   }
 
   function onGetDistDataFailure(xhr, textStatus, errorThrown) {
@@ -185,6 +217,10 @@ $(document).ready(function() {
       districtBoundary.remove();
       districtBoundary = null;
     }
+    // disable sd checkbox
+    $("#sdcheck").prop('disabled', true);
+    // set number of district back to 0
+    numDist = 0;
   }
 
   function loadSelectedState(response, status, xhr, state, options) {
@@ -205,6 +241,9 @@ $(document).ready(function() {
 
   // send get on state selection
   $("#stateSelection").change(function() {
+    // reset sd 
+    resetSDControls();
+    
     if (districtLocked) {
       resetDistrict(districtLocked);
       districtLocked = null;
@@ -275,7 +314,12 @@ $(document).ready(function() {
         success: function(response, status, xhr) {
           //TODO: display measure result
           // response is a TestResult object
-          alert("response: " + JSON.stringify(response));
+          $("#testResultContainer").append('<h1>'+ $('#gerrymanderingMeasure').val() +' Result</h1>');
+          var dataStr = "";
+          $.each(response, function(key, val) {
+            dataStr += "<p>" + key + " : " + val + "</p>";
+          });
+          $("#testResultContainer").append(dataStr);
 
           //TEST
           var result = "Is This State Gerrymandered? " + response.gerrymandered + "<br/>";
@@ -287,6 +331,8 @@ $(document).ready(function() {
           console.log(textStatus + "; errorThrown: " + errorThrown);
         }
       });
+    } else {
+      $("#testResultContainer").empty();
     }
   });
 });

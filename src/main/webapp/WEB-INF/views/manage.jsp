@@ -14,11 +14,12 @@
 <h2>Manage User</h2>
 <hr>
 <div id="msg"></div>
+<h2 style="color:red">TODO: ask for confirmation before deleting user</h2>
 <table>
     <tr>
         <th>user</th>
-        <th>Can Save Result</th>
-        <th>Can Delete Result</th>
+<!--        <th>Can Save Result</th>
+        <th>Can Delete Result</th>-->
         <th>Can Upload</th>
     </tr>
     <c:forEach var="normalUser" items="${normalUsers}">
@@ -26,13 +27,11 @@
         <tr id="${normalUser.username}">
             <td>${normalUser.username}</td>
             <form class="adminManageForm" method="GET" action="#">
-                <!--TODO: check permissions based on user's rights-->
-                <td><input type="checkbox" name="canSave" <%--><c:if test="${user.canSave}}">checked</c:if><--%>></td>
-                <td><input type="checkbox" name="canDelete"></td>
-                <td><input type="checkbox" name="canUpload"></td>
+                <td><input type="checkbox" name="allowedToUpload"<c:if test="${normalUser.isAllowedToUpload()}"> checked</c:if>></td>
                 <input type="hidden" name="username" value="${normalUser.username}">
-                <!--TODO: change action on click with jquery-->
-                <td><input type="submit" name="operation" value="Edit"></td>
+                <input type="hidden" name="firstname" value="${normalUser.firstName}">
+                <input type="hidden" name="lastname" value="${normalUser.lastName}">
+                <td><input type="submit" name="operation" value="Update"></td>
                 <td><input type="submit" name="operation" value="Delete"></td>
             </form>
         </tr>
