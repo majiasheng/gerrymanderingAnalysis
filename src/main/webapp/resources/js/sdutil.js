@@ -11,7 +11,7 @@ const SD_WITH_3_NOMINEE_SHARE_THRESHOLD = 75;
 const SD_WITH_4_NOMINEE_SHARE_THRESHOLD = 80;
 const SD_WITH_5_NOMINEE_SHARE_THRESHOLD = 83;
 
-const DIST_PLACEHOLDER = "<span class=\"dist_placeholder\" style=\"background-color:rgb(248,248,248);\">&nbsp;&nbsp;</span>&nbsp;&nbsp;";
+const DIST_PLACEHOLDER = "<span class=\"dist_placeholder\">&nbsp;&nbsp;</span>&nbsp;&nbsp;";
 
 function splitDistricts(numOfDistricts) {
     if (numOfDistricts <= 5) {
@@ -123,12 +123,18 @@ $(document).ready(function () {
                     sdSet.forEach(function (item, index) {
                         var placeholders="";
                         for(i=0;i<item;i++) {
-                            placeholders+=DIST_PLACEHOLDER;
+                            placeholders = placeholders 
+                                    // e.g. id="sd_1_3_2" => super district 1 contains 3 districts, 
+                                    // this span is for the 2nd district
+                                    + "<span id=\"sd_" + (index + 1) + "_" + item + "_" + (i+1) + "\">"
+                                    + DIST_PLACEHOLDER
+                                    + "</span>";
                         }
                         // e.g. id="sd_1_3" => super district 1 contains 3 districts
                         $(".manualSDCtrl").append(
                                 "<div id=\"sd_" + (index + 1) + "_" + item + "\">"
-                                + "Super-district " + (index + 1) + " (Set of " + item + "): "
+                                //+ "Super-district " + (index + 1) + " (Set of " + item + "): "
+                                + "Super-district " + (index + 1) + ": "
                                 + placeholders
                                 + "</div>");
 
