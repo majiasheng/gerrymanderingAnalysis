@@ -244,7 +244,7 @@ $(document).ready(function () {
 
     // send get on state selection
     $("#stateSelection").change(function () {
-        // reset sd 
+        // reset sd
         resetSDControls();
 
         if (districtLocked) {
@@ -307,6 +307,7 @@ $(document).ready(function () {
         var stateCode = $("#stateSelection").val();
         var year = $("#dataSelection").val();
         var measure = $(this).val();
+        $("#testResultContainer").empty();
         if (measure !== "") {
             $.ajax({
                 url: "/measure/" + measure,
@@ -334,8 +335,6 @@ $(document).ready(function () {
                     console.log(textStatus + "; errorThrown: " + errorThrown);
                 }
             });
-        } else {
-            $("#testResultContainer").empty();
         }
     });
 });
