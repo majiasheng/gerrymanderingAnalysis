@@ -1,7 +1,7 @@
 const USERID = "userId";
-const SELECTED_STATE = "selectedState";
-const SELECTED_YEAR = "selectedYear";
-const SELECTED_TEST = "selectedTest";
+const SELECTED_STATE = "stateSelection";
+const SELECTED_YEAR = "dataSelection";
+const SELECTED_TEST = "gerrymanderingMeasure";
 const MANUAL_SD_SET = "manualSDSet";
 const AUTO_SD_SET = "autoSDSet";
 
@@ -59,6 +59,8 @@ $(document).ready(function () {
 
         controls[USERID] = this.userId.value;
         controls[SELECTED_STATE] = $("#" + SELECTED_STATE).val();
+
+console.log(controls[SELECTED_STATE]);
 
         if (!controls[SELECTED_STATE]) {
             // no state has been selected, inform user, and return
