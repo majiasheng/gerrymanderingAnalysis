@@ -1,6 +1,10 @@
 var numDist = 0;
 const MIN_NUM_DIST_FOR_TEST = 5;
 
+function add(a, b) {
+    return a + b;
+}
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -25,6 +29,7 @@ $(document).ready(function () {
 
     function filterData(key, val, demogData) {
         var dataStr = "";
+        var sum = val.values().reduce(add, 0);
         $.each(val, function (key2, val2) {
             if (val2) {
                 if (key == "electionData") {
