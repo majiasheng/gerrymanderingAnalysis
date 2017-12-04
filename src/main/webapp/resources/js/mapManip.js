@@ -5,6 +5,17 @@ function add(a, b) {
     return a + b;
 }
 
+function translateDemogVal(val, sum) {
+  var num = Number(val);
+  var ret = "";
+  // ret += num.toLocaleString(
+  //   "en-US",
+  //   { minimumFractionDigits: 2 }
+  // );
+  ret += " ("+ (num/sum*100).toFixed(2) +"%)";
+  return ret;
+}
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -29,7 +40,6 @@ $(document).ready(function () {
 
     function filterData(key, val, demogData) {
         var dataStr = "";
-        var sum = val.values().reduce(add, 0);
         $.each(val, function (key2, val2) {
             if (val2) {
                 if (key == "electionData") {
@@ -52,13 +62,14 @@ $(document).ready(function () {
                     dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
                     //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
                 } else if (key == "demographicData") {
+                    var sum = Object.values(val).reduce(add, 0);
                     if (demogDataExcludeKey(key2)) {
                         return true;
                     }
                     if (key2 == "population") {
                         dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
                     } else {
-                        demogData.labels.push(translateDemogDataKeyName(key2));
+                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, sum));
                         demogData.datasets[0].data.push(val2);
                         demogData.datasets[0].backgroundColor.push(generateColor(key2));
                     }
