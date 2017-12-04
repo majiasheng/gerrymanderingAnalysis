@@ -7,19 +7,19 @@ function title(str) {
 
 function generateColor(val) {
   if (val === "white") {
-    return "AliceBlue";
+    return "YellowGreen";
   } else if (val === "africanAmerican") {
-    return "AliceBlue";
+    return "DarkGoldenRod";
   } else if (val === "americanNative") {
-    return "AliceBlue";
+    return "DarkGreen";
   } else if (val === "asian") {
-    return "AliceBlue";
+    return "GoldenRod";
   } else if (val === "pacificIslander") {
-    return "AliceBlue";
+    return "LightSeaGreen";
   } else if (val === "otherRace") {
-    return "AliceBlue";
+    return "Magenta";
   } else if (val === "twoOrMoreRaces") {
-    return "AliceBlue";
+    return "Red";
   } else {
     var r = Math.floor(Math.random() * 200);
     var g = Math.floor(Math.random() * 200);
