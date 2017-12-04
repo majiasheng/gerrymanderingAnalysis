@@ -193,6 +193,7 @@ $(document).ready(function () {
         $(spinStr).insertBefore('#infoText');
         // reset gerrymanderingMeasure
         $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
         $.ajax({
             url: "/data",
             type: "GET",
@@ -213,6 +214,7 @@ $(document).ready(function () {
         });
         // reset and disable measure options
         $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
         $("#gerrymanderingMeasure").prop({
             disabled: true
         });
