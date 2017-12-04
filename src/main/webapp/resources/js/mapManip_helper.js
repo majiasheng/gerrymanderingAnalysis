@@ -5,7 +5,7 @@ function title(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
-function generateRandomColor() {
+function generateColor(key2) {
   var r = Math.floor(Math.random() * 200);
   var g = Math.floor(Math.random() * 200);
   var b = Math.floor(Math.random() * 200);
