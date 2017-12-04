@@ -16,10 +16,17 @@ import org.apache.commons.math3.stat.StatUtils;
 @Component("MMTest")
 public class MeanMedianTest implements GerrymanderingTestService {
     
+    
     private final double CORRECTION_FACTOR = .5708;
     private final double ZTEST = 1.96;
 
     public TestResult doTest(State state) {
+        
+        TestResult ret = new TestResult();
+        
+        if(state.getDistricts().size()<5){
+            ret.setSkipped(true);
+        }
         
         ArrayList<Double> voteShareRepList = new ArrayList<Double>();
         double meanRepVoteShare = 0;
@@ -45,7 +52,6 @@ public class MeanMedianTest implements GerrymanderingTestService {
         double stderr = Math.sqrt(StatUtils.variance(voteShareArray, meanRepVoteShare));
         stderr /= Math.sqrt(voteShareArray.length);
         double zScore = CORRECTION_FACTOR * meanMedDiff / stderr;
-        TestResult ret = new TestResult();
         ret.setUniqueTestResult(voteShareArray);
         ret.setConfidenceLvl(.05);
         ret.setpValue(1-.975);

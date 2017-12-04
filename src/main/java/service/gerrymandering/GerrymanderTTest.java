@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import model.TestResult;
 import org.apache.commons.math3.stat.inference.TTest;
 import java.util.ArrayList;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
  *
@@ -21,6 +22,11 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         ArrayList<Double>repDistricts = new ArrayList();
         ArrayList<Double>demDistricts = new ArrayList();
         
+        TestResult ret = new TestResult();
+        if(state.getDistricts().size()<5){
+            ret.setSkipped(true);
+        }
+        
         for(District i : state.getDistricts()){
             if(i.getElectionData().getWinner().getAbbreviation().equals("R")){
                 repDistricts.add(1.0*i.getElectionData().getRepVotes()/(i.getElectionData().getRepVotes()+i.getElectionData().getDemVotes()));
@@ -32,9 +38,16 @@ public class GerrymanderTTest implements GerrymanderingTestService {
         double[] repDistrictsArray = doubleConverter(repDistricts);
         double[] demDistrictsArray = doubleConverter(demDistricts);
         TTest tTest = new TTest();
-        double pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
-        boolean isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
-        TestResult ret = new TestResult();
+        double pValue=0;
+        boolean isGerrymandered = false;
+        try{
+            pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
+            isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
+        }catch(NumberIsTooSmallException e){
+            ret.setSkipped(true);
+        }
+        
+
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
         ret.setGerrymandered(isGerrymandered);

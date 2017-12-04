@@ -24,6 +24,12 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
     @Override
     public TestResult doTest(State state) {
         int numReps = state.getDistricts().size();
+        
+        TestResult result = new TestResult();
+        
+        if(state.getDistricts().size()<5){
+            result.setSkipped(true);
+        }
 
         int totalVotes = 0;
         int repWasted = 0;
@@ -51,7 +57,6 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
         double efficiencyGap = (demWasted * 1.0 - repWasted * 1.0) / totalVotes;
         System.out.println("Efficiency Gap: " + efficiencyGap);
 
-        TestResult result = new TestResult();
         result.setUniqueTestResult(wastedVotes);
         if (efficiencyGap * state.getDistricts().size() >= 2) {
             result.setGerrymandered(true);

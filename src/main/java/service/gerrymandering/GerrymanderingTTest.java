@@ -8,6 +8,7 @@ import org.apache.commons.math3.stat.inference.TTest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import model.Party;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
 
 /**
  *
@@ -23,6 +24,11 @@ public class GerrymanderingTTest implements GerrymanderingTestService {
         System.out.println("test");
         ArrayList<Double> repDistricts = new ArrayList();
         ArrayList<Double> demDistricts = new ArrayList();
+        
+        TestResult ret = new TestResult();
+        if(state.getDistricts().size()<5){
+            ret.setSkipped(true);
+        }
 
         for (District i : state.getDistricts()) {
             if (i.getElectionData().getWinner().getAbbreviation().equals("R")) {
@@ -35,9 +41,14 @@ public class GerrymanderingTTest implements GerrymanderingTestService {
         double[] repDistrictsArray = doubleConverter(repDistricts);
         double[] demDistrictsArray = doubleConverter(demDistricts);
         TTest tTest = new TTest();
-        double pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
-        boolean isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
-        TestResult ret = new TestResult();
+        double pValue = 0 ;
+        boolean isGerrymandered = false;
+        try{
+        pValue = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray);
+        isGerrymandered = tTest.homoscedasticTTest(repDistrictsArray, demDistrictsArray, CONFIDENCE_LEVEL);
+        }catch(NumberIsTooSmallException e){
+            ret.setSkipped(true);
+        }
         HashMap unique = new HashMap();
         unique.put(Party.DEMOCRATIC, demDistrictsArray);
         unique.put(Party.REPUBLICAN,repDistrictsArray);
