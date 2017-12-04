@@ -11,6 +11,8 @@ const SD_WITH_3_NOMINEE_SHARE_THRESHOLD = 75;
 const SD_WITH_4_NOMINEE_SHARE_THRESHOLD = 80;
 const SD_WITH_5_NOMINEE_SHARE_THRESHOLD = 83;
 
+const DIST_PLACEHOLDER = "<span class=\"dist_placeholder\" style=\"background-color:rgb(248,248,248);\">&nbsp;&nbsp;</span>&nbsp;&nbsp;";
+
 function splitDistricts(numOfDistricts) {
     if (numOfDistricts <= 5) {
         // throw new IllegalArgumentException("Number of districts must be larger than 5");
@@ -73,6 +75,11 @@ function splitDistricts(numOfDistricts) {
     return sd;
 }
 
+function resetSDControls() {
+    $("#sdcheck").prop("checked", false);
+    $("#sdModeContainer").empty();
+}
+
 $(document).ready(function () {
     /**
      * Interacting with Super-districting controls will trigger the following
@@ -80,32 +87,58 @@ $(document).ready(function () {
     $("#sdcheck").click(function () {
 
         if ($(this).prop("checked")) {
-            
-            /* add super districting options */
-            
-            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\"> Manual<br>");
-            // container for manual sd controls
-            $("#sdModeContainer").append("<div class=\"manualSDCtrl\"></div>");
-            
-            $("#sdModeContainer").append("<input type=\"radio\" name=\"sdmode\" value=\"auto\" id=\"autoRadio\"> Automatic<br>");
-            // container for auto sd controls
-            $("#sdModeContainer").append("<div class=\"audoSDCtrl\"></div>");
-            
+
+            /* add super districting options (as a form) */
+            $("#sdModeContainer").append("<form id=\"sdForm\" method=\"POST\" action=\"/createSD\">"
+                    + "<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\"> Manual<br>"
+                    // container for manual sd controls
+                    + "<div class=\"manualSDCtrl\"></div>"
+
+                    + "<input type=\"radio\" name=\"sdmode\" value=\"auto\" id=\"autoRadio\"> Automatic<br>"
+                    // container for auto sd controls
+                    + "<div class=\"autoSDCtrl\"></div>"
+
+                    + "<input type=\"submit\" value=\"Create Super Districts\"/>"
+                    + "</form>"
+                    );
+
             // bind 
             $('input[name=sdmode]:radio').change(function () {
                 if (this.value === "auto") {
+                    $(".manualSDCtrl").empty();
+
                     var audoSDNumSelection = "<select name=\"autoSDNum\" id=\"numOfSD\">"
                             + "<option value=\"\">Number of Super-District</option>"
                             + "</select>";
                     $(".audoSDCtrl").html(audoSDNumSelection);
                     //TODO: bind functions to dropdown
-                    
+
                 } else {
                     $(".audoSDCtrl").empty();
                     //TODO: bind functions to manual 
-                    //TODO: call splitDistrict?
+
                     console.log("in manual: number of districts: " + splitDistricts(numDist));
-                    
+
+                    var sdSet = splitDistricts(numDist);
+                    sdSet.forEach(function (item, index) {
+                        var placeholders="";
+                        for(i=0;i<item;i++) {
+                            placeholders+=DIST_PLACEHOLDER;
+                        }
+                        // e.g. id="sd_1_3" => super district 1 contains 3 districts
+                        $(".manualSDCtrl").append(
+                                "<div id=\"sd_" + (index + 1) + "_" + item + "\">"
+                                + "Super-district " + (index + 1) + " (Set of " + item + "): "
+                                + placeholders
+                                + "</div>");
+
+                        // TODO: add insert the following in here on district selection
+                        // $(".manualSDCtrl").append("<span><input type=\"hidden\" value="+  + "/>"+  +"</span>");
+
+                        // $(".manualSDCtrl").append();
+                    });
+
+
                 }
             });
         } else {

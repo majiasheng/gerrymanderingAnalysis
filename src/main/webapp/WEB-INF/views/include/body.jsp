@@ -53,16 +53,14 @@
             <input type="hidden" name="selectedTest" value="">
             <input type="hidden" name="manualSDSet" value="">
             <input type="hidden" name="autoSDSet" value="">
-            <input type="submit" id="saveWorkBtn" <c:if test="${empty user}">disabled</c:if>>Save Current Work</button>
+            <input type="submit" id="saveWorkBtn" value="Save Current Work"<c:if test="${empty user}">disabled</c:if>>
         </form>
         <!--<hr>-->
         <!-- Info window -->
         <div class="row" id="infowindow">
             <div class="col-md-12">
                 <!--<span class="label label-default">Info</span>-->
-                <div class="info" id="infoText">
-
-                </div>
+                <div class="info" id="infoText"></div>
             </div>
         </div>
         <!-- End Info window -->

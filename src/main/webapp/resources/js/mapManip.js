@@ -241,6 +241,9 @@ $(document).ready(function() {
 
   // send get on state selection
   $("#stateSelection").change(function() {
+    // reset sd 
+    resetSDControls();
+    
     if (districtLocked) {
       resetDistrict(districtLocked);
       districtLocked = null;
