@@ -193,6 +193,7 @@ $(document).ready(function () {
         $(spinStr).insertBefore('#infoText');
         // reset gerrymanderingMeasure
         $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
         $.ajax({
             url: "/data",
             type: "GET",
@@ -213,6 +214,7 @@ $(document).ready(function () {
         });
         // reset and disable measure options
         $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
         $("#gerrymanderingMeasure").prop({
             disabled: true
         });
@@ -244,7 +246,7 @@ $(document).ready(function () {
 
     // send get on state selection
     $("#stateSelection").change(function () {
-        // reset sd 
+        // reset sd
         resetSDControls();
 
         if (districtLocked) {
@@ -307,6 +309,7 @@ $(document).ready(function () {
         var stateCode = $("#stateSelection").val();
         var year = $("#dataSelection").val();
         var measure = $(this).val();
+        $("#testResultContainer").empty();
         if (measure !== "") {
             $.ajax({
                 url: "/measure/" + measure,
@@ -334,8 +337,6 @@ $(document).ready(function () {
                     console.log(textStatus + "; errorThrown: " + errorThrown);
                 }
             });
-        } else {
-            $("#testResultContainer").empty();
         }
     });
 });
