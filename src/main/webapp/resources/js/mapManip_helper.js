@@ -5,11 +5,27 @@ function title(str) {
   return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 }
 
-function generateRandomColor() {
-  var r = Math.floor(Math.random() * 200);
-  var g = Math.floor(Math.random() * 200);
-  var b = Math.floor(Math.random() * 200);
-  return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+function generateColor(val) {
+  if (val === "white") {
+    return "YellowGreen";
+  } else if (val === "africanAmerican") {
+    return "DarkGoldenRod";
+  } else if (val === "americanNative") {
+    return "DarkGreen";
+  } else if (val === "asian") {
+    return "GoldenRod";
+  } else if (val === "pacificIslander") {
+    return "LightSeaGreen";
+  } else if (val === "otherRace") {
+    return "Magenta";
+  } else if (val === "twoOrMoreRaces") {
+    return "Red";
+  } else {
+    var r = Math.floor(Math.random() * 200);
+    var g = Math.floor(Math.random() * 200);
+    var b = Math.floor(Math.random() * 200);
+    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+  }
 }
 
 function translatePropKeyName(val) {

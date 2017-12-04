@@ -55,7 +55,7 @@ $(document).ready(function () {
                     } else {
                         demogData.labels.push(translateDemogDataKeyName(key2));
                         demogData.datasets[0].data.push(val2);
-                        demogData.datasets[0].backgroundColor.push(generateRandomColor());
+                        demogData.datasets[0].backgroundColor.push(generateColor(key2));
                     }
                 }
             }
