@@ -2,30 +2,49 @@ package model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author majiasheng
  */
 @Entity
+@Table(name = "snapshots")
 public class Snapshot implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Column(name = "userId", nullable = false)
     private int userId;
+
+    @Column(name = "selectedState")
     private String selectedState;
+
+    @Column(name = "selectedYear")
     private int selectedYear;
+
+    @Column(name = "selectedTest")
     private int selectedTest;
-    //TODO JPA set default value
+
+    @Column(name = "timeSaved", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp timeSaved;
 
-    // JSON object, one of these will be null
-    // {manual:[ , , ,]}
+    // JSON object, one of these will be null: {manual:[ , , ,]}
+    @Column(name = "manualSDSet")
     private String manualSDSet;
-    // JSON object
-    // {auto:[ , , ,]}
+    // JSON object: {auto:[ , , ,]}
+    @Column(name = "autoSDSet")
     private String autoSDSet;
 
     public Snapshot() {

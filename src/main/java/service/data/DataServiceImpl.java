@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
+import model.Snapshot;
 import model.State;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +92,11 @@ public class DataServiceImpl implements DataService {
             geojsonStr = geojsonStr.substring(0, geojsonStr.length() - 1);
         }
         return geojsonStr + geojsonStrEnd;
+    }
+    
+    
+    public boolean takeSnapShot(Snapshot snapshot) {
+        return dao.takeSnapShot(snapshot);
     }
 
     public Collection<ElectionData> getElectionDataByYear(String state, int year) {

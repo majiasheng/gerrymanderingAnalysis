@@ -4,6 +4,7 @@ import java.util.Collection;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
+import model.Snapshot;
 import model.State;
 
 public interface DataService {
@@ -54,5 +55,7 @@ public interface DataService {
     public boolean upload(Object uploadTarget);
 
     public Collection<State> getStates();
+    
+    public boolean takeSnapShot(Snapshot snapshot);
 
 }

@@ -21,6 +21,8 @@ import model.State;
 import service.data.DataService;
 import service.Init;
 import model.SessionConstant;
+import model.Snapshot;
+import org.springframework.validation.BindingResult;
 
 /**
  * @Author Jia Sheng Ma (jiasheng.ma@yahoo.com)
@@ -109,6 +111,28 @@ public class MainController {
         }
         return null;
     }
+    
+    /**
+     * Handles request to save current work to database
+     * (takes snapshot of the work space)
+     * @param snapshot
+     * @param result
+     * @param request
+     * @return 
+     */
+    @RequestMapping(value = "/takeSnapshot", method = RequestMethod.POST , produces = "application/json")
+    public boolean takeSnapshot(
+            @ModelAttribute("snapshot") Snapshot snapshot,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            return false;
+        }
+        
+        //TEST
+        return false;
+        // return dataService.takeSnapShot(snapshot);
+    }
+    
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView goHome() {

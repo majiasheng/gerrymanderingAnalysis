@@ -7,6 +7,7 @@ import model.Coordinate;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
+import model.Snapshot;
 import model.State;
 
 public interface DataAccessor {
@@ -48,4 +49,6 @@ public interface DataAccessor {
     public boolean upload(Object uploadTarget);
 
     public Collection<State> getStates();
+    
+    public boolean takeSnapShot(Snapshot snapshot);
 }

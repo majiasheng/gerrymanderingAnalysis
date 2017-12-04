@@ -17,6 +17,7 @@ import model.Party;
 import model.State;
 import model.Status;
 import model.DemographicData;
+import model.Snapshot;
 import org.springframework.stereotype.Repository;
 import persistence.JPAUtils;
 
@@ -127,6 +128,25 @@ public class DataAccessorImpl implements DataAccessor {
             districts.add(district);
         }
         return districts;
+    }
+
+    public boolean takeSnapShot(Snapshot snapshot) {
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+
+        boolean success = false;
+
+        try {
+            em.persist(snapshot);
+            em.getTransaction().commit();
+            em.close();
+            success = true;
+        } catch (Exception e) {
+            //TODO: check specific exception
+            e.printStackTrace();
+            System.err.println("Error in adding snapshot to database");
+        }
+        return success;
     }
 
     public Map<Integer, Collection<Coordinate>> getStateBoundaries() {

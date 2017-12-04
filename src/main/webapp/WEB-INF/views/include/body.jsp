@@ -45,8 +45,16 @@
 
         </form>
         <script src="/resources/js/snapshot-util.js"></script>
-        <button id="saveWorkBtn" <c:if test="${empty user}">disabled</c:if>>Save Current Work</button>
 
+        <form id="snapshotForm" action="/takeSnapshot" method="POST">
+            <input type="hidden" name="userId" value="${user.id}">
+            <input type="hidden" name="selectedState" value="">
+            <input type="hidden" name="selectedYear" value="">
+            <input type="hidden" name="selectedTest" value="">
+            <input type="hidden" name="manualSDSet" value="">
+            <input type="hidden" name="autoSDSet" value="">
+            <input type="submit" id="saveWorkBtn" <c:if test="${empty user}">disabled</c:if>>Save Current Work</button>
+        </form>
         <!--<hr>-->
         <!-- Info window -->
         <div class="row" id="infowindow">
