@@ -370,7 +370,7 @@ $(document).ready(function () {
                     color: 'grey'
                 }
             },
-            onEachFeature: null
+            onEachFeature: multiSelectHandler
         });
       } else {
         districtBoundary = L.geoJson(geo, {
@@ -384,4 +384,7 @@ $(document).ready(function () {
       }
       districtBoundary.addTo(map1);
     };
+
+    function multiSelectHandler(feature, layer) {
+    }
 });
