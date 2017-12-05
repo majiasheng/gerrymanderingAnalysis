@@ -72,9 +72,11 @@ public class SessionController {
      * @return
      */
     @RequestMapping("/logout")
-    public String handleLogout(HttpServletRequest request) {
+    public ModelAndView handleLogout(HttpServletRequest request) {
+        
         // destroy session
-        request.getSession(false).invalidate();
-        return "redirect:/";
+        if (request.getSession(false) != null)
+            request.getSession(false).invalidate();
+        return new ModelAndView("index");
     }
 }

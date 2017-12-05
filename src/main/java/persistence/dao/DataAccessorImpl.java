@@ -131,6 +131,7 @@ public class DataAccessorImpl implements DataAccessor {
     }
 
     public boolean takeSnapShot(Snapshot snapshot) {
+        System.out.println("\n\nTaking snapshot...");
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
 

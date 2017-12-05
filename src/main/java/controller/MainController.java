@@ -120,17 +120,19 @@ public class MainController {
      * @param request
      * @return 
      */
-    @RequestMapping(value = "/takeSnapshot", method = RequestMethod.POST , produces = "application/json")
+    @RequestMapping(value = "/takeSnapshot", method = RequestMethod.GET , produces = "application/json")
+    @ResponseBody
     public boolean takeSnapshot(
             @ModelAttribute("snapshot") Snapshot snapshot,
-            BindingResult result) {
+            BindingResult result
+            ) {
+        
         if (result.hasErrors()) {
+            System.err.println(result.toString());
             return false;
         }
         
-        //TEST
-        return false;
-        // return dataService.takeSnapShot(snapshot);
+        return dataService.takeSnapShot(snapshot);
     }
     
 
