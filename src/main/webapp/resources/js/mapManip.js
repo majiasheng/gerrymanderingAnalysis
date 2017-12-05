@@ -16,13 +16,13 @@ function translateDemogVal(val, sum) {
   return ret;
 }
 
+// flag to identify locked district
+var districtLocked = null;
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
     const MIN_NUM_OF_DIST_FOR_SD = 5;
-
-    // flag to identify locked district
-    var districtLocked = null;
 
     function districtStyling(layer) {
         layer.setStyle({
