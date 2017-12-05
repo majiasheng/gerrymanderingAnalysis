@@ -19,6 +19,10 @@ function translateDemogVal(val, sum) {
 // flag to identify locked district
 var districtLocked = null;
 
+var multiSelectMap = function(checked){
+  console.log(checked);
+};
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -355,4 +359,29 @@ $(document).ready(function () {
             });
         }
     });
+
+    multiSelectMap = function(checked){
+      var geo = districtBoundary.toGeoJSON();
+      districtBoundary.remove();
+      if (checked) {
+        districtBoundary = L.geoJson(geo, {
+            style: function (feature) {
+                return {
+                    color: 'grey'
+                }
+            },
+            onEachFeature: null
+        });
+      } else {
+        districtBoundary = L.geoJson(geo, {
+            style: function (feature) {
+                return {
+                    color: 'purple'
+                }
+            },
+            onEachFeature: zoomToState
+        });
+      }
+      districtBoundary.addTo(map1);
+    };
 });
