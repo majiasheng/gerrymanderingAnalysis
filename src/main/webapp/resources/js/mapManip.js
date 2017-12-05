@@ -363,6 +363,8 @@ $(document).ready(function () {
     multiSelectMap = function(checked){
       var geo = districtBoundary.toGeoJSON();
       districtBoundary.remove();
+      $("#infoText").empty();
+      $("#testResultContainer").empty();
       if (checked) {
         districtBoundary = L.geoJson(geo, {
             style: function (feature) {
