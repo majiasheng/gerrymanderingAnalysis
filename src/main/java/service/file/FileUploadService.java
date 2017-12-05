@@ -30,6 +30,8 @@ import service.file.util.CSVParser;
 public class FileUploadService {
 
     public final String CSV_FILE = "csv";
+    public final String DEM_PARTY = "Democratic";
+    public final String REP_PARTY = "Republican";
 
     public boolean handleFileUpload(Map<String, MultipartFile> files) throws ClassNotFoundException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -89,15 +91,12 @@ public class FileUploadService {
                     String congress = fields[FileUploadConstants.INDEX_OF_CONGRESS];
                     String geojson = fields[FileUploadConstants.INDEX_OF_GEOJSON];
 
-                    //TODO: race year and congress?
-                    Geo geo = new Geo(state, Integer.parseInt(distNum), geojson);
-
+                    Geo geo = new Geo(state, Integer.parseInt(distNum), geojson, Integer.parseInt(congress));
                     geodata.add(geo);
 
                 }
 
-                //TODO:
-                // return doInsertGeo(geodata,  , conn);
+                 return doInsertGeo(geodata , conn);
             } catch (IOException ex) {
                 Logger.getLogger(FileUploadService.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -169,21 +168,51 @@ public class FileUploadService {
 
     public boolean uploadElectionData(MultipartFile multipartFile, Connection conn) {
 
-        // state name, congress, district number, party name, votes, election status, iswinner 
+        if (isCSV(multipartFile)) {
+
+            List<Election> electionData = new ArrayList<Election>();
+
+            try {
+                String rows[] = CSVParser.getCSVRows(multipartFile);
+
+                for (String row : rows) {
+
+                    String fields[] = CSVParser.getRowData(row, FileUploadConstants.NUMBER_OF_FIELDS_IN_ELECTION);
+                    if (fields == null) {
+                        return false;
+                    }
+                    String distNum = fields[FileUploadConstants.INDEX_OF_DISTRICT_NUM];
+                    String state = fields[FileUploadConstants.INDEX_OF_STATE];
+                    String congress = fields[FileUploadConstants.INDEX_OF_CONGRESS];
+                    String repVotes = fields[FileUploadConstants.INDEX_OF_REP_VOTE];
+                    String repStatus = fields[FileUploadConstants.INDEX_OF_REP_STATUS];
+                    String demVotes = fields[FileUploadConstants.INDEX_OF_DEM_VOTE];
+                    String demStatus = fields[FileUploadConstants.INDEX_OF_DEM_STATUS];
+                    String winner = fields[FileUploadConstants.INDEX_OF_WINNDER];
+
+                    Election election = new Election(Integer.parseInt(distNum), 
+                            state, 
+                            Integer.parseInt(congress), 
+                            Integer.parseInt(repVotes), 
+                            repStatus, 
+                            Integer.parseInt(demVotes),
+                            demStatus, 
+                            winner);
+
+                    electionData.add(election);
+
+                }
+
+                return doInsertElection(electionData, conn);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUploadService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
         return false;
     }
 
-    public boolean isCSV(MultipartFile multipartFile) {
-        return CSV_FILE.equals(multipartFile.getOriginalFilename().split("\\.")[1]);
-    }
-
-    public File multipartFileToFile(MultipartFile multipart) throws IllegalStateException, IOException {
-        File convFile = new File(multipart.getOriginalFilename());
-        multipart.transferTo(convFile);
-        return convFile;
-    }
-
-    private boolean doInsertGeo(List<Geo> list, int congress, Connection conn) {
+    private boolean doInsertGeo(List<Geo> list, Connection conn) {
         String sql = "{call INSERT_GEO(?,?,?,?)}";
         try {
 
@@ -193,7 +222,7 @@ public class FileUploadService {
             for (Geo geo : list) {
                 //Set IN parameter
                 stmt.setString(1, geo.getStateName());
-                stmt.setInt(2, congress);
+                stmt.setInt(2, geo.getCongress());
                 stmt.setInt(3, geo.getDistrictNum());
                 stmt.setString(4, geo.getGeoText());
 
@@ -251,8 +280,61 @@ public class FileUploadService {
         return false;
     }
 
+    private boolean doInsertElection(List<Election> list, Connection conn) {
+        
+        // state name, congress, district number, party name, votes, election status, iswinner 
+        String sql = "{call INSERT_ELECTION(?,?,?,?,?,?,?)}";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            conn.setAutoCommit(false);
+            int i = 0;
+            for (Election data : list) {
+                // insert dem
+                stmt.setString(1, data.getState());
+                stmt.setInt(2, data.getCongress());
+                stmt.setInt(3, data.getDistrictNum());
+                stmt.setString(4, DEM_PARTY);
+                stmt.setInt(5, data.getDemVotes());
+                stmt.setString(6, data.getDemStatus());
+                stmt.setBoolean(7, isWinner(DEM_PARTY,data.getWinner()));
+                
+                //TODO: insert rep
+                
+
+                stmt.addBatch();
+                i++;
+                if (i % 1000 == 0 || i == list.size()) {
+                    System.out.println(i + " records being inserted");
+                    int[] count = stmt.executeBatch(); // Execute every 1000 items.  
+                    conn.commit();
+                    System.out.println(count.length + " records inserted");
+                }
+            }
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    private boolean isWinner(String party, String winner) {
+        return winner.equals("R") && party.equals(REP_PARTY);
+    }
+
     //<editor-fold defaultstate="collapsed" desc=" helper methods ">
-    private String between(String value, String a, String b) {
+    
+    public boolean isCSV(MultipartFile multipartFile) {
+        return CSV_FILE.equals(multipartFile.getOriginalFilename().split("\\.")[1]);
+    }
+
+    public File multipartFileToFile(MultipartFile multipart) throws IllegalStateException, IOException {
+        File convFile = new File(multipart.getOriginalFilename());
+        multipart.transferTo(convFile);
+        return convFile;
+    }
+    
+    public String between(String value, String a, String b) {
         //Return a substring between the two strings.
         int posA = value.indexOf(a);
         if (posA == -1) {
@@ -294,89 +376,4 @@ public class FileUploadService {
     }
     //</editor-fold>
 
-//    public void uploadGeoData(String geoFolderPath, int congress) {
-//
-//        int districtNum;
-//        String stateName;
-//        String geoText;
-//
-//        List<Geo> list = new ArrayList<Geo>();
-//
-//        try {
-//            File geoFolder = new File(geoFolderPath);
-//            //loop through all states
-//            for (final File stateFile : geoFolder.listFiles()) {
-//                if (stateFile.isDirectory()) {
-//                    stateName = stateFile.getName();
-//
-//                    //loop through all districts
-//                    for (final File districtFile : stateFile.listFiles()) {
-//                        if (districtFile.isFile()) {
-//
-//                            String temp = FilenameUtils.removeExtension(districtFile.getName());
-//                            if (!temp.contains("District Of Columbia")) {
-//                                districtNum = Integer.valueOf(temp.substring(temp.lastIndexOf("t") + 1));
-//                                if (districtNum == 0) {
-//                                    districtNum = 1;
-//                                }
-//                                geoText = FileUtils.readFileToString(districtFile, "utf-8");
-//
-//                                list.add(new Geo(stateName, districtNum, geoText));
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            //do insert
-//            doInsertGeo(list, congress);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public boolean uploadDemoData(String demoFilePath, int congress) {
-//
-//        List<Demo> list = new ArrayList<Demo>();
-//
-//        CSVReader reader = null;
-//        try {
-//            reader = new CSVReader(new FileReader(demoFilePath));
-//            String[] line;
-//            String state;
-//            int districtNum;
-//            String temp;
-//            while ((line = reader.readNext()) != null) {
-//                if (line[0].contains("Congressional District")) {
-//                    state = line[0].substring(line[0].lastIndexOf(", ") + 2);
-//                    temp = between(line[0], ("Congressional District "), " (");
-//                    if (isInt(temp)) {
-//                        districtNum = Integer.valueOf(temp);
-//                    } else {
-//                        districtNum = 1;
-//                    }
-//
-//                    Demo demo = new Demo()
-//                            .setState(state)
-//                            .setDistrictNum(districtNum)
-//                            .setTotal(Integer.valueOf(line[1]))
-//                            .setWhite(Integer.valueOf(line[2]))
-//                            .setBlack(Integer.valueOf(line[3]))
-//                            .setIndian(Integer.valueOf(line[4]))
-//                            .setAsian(Integer.valueOf(line[5]))
-//                            .setIslander(Integer.valueOf(line[6]))
-//                            .setOther(Integer.valueOf(line[7]))
-//                            .setMixed(Integer.valueOf(line[8]));
-//                    list.add(demo);
-//                }
-//            }
-//
-//            return doInsertDemo(list, congress);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return false;
-//
-//    }
 }

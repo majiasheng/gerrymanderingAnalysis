@@ -8,15 +8,17 @@ public class Geo {
 
     private String stateName;
     private int districtNum;
+    private int congress;
     private String geoText;
-
+    
     public Geo() {
     }
 
-    public Geo(String stateName, int districtNum, String geoText) {
+    public Geo(String stateName, int districtNum, String geoText, int congress) {
         this.stateName = stateName;
         this.districtNum = districtNum;
         this.geoText = geoText;
+        this.congress = congress;
     }
 
     public String getStateName() {
@@ -43,4 +45,12 @@ public class Geo {
         this.geoText = geoText;
     }
 
+    public int getCongress() {
+        return congress;
+    }
+
+    public void setCongress(int congress) {
+        this.congress = congress;
+    }
+    
 }
