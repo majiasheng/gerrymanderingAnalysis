@@ -7,6 +7,7 @@ package service.file;
 public class Demo {
 
     private String state;
+    private int congress;
     private int districtNum;
     private int total;
     private int white;
@@ -20,9 +21,10 @@ public class Demo {
     public Demo() {
     }
 
-    public Demo(String state, int districtNum, int total, int white, int black,
+    public Demo(String state, int congress, int districtNum, int total, int white, int black,
             int indian, int asian, int islander, int other, int mixed) {
         this.state = state;
+        this.congress = congress;
         this.districtNum = districtNum;
         this.total = total;
         this.white = white;
@@ -38,6 +40,11 @@ public class Demo {
         this.state = state;
         return this;
     }
+    
+    public Demo setCongress(int congress) {
+        this.congress = congress;
+        return this;
+    }
 
     public Demo setDistrictNum(int districtNum) {
         this.districtNum = districtNum;
@@ -48,7 +55,7 @@ public class Demo {
         this.total = total;
         return this;
     }
-
+    
     public Demo setWhite(int white) {
         this.white = white;
         return this;
@@ -86,6 +93,10 @@ public class Demo {
 
     public String getState() {
         return state;
+    }
+    
+    public int getCongress() {
+        return congress;
     }
 
     public int getDistrictNum() {

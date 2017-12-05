@@ -10,6 +10,9 @@ public class Geo {
     private int districtNum;
     private String geoText;
 
+    public Geo() {
+    }
+
     public Geo(String stateName, int districtNum, String geoText) {
         this.stateName = stateName;
         this.districtNum = districtNum;

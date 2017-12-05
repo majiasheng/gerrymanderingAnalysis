@@ -15,8 +15,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.SessionConstant;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import service.file.util.CSVParser;
 
 /**
  *
@@ -27,16 +31,150 @@ public class FileUploadService {
 
     public final String CSV_FILE = "csv";
 
-    public boolean handleFileUpload(Map<String, File> files) {
-        throw new UnsupportedOperationException();
-//        return false;
+    public boolean handleFileUpload(Map<String, MultipartFile> files) throws ClassNotFoundException {
+        Class.forName("com.mysql.jdbc.Driver");
+
+        String jdbcUrl = "jdbc:mysql://mysql3.cs.stonybrook.edu:3306/aspen?useSSL=false";
+        String username = "aspen";
+        String password = "changeit";
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(jdbcUrl, username, password);
+
+            if (uploadDemoData(files.get(SessionConstant.DEMOGRAPHIC_DATA_ATTRIBUTE), conn)
+                    && uploadGeoData(files.get(SessionConstant.GEO_DATA_ATTRIBUTE), conn)
+                    && uploadElectionData(files.get(SessionConstant.ELECTION_DATA_ATTRIBUTE), conn)) {
+                return true;
+            }
+            return false;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FileUploadService.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(FileUploadService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Geo csv file has the following format: district_number, state,
+     * congress,geojson
+     *
+     * @param multipartFile
+     * @return
+     */
+    public boolean uploadGeoData(MultipartFile multipartFile, Connection conn) {
+        if (isCSV(multipartFile)) {
+
+            List<Geo> geodata = new ArrayList<Geo>();
+
+            try {
+                String rows[] = CSVParser.getCSVRows(multipartFile);
+
+                for (String row : rows) {
+
+                    String fields[] = CSVParser.getRowData(row, FileUploadConstants.NUMBER_OF_FIELDS_IN_GEO);
+                    if (fields == null) {
+                        return false;
+                    }
+                    String distNum = fields[FileUploadConstants.INDEX_OF_DISTRICT_NUM];
+                    String state = fields[FileUploadConstants.INDEX_OF_STATE];
+                    String congress = fields[FileUploadConstants.INDEX_OF_CONGRESS];
+                    String geojson = fields[FileUploadConstants.INDEX_OF_GEOJSON];
+
+                    //TODO: race year and congress?
+                    Geo geo = new Geo(state, Integer.parseInt(distNum), geojson);
+
+                    geodata.add(geo);
+
+                }
+
+                //TODO:
+                // return doInsertGeo(geodata,  , conn);
+            } catch (IOException ex) {
+                Logger.getLogger(FileUploadService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return false;
+    }
+
+    public boolean uploadDemoData(MultipartFile multipartFile, Connection conn) {
+
+        if (isCSV(multipartFile)) {
+
+            List<Demo> demodata = new ArrayList<Demo>();
+
+            try {
+                String rows[] = CSVParser.getCSVRows(multipartFile);
+
+                for (String row : rows) {
+
+                    String fields[] = CSVParser.getRowData(row, FileUploadConstants.NUMBER_OF_FIELDS_IN_DEMO);
+                    if (fields == null) {
+                        return false;
+                    }
+
+                    String dist_and_congress = fields[FileUploadConstants.INDEX_OF_DIST_NUM_AND_CONGRESS];
+                    String state = fields[FileUploadConstants.INDEX_OF_STATE];
+                    int totalPopulation = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_TOTAL_POPULATION]);
+                    int white = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_WHITE]);
+                    int black = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_BLACK_AA]);
+                    int nativeAmerican = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_NATIVE]);
+                    int asian = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_ASIAN]);
+                    int pacificIslander = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_PACIFIC_ISLANDER]);
+                    int other = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_OTHER_RACE]);
+                    int mixed = Integer.parseInt(fields[FileUploadConstants.INDEX_OF_MIXED_RACE]);
+
+                    // dist_and_congress: e.g. "Congressional District 1 (115th Congress)"
+                    int distNum = Integer.parseInt(between(dist_and_congress, ("Congressional District "), " ("));
+                    int congress = Integer.parseInt(between(dist_and_congress, (" ("), "th"));
+
+                    //TODO: race year and congress?
+                    Demo demo = new Demo()
+                            .setState(state)
+                            .setCongress(congress)
+                            .setDistrictNum(distNum)
+                            .setTotal(totalPopulation)
+                            .setWhite(white)
+                            .setBlack(black)
+                            .setIndian(nativeAmerican)
+                            .setAsian(asian)
+                            .setIslander(pacificIslander)
+                            .setOther(other)
+                            .setMixed(mixed);
+
+                    demodata.add(demo);
+
+                }
+
+                return doInsertDemo(demodata, conn);
+
+            } catch (IOException ex) {
+                Logger.getLogger(FileUploadService.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return false;
+
+    }
+
+    public boolean uploadElectionData(MultipartFile multipartFile, Connection conn) {
+
+        // state name, congress, district number, party name, votes, election status, iswinner 
+        return false;
     }
 
     public boolean isCSV(MultipartFile multipartFile) {
-        if (CSV_FILE.equals(multipartFile.getOriginalFilename().split("\\.")[1])) {
-            return true;
-        }
-        return false;
+        return CSV_FILE.equals(multipartFile.getOriginalFilename().split("\\.")[1]);
     }
 
     public File multipartFileToFile(MultipartFile multipart) throws IllegalStateException, IOException {
@@ -45,58 +183,10 @@ public class FileUploadService {
         return convFile;
     }
 
-    public void uploadGeoData(String geoFolderPath, int congress) {
-
-        int districtNum;
-        String stateName;
-        String geoText;
-
-        List<Geo> list = new ArrayList<Geo>();
-
-        try {
-            File geoFolder = new File(geoFolderPath);
-            //loop through all states
-            for (final File stateFile : geoFolder.listFiles()) {
-                if (stateFile.isDirectory()) {
-                    stateName = stateFile.getName();
-
-                    //loop through all districts
-                    for (final File districtFile : stateFile.listFiles()) {
-                        if (districtFile.isFile()) {
-
-                            String temp = FilenameUtils.removeExtension(districtFile.getName());
-                            if (!temp.contains("District Of Columbia")) {
-                                districtNum = Integer.valueOf(temp.substring(temp.lastIndexOf("t") + 1));
-                                if (districtNum == 0) {
-                                    districtNum = 1;
-                                }
-                                geoText = FileUtils.readFileToString(districtFile, "utf-8");
-
-                                list.add(new Geo(stateName, districtNum, geoText));
-                            }
-                        }
-                    }
-                }
-            }
-            //do insert
-            doInsertGeo(list, congress);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void doInsertGeo(List<Geo> list, int congress) throws ClassNotFoundException {
-
-        Class.forName("com.mysql.jdbc.Driver");
-
-        String jdbcUrl = "jdbc:mysql://mysql3.cs.stonybrook.edu:3306/aspen?useSSL=false";
-        String username = "aspen";
-        String password = "changeit";
+    private boolean doInsertGeo(List<Geo> list, int congress, Connection conn) {
         String sql = "{call INSERT_GEO(?,?,?,?)}";
-
         try {
-            Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+
             CallableStatement stmt = conn.prepareCall(sql);
             conn.setAutoCommit(false);
             int i = 0;
@@ -116,71 +206,24 @@ public class FileUploadService {
                     System.out.println(count.length + " records inserted");
                 }
             }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return false;
     }
 
-    public void uploadDemoData(String demoFilePath, int congress) {
+    private boolean doInsertDemo(List<Demo> list, Connection conn) {
 
-        List<Demo> list = new ArrayList<Demo>();
-
-        CSVReader reader = null;
-        try {
-            reader = new CSVReader(new FileReader(demoFilePath));
-            String[] line;
-            String state;
-            int districtNum;
-            String temp;
-            while ((line = reader.readNext()) != null) {
-                if (line[0].contains("Congressional District")) {
-                    state = line[0].substring(line[0].lastIndexOf(", ") + 2);
-                    temp = between(line[0], ("Congressional District "), " (");
-                    if (isInt(temp)) {
-                        districtNum = Integer.valueOf(temp);
-                    } else {
-                        districtNum = 1;
-                    }
-
-                    Demo demo = new Demo()
-                            .setState(state)
-                            .setDistrictNum(districtNum)
-                            .setTotal(Integer.valueOf(line[1]))
-                            .setWhite(Integer.valueOf(line[2]))
-                            .setBlack(Integer.valueOf(line[3]))
-                            .setIndian(Integer.valueOf(line[4]))
-                            .setAsian(Integer.valueOf(line[5]))
-                            .setIslander(Integer.valueOf(line[6]))
-                            .setOther(Integer.valueOf(line[7]))
-                            .setMixed(Integer.valueOf(line[8]));
-                    list.add(demo);
-                }
-            }
-            doInsertDemo(list, congress);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void doInsertDemo(List<Demo> list, int congress) throws ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-
-        String connURL = "jdbc:mysql://mysql3.cs.stonybrook.edu:3306/aspen?useSSL=false";
-        String connUsername = "aspen";
-        String connPassword = "changeit";
         String sql = "{call INSERT_DEMO(?,?,?,?,?,?,?,?,?,?,?)}";
-
         try {
-            Connection conn = DriverManager.getConnection(connURL, connUsername, connPassword);
             PreparedStatement stmt = conn.prepareStatement(sql);
             conn.setAutoCommit(false);
             int i = 0;
             for (Demo data : list) {
                 //Set IN parameter
                 stmt.setString(1, data.getState());
-                stmt.setInt(2, congress);
+                stmt.setInt(2, data.getCongress());
                 stmt.setInt(3, data.getDistrictNum());
                 stmt.setInt(4, data.getTotal());
                 stmt.setInt(5, data.getWhite());
@@ -200,9 +243,12 @@ public class FileUploadService {
                     System.out.println(count.length + " records inserted");
                 }
             }
+
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     //<editor-fold defaultstate="collapsed" desc=" helper methods ">
@@ -247,4 +293,90 @@ public class FileUploadService {
         return true;
     }
     //</editor-fold>
+
+//    public void uploadGeoData(String geoFolderPath, int congress) {
+//
+//        int districtNum;
+//        String stateName;
+//        String geoText;
+//
+//        List<Geo> list = new ArrayList<Geo>();
+//
+//        try {
+//            File geoFolder = new File(geoFolderPath);
+//            //loop through all states
+//            for (final File stateFile : geoFolder.listFiles()) {
+//                if (stateFile.isDirectory()) {
+//                    stateName = stateFile.getName();
+//
+//                    //loop through all districts
+//                    for (final File districtFile : stateFile.listFiles()) {
+//                        if (districtFile.isFile()) {
+//
+//                            String temp = FilenameUtils.removeExtension(districtFile.getName());
+//                            if (!temp.contains("District Of Columbia")) {
+//                                districtNum = Integer.valueOf(temp.substring(temp.lastIndexOf("t") + 1));
+//                                if (districtNum == 0) {
+//                                    districtNum = 1;
+//                                }
+//                                geoText = FileUtils.readFileToString(districtFile, "utf-8");
+//
+//                                list.add(new Geo(stateName, districtNum, geoText));
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            //do insert
+//            doInsertGeo(list, congress);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public boolean uploadDemoData(String demoFilePath, int congress) {
+//
+//        List<Demo> list = new ArrayList<Demo>();
+//
+//        CSVReader reader = null;
+//        try {
+//            reader = new CSVReader(new FileReader(demoFilePath));
+//            String[] line;
+//            String state;
+//            int districtNum;
+//            String temp;
+//            while ((line = reader.readNext()) != null) {
+//                if (line[0].contains("Congressional District")) {
+//                    state = line[0].substring(line[0].lastIndexOf(", ") + 2);
+//                    temp = between(line[0], ("Congressional District "), " (");
+//                    if (isInt(temp)) {
+//                        districtNum = Integer.valueOf(temp);
+//                    } else {
+//                        districtNum = 1;
+//                    }
+//
+//                    Demo demo = new Demo()
+//                            .setState(state)
+//                            .setDistrictNum(districtNum)
+//                            .setTotal(Integer.valueOf(line[1]))
+//                            .setWhite(Integer.valueOf(line[2]))
+//                            .setBlack(Integer.valueOf(line[3]))
+//                            .setIndian(Integer.valueOf(line[4]))
+//                            .setAsian(Integer.valueOf(line[5]))
+//                            .setIslander(Integer.valueOf(line[6]))
+//                            .setOther(Integer.valueOf(line[7]))
+//                            .setMixed(Integer.valueOf(line[8]));
+//                    list.add(demo);
+//                }
+//            }
+//
+//            return doInsertDemo(list, congress);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//
+//    }
 }
