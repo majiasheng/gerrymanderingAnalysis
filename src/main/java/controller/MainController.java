@@ -127,14 +127,11 @@ public class MainController {
             BindingResult result
             ) {
         
-        
         if (result.hasErrors()) {
             System.err.println(result.toString());
             return false;
         }
         
-        //TEST
-        // return false;
         return dataService.takeSnapShot(snapshot);
     }
     
