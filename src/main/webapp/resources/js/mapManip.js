@@ -402,5 +402,19 @@ $(document).ready(function () {
     };
 
     function multiSelectHandler(feature, layer) {
+      layer.on({
+          mouseover: function (e) {
+              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              }
+          },
+          mouseout: function (e) {
+              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              }
+          },
+          click: function (e) {
+              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              }
+          }
+      });
     }
 });
