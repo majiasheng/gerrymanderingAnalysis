@@ -446,6 +446,29 @@ $(document).ready(function () {
           },
           click: function (e) {
               if ((typeof e.target.feature.properties.chosen) === "undefined") {
+                var b = false;
+                $('.manualSDCtrl').children().each(function(i,v) {
+                  $(v).children().each(function(i2,v2) {
+                    if (!$(v2).text().trim()) {
+                      // check if adjacent to existing boundary; reject and alert if not
+                      // add flag to chosen
+                      e.target.feature.properties.chosen = 0;
+                      // add to DOM
+                      $(v2).text("D"+e.target.feature.properties.DISTRICT+" ");
+                      // change color
+                      e.target.setStyle({
+                          weight: 5,
+                          color: arrayToRgb(colorSet[i]),
+                          dashArray: "",
+                          fillOpacity: 0.7
+                      });
+                      // validate if set is full
+                      b = true;
+                      return false;
+                    }
+                  });
+                  if(b){return false;}
+                });
               }
           }
       });
