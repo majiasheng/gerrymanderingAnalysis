@@ -66,14 +66,13 @@ $(document).ready(function () {
                     dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
                     //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
                 } else if (key == "demographicData") {
-                    var sum = Object.values(val).reduce(add, 0);
                     if (demogDataExcludeKey(key2)) {
                         return true;
                     }
                     if (key2 == "population") {
                         dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
                     } else {
-                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, sum));
+                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, val.population));
                         demogData.datasets[0].data.push(val2);
                         demogData.datasets[0].backgroundColor.push(generateColor(key2));
                     }
@@ -108,13 +107,24 @@ $(document).ready(function () {
             }
         });
         $("#infoText").append(dataStr);
+        var cop = Chart.defaults.doughnut;
+        console.log(cop.tooltips.callbacks.title.toString())
+        cop.tooltips.callbacks = {
+          label: function(tooltipItem, data) {
+            var value = data.datasets[0].data[tooltipItem.index];
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join(',');
+            return value;
+          }
+        };
         if (demogData.labels) {
             $("#infoText").append('<hr><h4>District Demographics</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
                 data: demogData,
-                options: Chart.defaults.doughnut
+                options: cop
             });
         }
     }
@@ -186,6 +196,11 @@ $(document).ready(function () {
                 disabled: false
             });
         }
+
+        // enable export button
+        $(".export").prop("class", "export");
+        $("#exportTo").prop("href", "/export");
+
 
         // check number of districts, n, enable super district creation if n>5
         if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
