@@ -104,6 +104,16 @@ $(document).ready(function () {
         });
         $("#infoText").append(dataStr);
         var cop = Chart.defaults.doughnut;
+        console.log(cop.tooltips.callbacks.title.toString())
+        cop.tooltips.callbacks = {
+          label: function(tooltipItem, data) {
+            var value = data.datasets[0].data[tooltipItem.index];
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join(',');
+            return value;
+          }
+        };
         if (demogData.labels) {
             $("#infoText").append('<hr><h4>District Demographics</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
