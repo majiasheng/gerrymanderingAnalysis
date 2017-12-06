@@ -108,7 +108,6 @@ $(document).ready(function () {
         });
         $("#infoText").append(dataStr);
         var cop = Chart.defaults.doughnut;
-        console.log(cop.tooltips.callbacks.title.toString())
         cop.tooltips.callbacks = {
           label: function(tooltipItem, data) {
             var value = data.datasets[0].data[tooltipItem.index];
