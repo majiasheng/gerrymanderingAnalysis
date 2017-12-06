@@ -6,14 +6,14 @@ function add(a, b) {
 }
 
 function translateDemogVal(val, sum) {
-  var num = Number(val);
-  var ret = "";
-  // ret += num.toLocaleString(
-  //   "en-US",
-  //   { minimumFractionDigits: 2 }
-  // );
-  ret += " ("+ (num/sum*100).toFixed(2) +"%)";
-  return ret;
+    var num = Number(val);
+    var ret = "";
+    // ret += num.toLocaleString(
+    //   "en-US",
+    //   { minimumFractionDigits: 2 }
+    // );
+    ret += " (" + (num / sum * 100).toFixed(2) + "%)";
+    return ret;
 }
 
 // flag to identify locked district
@@ -181,11 +181,39 @@ $(document).ready(function () {
                 disabled: false
             });
         }
-        
+
         // enable export button
         $(".export").prop("class", "export");
         $("#exportTo").prop("href", "/export");
-        
+        $("#exportTo").prop("class", "doExport");
+        // bind
+        $(".doExport").click(function (e) {
+            // prevent default 
+            e.preventDefault();
+
+            var state = $("#stateSelection").val();
+            var year = $("#dataSelection").val();
+
+            $.ajax({
+                url: "export",
+                type: "GET",
+                contentType: "application/json",
+                data: {state: state, year: year},
+                dataType: "json",
+                success: function (response, status, xhr) {
+                    console.log(response);
+                    if (response) {
+                        alert("Exported election data successfully!");
+                    } else {
+                        alert("Sorry :( \nFailed to export election data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Sorry :( \nAn error occurred when trying to export data");
+                }
+            });
+        });
+
 
         // check number of districts, n, enable super district creation if n>5
         if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {

@@ -58,4 +58,6 @@ public interface DataService {
     
     public boolean takeSnapShot(Snapshot snapshot);
 
+    public boolean doExport(String state, int year);
+
 }
