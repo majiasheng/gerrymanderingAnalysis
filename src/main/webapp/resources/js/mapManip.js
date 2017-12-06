@@ -406,10 +406,12 @@ $(document).ready(function () {
       layer.on({
           mouseover: function (e) {
               if ((typeof e.target.feature.properties.chosen) === "undefined") {
+                districtStyling(e.target);
               }
           },
           mouseout: function (e) {
               if ((typeof e.target.feature.properties.chosen) === "undefined") {
+                districtBoundary.resetStyle(e.target);
               }
           },
           click: function (e) {
