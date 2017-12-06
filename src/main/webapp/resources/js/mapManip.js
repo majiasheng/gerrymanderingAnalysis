@@ -379,6 +379,7 @@ $(document).ready(function () {
       districtBoundary.remove();
       $("#infoText").empty();
       $("#testResultContainer").empty();
+      $("#distLockLabel").empty();
       if (checked) {
         districtBoundary = L.geoJson(geo, {
             style: function (feature) {
