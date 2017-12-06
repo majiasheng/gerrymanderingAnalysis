@@ -103,13 +103,14 @@ $(document).ready(function () {
             }
         });
         $("#infoText").append(dataStr);
+        var cop = Chart.defaults.doughnut;
         if (demogData.labels) {
             $("#infoText").append('<hr><h4>District Demographics</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
                 data: demogData,
-                options: Chart.defaults.doughnut
+                options: cop
             });
         }
     }
@@ -181,11 +182,11 @@ $(document).ready(function () {
                 disabled: false
             });
         }
-        
+
         // enable export button
         $(".export").prop("class", "export");
         $("#exportTo").prop("href", "/export");
-        
+
 
         // check number of districts, n, enable super district creation if n>5
         if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
