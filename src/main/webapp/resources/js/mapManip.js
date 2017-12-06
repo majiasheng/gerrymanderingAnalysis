@@ -24,7 +24,7 @@ $(document).ready(function () {
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
     const MIN_NUM_OF_DIST_FOR_SD = 5;
 
-    function districtStyling(layer) {
+    function districtStyling(layer, addBr) {
         layer.setStyle({
             weight: 5,
             // color: '#666',
@@ -34,8 +34,10 @@ $(document).ready(function () {
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
         }
-        // add to info
-        $("#infoText").append("<br>");
+        if (addBr) {
+          // add to info
+          $("#infoText").append("<br>");
+        }
     }
 
     function filterData(key, val, demogData) {
@@ -80,7 +82,7 @@ $(document).ready(function () {
 
     function lockDistrict(e) {
         var layer = e.target;
-        districtStyling(layer);
+        districtStyling(layer, true);
         var dataStr = "";
         var demogData = {
             datasets: [{
@@ -198,7 +200,7 @@ $(document).ready(function () {
         $("#exportTo").prop("class", "doExport");
         // bind
         $(".doExport").click(function (e) {
-            // prevent default 
+            // prevent default
             e.preventDefault();
 
             var state = $("#stateSelection").val();
