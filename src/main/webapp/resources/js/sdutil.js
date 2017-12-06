@@ -80,6 +80,8 @@ function resetSDControls() {
     $("#sdModeContainer").empty();
 }
 
+var colorSet;
+
 $(document).ready(function () {
     /**
      * Interacting with Super-districting controls will trigger the following
@@ -145,6 +147,7 @@ $(document).ready(function () {
 
                         // $(".manualSDCtrl").append();
                     });
+                    colorSet = rgbColors(sdSet.length);
 
 
                 }
