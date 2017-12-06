@@ -28,7 +28,7 @@
             </li>
 
             <li class="disabled export">
-                <a id="exportTo" href="#">Export Election Data</a>
+                <a class="" id="exportTo" href="#">Export Election Data</a>
             </li>
             
             <li>

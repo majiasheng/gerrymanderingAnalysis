@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import service.data.DataService;
 import service.file.FileUploadService;
 
 /**
@@ -30,6 +33,7 @@ public class FileController {
 
     @Autowired
     FileUploadService fileUploadService;
+    @Autowired DataService dataService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ModelAndView handleUpload(
@@ -100,15 +104,21 @@ public class FileController {
 //        } catch (IOException ex) {
 //            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-            mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.FILE_UPLOAD_FAILURE_MSG);
-            return mv;
-        }
-
-        @RequestMapping(value = "/file-upload", method = RequestMethod.GET)
-        public ModelAndView fileUpload
-        
-            () {
-        return new ModelAndView("file-upload");
-        }
-
+        mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.FILE_UPLOAD_FAILURE_MSG);
+        return mv;
     }
+
+    @RequestMapping(value = "/file-upload", method = RequestMethod.GET)
+    public ModelAndView fileUpload() {
+        return new ModelAndView("file-upload");
+    }
+    
+    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public boolean export(
+            @RequestParam("state") String state, 
+            @RequestParam("year") int year) {
+        return dataService.doExport(state, year);
+    }
+
+}
