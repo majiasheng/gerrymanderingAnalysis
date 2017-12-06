@@ -152,14 +152,18 @@ public class DataServiceImpl implements DataService {
                 } else if ((d.getElectionData().getWinner()).equals(Party.REPUBLICAN)) {
                     winner = "R";
                 }
+                
+                String repStatus = d.getElectionData().getRepStatus().name();
+                String demStatus = d.getElectionData().getDemStatus().name();
 
                 csv.append(d.getDistrictNum()).append(",")
                         .append(d.getStateShortName()).append(",")
+                        //TODO: calculate congress.
                         .append("Congress").append(",")
                         .append(d.getElectionData().getRepVotes()).append(",")
-                        .append(d.getElectionData().getRepStatus()).append(",")
+                        .append((repStatus == null)?"N/A":repStatus).append(",")
                         .append(d.getElectionData().getDemVotes()).append(",")
-                        .append(d.getElectionData().getDemStatus()).append(",")
+                        .append((demStatus == null)?"N/A":demStatus).append(",")
                         .append(winner)
                         .append("\n");
             }
