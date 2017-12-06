@@ -62,14 +62,13 @@ $(document).ready(function () {
                     dataStr += "<p>" + translateElectionDataKeyName(key2) + " : " + v + "</p>\n";
                     //dataStr += "<p>" + translateElectionDataKeyName(key2) + ": " + translateElectionDataVal(title(val2)) + "</p>\n";
                 } else if (key == "demographicData") {
-                    var sum = Object.values(val).reduce(add, 0);
                     if (demogDataExcludeKey(key2)) {
                         return true;
                     }
                     if (key2 == "population") {
                         dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
                     } else {
-                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, sum));
+                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, val.population));
                         demogData.datasets[0].data.push(val2);
                         demogData.datasets[0].backgroundColor.push(generateColor(key2));
                     }
