@@ -463,6 +463,8 @@ $(document).ready(function () {
                           fillOpacity: 0.7
                       });
                       // validate if set is full
+                      if (i2+1 == $(v).children().length) {
+                      }
                       b = true;
                       return false;
                     }
