@@ -461,7 +461,7 @@ $(document).ready(function () {
                           }
                         });
                         // break if no match
-                        if(b){return false;}
+                        if(b){alert("District not adjacent.");return false;}
                       }
                       // add flag to chosen
                       e.target.feature.properties.chosen = 0;
