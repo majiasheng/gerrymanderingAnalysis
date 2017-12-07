@@ -458,6 +458,7 @@ $(document).ready(function () {
                           var b1 = v3.toGeoJSON();
                           var b2 = e.target.toGeoJSON();
                           if (true) {
+                            b = false;
                             return false;
                           }
                         });
