@@ -442,7 +442,13 @@ $(document).ready(function () {
       }
       // 3 cases: both multi, c multi d poly, both poly
       if (c.geometry.type === 'Polygon') {
-        return turf.intersect(c, d) != null
+        try {
+          return turf.intersect(c, d) != null
+        } catch (e) {
+          console.log("poly poly");
+          console.log(e);
+          return true;
+        }
       }
       // 2 cases: both multi, c multi d poly
       $(c.geometry.coordinates).each(function(i2, coords2) {
@@ -450,7 +456,14 @@ $(document).ready(function () {
               'type': 'Polygon',
               'coordinates': coords2
           };
-          if (turf.intersect(d, feat2) != null) {
+          try {
+            if (turf.intersect(d, feat2) != null) {
+              br = true;
+              return false;
+            }
+          } catch (e) {
+            console.log("c multi d poly");
+            console.log(e);
             br = true;
             return false;
           }
@@ -467,7 +480,14 @@ $(document).ready(function () {
                   'type': 'Polygon',
                   'coordinates': coords2
               };
-              if (turf.intersect(feat, feat2) != null) {
+              try {
+                if (turf.intersect(d, feat2) != null) {
+                  br = true;
+                  return false;
+                }
+              } catch (e) {
+                console.log("multi multi");
+                console.log(e);
                 br = true;
                 return false;
               }
