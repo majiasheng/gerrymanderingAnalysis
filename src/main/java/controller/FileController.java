@@ -2,11 +2,14 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 import model.FileUploadForm;
 import model.SessionConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,8 @@ public class FileController {
 
     @Autowired
     FileUploadService fileUploadService;
-    @Autowired DataService dataService;
+    @Autowired
+    DataService dataService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ModelAndView handleUpload(
@@ -112,13 +116,22 @@ public class FileController {
     public ModelAndView fileUpload() {
         return new ModelAndView("file-upload");
     }
-    
-    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public boolean export(
-            @RequestParam("state") String state, 
-            @RequestParam("year") int year) {
-        return dataService.doExport(state, year);
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public void doExport(
+            @RequestParam("state") String state,
+            @RequestParam("year") int year,
+            HttpServletResponse response) throws IOException {
+
+        response.setContentType("text/csv");
+        String reportName = state+"_"+year+".csv";
+        response.setHeader("Content-disposition", "attachment;filename=" + reportName);
+
+        String downloadStringContent = dataService.getElectionAsString(state, year);
+        response.getOutputStream().print(downloadStringContent);
+
+        response.getOutputStream().flush();
+
     }
 
 }

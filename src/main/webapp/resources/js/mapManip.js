@@ -200,34 +200,13 @@ $(document).ready(function () {
 
         // enable export button
         $(".export").prop("class", "export");
-        $("#exportTo").prop("href", "/export");
+        $("#exportTo").prop("href", "export");
         $("#exportTo").prop("class", "doExport");
-        // bind
+        // bind: make href into an url with params
         $(".doExport").click(function (e) {
-            // prevent default
-            e.preventDefault();
-
             var state = $("#stateSelection").val();
             var year = $("#dataSelection").val();
-
-            $.ajax({
-                url: "export",
-                type: "GET",
-                contentType: "application/json",
-                data: {state: state, year: year},
-                dataType: "json",
-                success: function (response, status, xhr) {
-                    console.log(response);
-                    if (response) {
-                        alert("Exported election data successfully!");
-                    } else {
-                        alert("Sorry :( \nFailed to export election data.");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Sorry :( \nAn error occurred when trying to export data");
-                }
-            });
+            $(".doExport").prop("href", "/export?state="+state+"&year="+year);
         });
 
 
@@ -359,6 +338,9 @@ $(document).ready(function () {
         //     return selectedState.feature.properties.STUSPS == $("#stateSelection").val();
         //   })[0].getBounds()
         // );
+        if (document.getElementById('sdcheck').checked) {
+          $('#sdcheck').click()
+        }
 
         if (districtLocked) {
             resetDistrict(districtLocked);
