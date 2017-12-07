@@ -355,6 +355,9 @@ $(document).ready(function () {
         //     return selectedState.feature.properties.STUSPS == $("#stateSelection").val();
         //   })[0].getBounds()
         // );
+        if (document.getElementById('sdcheck').checked) {
+          $('#sdcheck').click()
+        }
 
         if (districtLocked) {
             resetDistrict(districtLocked);
