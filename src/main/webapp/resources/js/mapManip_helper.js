@@ -28,6 +28,16 @@ function generateColor(val) {
   }
 }
 
+function displayTestVar(val) {
+  if (val === "skipped") {
+    return false;
+  } else if (val === "uniqueTestResult") {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 function translateTestKeyName(val) {
   if (val === "gerrymandered") {
     return "Is State Gerrymandered?";
