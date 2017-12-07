@@ -480,17 +480,17 @@ $(document).ready(function () {
     function multiSelectHandler(feature, layer) {
       layer.on({
           mouseover: function (e) {
-              if ((typeof $(e.target).data("chosen")) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
                 districtStyling(e.target);
               }
           },
           mouseout: function (e) {
-              if ((typeof $(e.target).data("chosen")) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
                 districtBoundary.resetStyle(e.target);
               }
           },
           click: function (e) {
-              if ((typeof $(e.target).data("chosen")) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
                 var b = false;
                 $('.manualSDCtrl').children().each(function(i,v) {
                   $(v).children().each(function(i2,v2) {
