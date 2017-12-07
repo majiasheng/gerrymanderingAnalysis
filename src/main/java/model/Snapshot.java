@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -35,7 +32,7 @@ public class Snapshot implements Serializable {
     private int selectedYear;
 
     @Column(name = "selectedTest")
-    private int selectedTest;
+    private String selectedTest;
 
     @Column(name="timestamp", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" , insertable = false, updatable = false)
     private Timestamp timeSaved;
@@ -50,7 +47,7 @@ public class Snapshot implements Serializable {
     public Snapshot() {
     }
 
-    public Snapshot(int id, int userId, String selectedState, int selectedYear, int selectedTest, Timestamp timeSaved, String manualSDSet, String autoSDSet) {
+    public Snapshot(int id, int userId, String selectedState, int selectedYear, String selectedTest, Timestamp timeSaved, String manualSDSet, String autoSDSet) {
         this.id = id;
         this.userId = userId;
         this.selectedState = selectedState;
@@ -93,11 +90,11 @@ public class Snapshot implements Serializable {
         this.selectedYear = selectedYear;
     }
 
-    public int getSelectedTest() {
+    public String getSelectedTest() {
         return selectedTest;
     }
 
-    public void setSelectedTest(int selectedTest) {
+    public void setSelectedTest(String selectedTest) {
         this.selectedTest = selectedTest;
     }
 
@@ -123,6 +120,16 @@ public class Snapshot implements Serializable {
 
     public void setAutoSDSet(String autoSDSet) {
         this.autoSDSet = autoSDSet;
+    }
+    
+    @Override
+    public String toString() {
+        return "userid: " + userId + "\n"
+            + "selected state: " + selectedState + "\n"
+            + "selected year: " + selectedYear + "\n"
+            + "selected measure: " + selectedTest + "\n"
+            + "manualSDSet: " + manualSDSet + "\n"
+            + "autoSDSet: " + autoSDSet + "\n";
     }
 
 }

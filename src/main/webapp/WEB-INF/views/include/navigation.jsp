@@ -26,6 +26,11 @@
                 </c:choose>
                 <a href="file-upload">File Upload</a>
             </li>
+
+            <li class="disabled export">
+                <a class="" id="exportTo" href="#">Export Election Data</a>
+            </li>
+            
             <li>
                 <a href="help">Help</a>
             </li>

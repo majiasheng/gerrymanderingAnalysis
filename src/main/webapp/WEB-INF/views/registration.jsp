@@ -3,7 +3,7 @@
 
 <h2 id="h">Sign Me Up</h2>
 <div id="regform">
-   <form method="POST" action="/register">
+   <form method="POST" action="/register" id="registrationForm">
         First Name <br>
         <input type="text" name="firstName" placeholder="First Name" required>
        <span class="error"><form:errors path="user.firstName"/></span><br>
@@ -18,7 +18,7 @@
 
         Re-enter email <br>
         <input type="text" name="reemail" placeholder="Re-enter email" required><br>
-
+        <div id="emailMisMatch"></div>
         Username <br>
         <input type="text" name="username" placeholder="Username" required>
        <span class="error"><form:errors path="user.username"/></span><br>
@@ -29,6 +29,7 @@
 
         Re-enter password ${err_repassword}<br>
         <input type="password" name="repassword" placeholder="Re-enter password" required><br>
+        <div id="pwMisMatch"></div>
 
         <!--TODO: check double password and email-->
 

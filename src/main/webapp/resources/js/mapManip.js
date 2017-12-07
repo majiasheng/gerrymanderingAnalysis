@@ -1,15 +1,30 @@
 var numDist = 0;
 const MIN_NUM_DIST_FOR_TEST = 5;
 
+function add(a, b) {
+    return a + b;
+}
+
+function translateDemogVal(val, sum) {
+    var num = Number(val);
+    var ret = "";
+    // ret += num.toLocaleString(
+    //   "en-US",
+    //   { minimumFractionDigits: 2 }
+    // );
+    ret += " (" + (num / sum * 100).toFixed(2) + "%)";
+    return ret;
+}
+
+// flag to identify locked district
+var districtLocked = null;
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
     const MIN_NUM_OF_DIST_FOR_SD = 5;
 
-    // flag to identify locked district
-    var districtLocked = null;
-
-    function districtStyling(layer) {
+    function districtStyling(layer, addBr) {
         layer.setStyle({
             weight: 5,
             // color: '#666',
@@ -19,8 +34,10 @@ $(document).ready(function () {
         if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
             layer.bringToFront();
         }
-        // add to info
-        $("#infoText").append("<br>");
+        if (addBr) {
+          // add to info
+          $("#infoText").append("<br>");
+        }
     }
 
     function filterData(key, val, demogData) {
@@ -53,9 +70,9 @@ $(document).ready(function () {
                     if (key2 == "population") {
                         dataStr += "<p>" + title(key2) + " : " + Number(val2).toLocaleString('en') + "</p>\n";
                     } else {
-                        demogData.labels.push(translateDemogDataKeyName(key2));
+                        demogData.labels.push(translateDemogDataKeyName(key2) + translateDemogVal(val2, val.population));
                         demogData.datasets[0].data.push(val2);
-                        demogData.datasets[0].backgroundColor.push(generateRandomColor());
+                        demogData.datasets[0].backgroundColor.push(generateColor(key2));
                     }
                 }
             }
@@ -65,7 +82,7 @@ $(document).ready(function () {
 
     function lockDistrict(e) {
         var layer = e.target;
-        districtStyling(layer);
+        districtStyling(layer, true);
         var dataStr = "";
         var demogData = {
             datasets: [{
@@ -88,13 +105,23 @@ $(document).ready(function () {
             }
         });
         $("#infoText").append(dataStr);
+        var cop = Chart.defaults.doughnut;
+        cop.tooltips.callbacks = {
+          label: function(tooltipItem, data) {
+            var value = data.datasets[0].data[tooltipItem.index];
+            value = value.toString();
+            value = value.split(/(?=(?:...)*$)/);
+            value = value.join(',');
+            return value;
+          }
+        };
         if (demogData.labels) {
             $("#infoText").append('<hr><h4>District Demographics</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
                 data: demogData,
-                options: Chart.defaults.doughnut
+                options: cop
             });
         }
     }
@@ -166,6 +193,18 @@ $(document).ready(function () {
                 disabled: false
             });
         }
+
+        // enable export button
+        $(".export").prop("class", "export");
+        $("#exportTo").prop("href", "export");
+        $("#exportTo").prop("class", "doExport");
+        // bind: make href into an url with params
+        $(".doExport").click(function (e) {
+            var state = $("#stateSelection").val();
+            var year = $("#dataSelection").val();
+            $(".doExport").prop("href", "/export?state="+state+"&year="+year);
+        });
+
 
         // check number of districts, n, enable super district creation if n>5
         if (distGeoJson.features.length > MIN_NUM_OF_DIST_FOR_SD) {
@@ -295,6 +334,9 @@ $(document).ready(function () {
         //     return selectedState.feature.properties.STUSPS == $("#stateSelection").val();
         //   })[0].getBounds()
         // );
+        if (document.getElementById('sdcheck').checked) {
+          $('#sdcheck').click()
+        }
 
         if (districtLocked) {
             resetDistrict(districtLocked);
@@ -323,7 +365,9 @@ $(document).ready(function () {
                     $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Result</h1>');
                     var dataStr = "";
                     $.each(response, function (key, val) {
-                        dataStr += "<p>" + key + " : " + val + "</p>";
+                        if (displayTestVar(key)) {
+                          dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
+                        }
                     });
                     $("#testResultContainer").append(dataStr);
 
@@ -334,6 +378,7 @@ $(document).ready(function () {
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
+                    $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Not Available</h1>');
                     console.log(textStatus + "; errorThrown: " + errorThrown);
                 }
             });

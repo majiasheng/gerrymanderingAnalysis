@@ -2,14 +2,22 @@ package service.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import model.District;
 import model.ElectionData;
 import model.GeoData;
+import model.Party;
 import model.Snapshot;
 import model.State;
+import model.Status;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
@@ -93,8 +101,7 @@ public class DataServiceImpl implements DataService {
         }
         return geojsonStr + geojsonStrEnd;
     }
-    
-    
+
     public boolean takeSnapShot(Snapshot snapshot) {
         return dao.takeSnapShot(snapshot);
     }
@@ -117,6 +124,64 @@ public class DataServiceImpl implements DataService {
 
     public Collection<State> getStates() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    //TODO:
+    public boolean doExport(String state, int year) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new File("election.csv"));
+            
+            pw.write(getElectionAsString(state, year));
+            return true;
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            // Logger.getLogger(DataServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            pw.close();
+        }
+
+        return false;
+    }
+
+    public String getElectionAsString(String state, int year) {
+        ArrayList<District> districts = (ArrayList<District>) dao.getDistrictsDataByYear(state, year);
+        StringBuilder csv = new StringBuilder();
+
+        // out put header
+        // state name, congress, district number, party name, votes, election status, iswinner 
+        csv.append("District Number").append(",")
+                .append("State").append(",")
+                .append("Year").append(",")
+                .append("Republican Vote").append(",")
+//                .append("Republican Status").append(",")
+                .append("Democratic Vote").append(",")
+//                .append("Democratic Status").append(",")
+                .append("Winner")
+                .append("\n");
+        // out put rows
+        for (District d : districts) {
+            String winner = "N/A";
+            if ((d.getElectionData().getWinner()).equals(Party.DEMOCRATIC)) {
+                winner = "D";
+            } else if ((d.getElectionData().getWinner()).equals(Party.REPUBLICAN)) {
+                winner = "R";
+            }
+
+            Status repStatus = d.getElectionData().getRepStatus();
+            Status demStatus = d.getElectionData().getDemStatus();
+
+            csv.append(d.getDistrictNum()).append(",")
+                    .append(d.getStateShortName()).append(",")
+                    .append(year).append(",")
+                    .append(d.getElectionData().getRepVotes()).append(",")
+//                    .append((repStatus == null) ? "N/A" : repStatus.name()).append(",")
+                    .append(d.getElectionData().getDemVotes()).append(",")
+//                    .append((demStatus == null) ? "N/A" : demStatus.name()).append(",")
+                    .append(winner)
+                    .append("\n");
+        }
+        return csv.toString();
     }
 
 }

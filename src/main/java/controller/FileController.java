@@ -2,10 +2,14 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 import model.FileUploadForm;
 import model.SessionConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +19,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import service.data.DataService;
 import service.file.FileUploadService;
 
 /**
@@ -29,14 +36,16 @@ public class FileController {
 
     @Autowired
     FileUploadService fileUploadService;
+    @Autowired
+    DataService dataService;
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ModelAndView handleUpload(
-            @ModelAttribute FileUploadForm multipartFiles, 
+            @ModelAttribute FileUploadForm multipartFiles,
             BindingResult result) {
 
         ModelAndView mv = new ModelAndView("file-upload");
-        
+
         if (result.hasErrors()) {
             mv.addObject(SessionConstant.MSG_ATTRIBUTE,
                     "<p style=\"color:red\">Error occurred in file upload</p>");
@@ -60,30 +69,45 @@ public class FileController {
             return mv;
         }
 
-        try {
-            Map<String, File> files = new HashMap<String, File>();
-            
-            // convert MultipartFile to File
-            File geoFile = fileUploadService.multipartFileToFile(geoMultipartFile);
-            File demographicFile = fileUploadService.multipartFileToFile(demographicMultipartFile);
-            File electionFile = fileUploadService.multipartFileToFile(electionMultipartFile);
+        if (!demographicMultipartFile.isEmpty()) {
 
-            files.put(SessionConstant.GEO_DATA_ATTRIBUTE, geoFile);
-            files.put(SessionConstant.DEMOGRAPHIC_DATA_ATTRIBUTE, demographicFile);
-            files.put(SessionConstant.GEO_DATA_ATTRIBUTE, electionFile);
+            byte[] bytes;
+            try {
+                bytes = demographicMultipartFile.getBytes();
+                String completeData = new String(bytes);
+                String[] rows = completeData.split("#");
+                String[] columns = rows[0].split(",");
 
-            // upload files
-            if (fileUploadService.handleFileUpload(files)) {
-                mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.FILE_UPLOAD_SUCCESS_MSG);
-                return mv;
+                System.out.println("row" + Arrays.toString(rows));
+                System.out.println("columns" + Arrays.toString(columns));
+            } catch (IOException ex) {
+                Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (IllegalStateException ex) {
-            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+//        try {
+//            Map<String, File> files = new HashMap<String, File>();
+//            
+//            // convert MultipartFile to File
+//            File geoFile = fileUploadService.multipartFileToFile(geoMultipartFile);
+//            File demographicFile = fileUploadService.multipartFileToFile(demographicMultipartFile);
+//            File electionFile = fileUploadService.multipartFileToFile(electionMultipartFile);
+//
+//            files.put(SessionConstant.GEO_DATA_ATTRIBUTE, geoFile);
+//            files.put(SessionConstant.DEMOGRAPHIC_DATA_ATTRIBUTE, demographicFile);
+//            files.put(SessionConstant.GEO_DATA_ATTRIBUTE, electionFile);
+//            
+//            // upload files
+//            if (fileUploadService.handleFileUpload(files)) {
+//                mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.FILE_UPLOAD_SUCCESS_MSG);
+//                return mv;
+//            }
+//
+//        } catch (IllegalStateException ex) {
+//            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         mv.addObject(SessionConstant.MSG_ATTRIBUTE, SessionConstant.FILE_UPLOAD_FAILURE_MSG);
         return mv;
     }
@@ -91,6 +115,23 @@ public class FileController {
     @RequestMapping(value = "/file-upload", method = RequestMethod.GET)
     public ModelAndView fileUpload() {
         return new ModelAndView("file-upload");
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    public void doExport(
+            @RequestParam("state") String state,
+            @RequestParam("year") int year,
+            HttpServletResponse response) throws IOException {
+
+        response.setContentType("text/csv");
+        String reportName = state+"_"+year+".csv";
+        response.setHeader("Content-disposition", "attachment;filename=" + reportName);
+
+        String downloadStringContent = dataService.getElectionAsString(state, year);
+        response.getOutputStream().print(downloadStringContent);
+
+        response.getOutputStream().flush();
+
     }
 
 }

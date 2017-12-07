@@ -40,7 +40,7 @@
 []  19. Create Super District manually
 []  20. Create Super District using Automated methods
 []  22. Simulate super district
-[]  23. Export current work to a database
+[x]  23. Export current work to a database
 []  24. Import saved work from a database
 
 ADMIN (29-36)
