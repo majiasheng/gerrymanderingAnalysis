@@ -453,10 +453,11 @@ $(document).ready(function () {
                       // check if adjacent to existing boundary; reject and alert if not
                       if (i2) {    // always allow on first insert
                         b = true;
-                        $(v).data("boundaryObj").each(function(i3,v3) {
+                        $($(v).data("boundaryObj")).each(function(i3,v3) {
                           // v3 contains boundaryObj
+                          var b1 = v3.toGeoJSON();
+                          var b2 = e.target.toGeoJSON();
                           if (true) {
-                            b = false;
                             return false;
                           }
                         });
@@ -471,7 +472,7 @@ $(document).ready(function () {
                       if (typeof $(v).data("boundaryObj") === "undefined") {
                         $(v).data("boundaryObj", []);
                       }
-                      $(v).data("boundaryObj").concat(e.target);
+                      $(v).data("boundaryObj").push(e.target);
                       // change color
                       e.target.setStyle({
                           weight: 5,
