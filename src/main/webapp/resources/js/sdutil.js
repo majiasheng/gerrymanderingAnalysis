@@ -80,11 +80,15 @@ function resetSDControls() {
     $("#sdModeContainer").empty();
 }
 
+var colorSet;
+
 $(document).ready(function () {
     /**
      * Interacting with Super-districting controls will trigger the following
      */
     $("#sdcheck").click(function () {
+
+        multiSelectMap($(this).prop("checked"));
 
         if ($(this).prop("checked")) {
 
@@ -102,8 +106,9 @@ $(document).ready(function () {
                     + "</form>"
                     );
 
-            // bind 
+            // bind
             $('input[name=sdmode]:radio').change(function () {
+                multiSelectMap($(this).prop("checked"));
                 if (this.value === "auto") {
                     $(".manualSDCtrl").empty();
 
@@ -115,7 +120,7 @@ $(document).ready(function () {
 
                 } else {
                     $(".audoSDCtrl").empty();
-                    //TODO: bind functions to manual 
+                    //TODO: bind functions to manual
 
                     console.log("in manual: number of districts: " + splitDistricts(numDist));
 
@@ -123,8 +128,8 @@ $(document).ready(function () {
                     sdSet.forEach(function (item, index) {
                         var placeholders="";
                         for(i=0;i<item;i++) {
-                            placeholders = placeholders 
-                                    // e.g. id="sd_1_3_2" => super district 1 contains 3 districts, 
+                            placeholders = placeholders
+                                    // e.g. id="sd_1_3_2" => super district 1 contains 3 districts,
                                     // this span is for the 2nd district
                                     + "<span id=\"sd_" + (index + 1) + "_" + item + "_" + (i+1) + "\">"
                                     + DIST_PLACEHOLDER
@@ -143,6 +148,7 @@ $(document).ready(function () {
 
                         // $(".manualSDCtrl").append();
                     });
+                    colorSet = rgbColors(sdSet.length);
 
 
                 }
