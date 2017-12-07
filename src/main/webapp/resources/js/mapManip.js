@@ -451,31 +451,32 @@ $(document).ready(function () {
           }
       });
       if(br){return true;}
-      // both multi
-      $(d.geometry.coordinates).each(function(i, coords) {
-          var feat = {
-              'type': 'Polygon',
-              'coordinates': coords
-          };
-          $(c.geometry.coordinates).each(function(i2, coords2) {
-              var feat2 = {
-                  'type': 'Polygon',
-                  'coordinates': coords2
-              };
-              try {
-                if (turf.intersect(d, feat2) != null) {
-                  br = true;
-                  return false;
-                }
-              } catch (e) {
-                console.log("multi multi");
-                console.log(e);
-                br = true;
-                return false;
-              }
-          });
-          if(br){return false;}
-      });
+      // both multi; too much give up
+      return true;
+      // $(d.geometry.coordinates).each(function(i, coords) {
+      //     var feat = {
+      //         'type': 'Polygon',
+      //         'coordinates': coords
+      //     };
+      //     $(c.geometry.coordinates).each(function(i2, coords2) {
+      //         var feat2 = {
+      //             'type': 'Polygon',
+      //             'coordinates': coords2
+      //         };
+      //         try {
+      //           if (turf.intersect(d, feat2) != null) {
+      //             br = true;
+      //             return false;
+      //           }
+      //         } catch (e) {
+      //           console.log("multi multi");
+      //           console.log(e);
+      //           br = true;
+      //           return false;
+      //         }
+      //     });
+      //     if(br){return false;}
+      // });
       return br;
     }
 
