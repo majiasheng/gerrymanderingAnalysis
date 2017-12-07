@@ -432,6 +432,51 @@ $(document).ready(function () {
       districtBoundary.addTo(map1);
     };
 
+    function compareDistrict(c, d) {
+      var br = false;
+      // 4 cases: both multi, c multi d poly, c poly d multi, both poly
+      if (c.geometry.type === 'Polygon') {
+        var temp = c;
+        c = d;
+        d = temp;
+      }
+      // 3 cases: both multi, c multi d poly, both poly
+      if (c.geometry.type === 'Polygon') {
+        return turf.intersect(c, d) != null
+      }
+      // 2 cases: both multi, c multi d poly
+      $(c.geometry.coordinates).each(function(i2, coords2) {
+          var feat2 = {
+              'type': 'Polygon',
+              'coordinates': coords2
+          };
+          if (turf.intersect(d, feat2) != null) {
+            br = true;
+            return false;
+          }
+      });
+      if(br){return true;}
+      // both multi
+      $(d.geometry.coordinates).each(function(i, coords) {
+          var feat = {
+              'type': 'Polygon',
+              'coordinates': coords
+          };
+          $(c.geometry.coordinates).each(function(i2, coords2) {
+              var feat2 = {
+                  'type': 'Polygon',
+                  'coordinates': coords2
+              };
+              if (turf.intersect(feat, feat2) != null) {
+                br = true;
+                return false;
+              }
+          });
+          if(br){return false;}
+      });
+      return br;
+    }
+
     function multiSelectHandler(feature, layer) {
       layer.on({
           mouseover: function (e) {
@@ -457,7 +502,7 @@ $(document).ready(function () {
                           // v3 contains boundaryObj
                           var b1 = v3.toGeoJSON();
                           var b2 = e.target.toGeoJSON();
-                          if (true) {
+                          if (compareDistrict(b1, b2)) {
                             b = false;
                             return false;
                           }
