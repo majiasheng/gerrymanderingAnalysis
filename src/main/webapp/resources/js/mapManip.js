@@ -480,17 +480,17 @@ $(document).ready(function () {
     function multiSelectHandler(feature, layer) {
       layer.on({
           mouseover: function (e) {
-              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined") {
                 districtStyling(e.target);
               }
           },
           mouseout: function (e) {
-              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined") {
                 districtBoundary.resetStyle(e.target);
               }
           },
           click: function (e) {
-              if ((typeof e.target.feature.properties.chosen) === "undefined") {
+              if ((typeof $(e.target).data("chosen")) === "undefined") {
                 var b = false;
                 $('.manualSDCtrl').children().each(function(i,v) {
                   $(v).children().each(function(i2,v2) {
@@ -511,7 +511,7 @@ $(document).ready(function () {
                         if(b){alert("District not adjacent.");return false;}
                       }
                       // add flag to chosen
-                      e.target.feature.properties.chosen = 0;
+                      $(e.target).data("chosen", 0);
                       // add to DOM
                       $(v2).text("D"+e.target.feature.properties.DISTRICT+" ");
                       // add obj to set
