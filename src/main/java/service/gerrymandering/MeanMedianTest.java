@@ -18,7 +18,7 @@ public class MeanMedianTest implements GerrymanderingTestService {
     
     
     private final double CORRECTION_FACTOR = .5708;
-    private final double ZTEST = 1.96;
+    private final double ZTEST = 1.64;
 
     public TestResult doTest(State state) {
         
@@ -26,6 +26,7 @@ public class MeanMedianTest implements GerrymanderingTestService {
         
         if(state.getDistricts().size()<5){
             ret.setSkipped(true);
+            return ret;
         }
         
         ArrayList<Double> voteShareRepList = new ArrayList<Double>();
@@ -50,11 +51,13 @@ public class MeanMedianTest implements GerrymanderingTestService {
         double meanMedDiff = medianVoteRepShare - meanRepVoteShare;
         double[] voteShareArray = GerrymanderTTest.doubleConverter(voteShareRepList);
         double stderr = Math.sqrt(StatUtils.variance(voteShareArray, meanRepVoteShare));
+        System.out.println(stderr);
         stderr /= Math.sqrt(voteShareArray.length);
-        double zScore = CORRECTION_FACTOR * meanMedDiff / stderr;
+        double zScore = meanMedDiff / stderr;
         ret.setUniqueTestResult(voteShareArray);
         ret.setConfidenceLvl(.05);
         ret.setpValue(1-.975);
+        System.out.println(Math.abs(zScore));
         if(Math.abs(zScore) > ZTEST){
             ret.setGerrymandered(true);
         }else{
