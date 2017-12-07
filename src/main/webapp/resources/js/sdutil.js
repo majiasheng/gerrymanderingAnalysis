@@ -108,6 +108,7 @@ $(document).ready(function () {
 
             // bind
             $('input[name=sdmode]:radio').change(function () {
+                multiSelectMap($(this).prop("checked"));
                 if (this.value === "auto") {
                     $(".manualSDCtrl").empty();
 
