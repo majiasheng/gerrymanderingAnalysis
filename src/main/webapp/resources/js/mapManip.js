@@ -366,6 +366,9 @@ $(document).ready(function () {
                     var dataStr = "";
                     $.each(response, function (key, val) {
                         if (displayTestVar(key)) {
+                          if (val === 0) {
+                            return true;
+                          }
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
                     });
