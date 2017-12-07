@@ -28,6 +28,18 @@ function generateColor(val) {
   }
 }
 
+function translateTestKeyName(val) {
+  if (val === "gerrymandered") {
+    return "Is State Gerrymandered?";
+  } else if (val === "confidenceLvl") {
+    return "Confidence Level";
+  } else if (val === "pValue") {
+    return "P-Value";
+  } else {
+    return val;
+  }
+}
+
 function translatePropKeyName(val) {
   if (val === "DISTRICT") {
     return "District";

@@ -365,7 +365,7 @@ $(document).ready(function () {
                     $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Result</h1>');
                     var dataStr = "";
                     $.each(response, function (key, val) {
-                        dataStr += "<p>" + key + " : " + val + "</p>";
+                        dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                     });
                     $("#testResultContainer").append(dataStr);
 
