@@ -455,6 +455,11 @@ $(document).ready(function () {
                       e.target.feature.properties.chosen = 0;
                       // add to DOM
                       $(v2).text("D"+e.target.feature.properties.DISTRICT+" ");
+                      // add obj to set
+                      if (typeof $(v).data("boundaryObj") === "undefined") {
+                        $(v).data("boundaryObj", []);
+                      }
+                      $(v).data("boundaryObj").concat(e.target);
                       // change color
                       e.target.setStyle({
                           weight: 5,
