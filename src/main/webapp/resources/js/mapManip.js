@@ -376,6 +376,7 @@ $(document).ready(function () {
 
                 },
                 error: function (xhr, textStatus, errorThrown) {
+                    $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Not Available</h1>');
                     console.log(textStatus + "; errorThrown: " + errorThrown);
                 }
             });
