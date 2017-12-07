@@ -17,6 +17,7 @@ import model.GeoData;
 import model.Party;
 import model.Snapshot;
 import model.State;
+import model.Status;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.dao.DataAccessor;
@@ -127,47 +128,11 @@ public class DataServiceImpl implements DataService {
 
     //TODO:
     public boolean doExport(String state, int year) {
-        ArrayList<District> districts = (ArrayList<District>) dao.getDistrictsDataByYear(state, year);
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new File("election.csv"));
-            StringBuilder csv = new StringBuilder();
-
-            // out put header
-            // state name, congress, district number, party name, votes, election status, iswinner 
-            csv.append("District Number").append(",")
-                    .append("State").append(",")
-                    .append("Congress").append(",")
-                    .append("Republican Vote").append(",")
-                    .append("Republican Status").append(",")
-                    .append("Democratic Vote").append(",")
-                    .append("Democratic Status").append(",")
-                    .append("Winner")
-                    .append("\n");
-            // out put rows
-            for (District d : districts) {
-                String winner = "N/A";
-                if ((d.getElectionData().getWinner()).equals(Party.DEMOCRATIC)) {
-                    winner = "D";
-                } else if ((d.getElectionData().getWinner()).equals(Party.REPUBLICAN)) {
-                    winner = "R";
-                }
-                
-                String repStatus = d.getElectionData().getRepStatus().name();
-                String demStatus = d.getElectionData().getDemStatus().name();
-
-                csv.append(d.getDistrictNum()).append(",")
-                        .append(d.getStateShortName()).append(",")
-                        //TODO: calculate congress.
-                        .append("Congress").append(",")
-                        .append(d.getElectionData().getRepVotes()).append(",")
-                        .append((repStatus == null)?"N/A":repStatus).append(",")
-                        .append(d.getElectionData().getDemVotes()).append(",")
-                        .append((demStatus == null)?"N/A":demStatus).append(",")
-                        .append(winner)
-                        .append("\n");
-            }
-            pw.write(csv.toString());
+            
+            pw.write(getElectionAsString(state, year));
             return true;
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -177,6 +142,46 @@ public class DataServiceImpl implements DataService {
         }
 
         return false;
+    }
+
+    public String getElectionAsString(String state, int year) {
+        ArrayList<District> districts = (ArrayList<District>) dao.getDistrictsDataByYear(state, year);
+        StringBuilder csv = new StringBuilder();
+
+        // out put header
+        // state name, congress, district number, party name, votes, election status, iswinner 
+        csv.append("District Number").append(",")
+                .append("State").append(",")
+                .append("Year").append(",")
+                .append("Republican Vote").append(",")
+//                .append("Republican Status").append(",")
+                .append("Democratic Vote").append(",")
+//                .append("Democratic Status").append(",")
+                .append("Winner")
+                .append("\n");
+        // out put rows
+        for (District d : districts) {
+            String winner = "N/A";
+            if ((d.getElectionData().getWinner()).equals(Party.DEMOCRATIC)) {
+                winner = "D";
+            } else if ((d.getElectionData().getWinner()).equals(Party.REPUBLICAN)) {
+                winner = "R";
+            }
+
+            Status repStatus = d.getElectionData().getRepStatus();
+            Status demStatus = d.getElectionData().getDemStatus();
+
+            csv.append(d.getDistrictNum()).append(",")
+                    .append(d.getStateShortName()).append(",")
+                    .append(year).append(",")
+                    .append(d.getElectionData().getRepVotes()).append(",")
+//                    .append((repStatus == null) ? "N/A" : repStatus.name()).append(",")
+                    .append(d.getElectionData().getDemVotes()).append(",")
+//                    .append((demStatus == null) ? "N/A" : demStatus.name()).append(",")
+                    .append(winner)
+                    .append("\n");
+        }
+        return csv.toString();
     }
 
 }
