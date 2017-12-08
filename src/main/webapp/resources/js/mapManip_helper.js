@@ -116,6 +116,10 @@ function translateElectionDataVal(val) {
   }
 }
 
+function arrayToRgb(arr) {
+  return 'rgb('+ arr[0]+',' + arr[1]+',' + arr[2] +')';
+}
+
 /**
  * Generate distinct RGB colors
  *
