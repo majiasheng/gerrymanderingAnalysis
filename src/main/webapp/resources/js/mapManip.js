@@ -253,17 +253,6 @@ $(document).ready(function () {
 
     function resetMapToCountry() {
         map1.setView([36.4051421, -95.5136459], 3.91);
-        // reset and disable data options
-        $("#dataSelection").html(dataSelectionOrigHTML);
-        $("#dataSelection").prop({
-            disabled: true
-        });
-        // reset and disable measure options
-        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
-        $("#gerrymanderingMeasure").change();
-        $("#gerrymanderingMeasure").prop({
-            disabled: true
-        });
         if (districtBoundary) {
             districtBoundary.remove();
             districtBoundary = null;
@@ -302,6 +291,17 @@ $(document).ready(function () {
         }
         var state = $(this).val();
         var options = "";
+        // reset and disable data options
+        $("#dataSelection").html(dataSelectionOrigHTML);
+        $("#dataSelection").prop({
+            disabled: true
+        });
+        // reset and disable measure options
+        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
+        $("#gerrymanderingMeasure").prop({
+            disabled: true
+        });
         // BASE CASE: zoom back to continental US on select no State
         if (state === "") {
             resetMapToCountry();
