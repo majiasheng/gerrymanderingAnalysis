@@ -59,7 +59,7 @@ public class DataAccessorImpl implements DataAccessor {
      * @param state short name of selected state
      * @param year selected year
      */
-    private Collection<DistrictDTO> getDistrictDTOByYear(String state, int year) {
+    public Collection<DistrictDTO> getDistrictDTOByYear(String state, int year) {
 
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();

@@ -120,6 +120,7 @@ $(document).ready(function () {
                         data[name] = $("#sd_" + (i + 1) + "_" + sdSet[i] + "_" + j).html().trim();
                     }
                     data["state"] = $("#stateSelection").val();
+                    data["year"] = $("#dataSelection").val();
 
                     // send sd set
                     var success = false;
