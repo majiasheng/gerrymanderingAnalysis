@@ -372,10 +372,7 @@ $(document).ready(function () {
                     $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Result</h1>');
                     var dataStr = "";
                     $.each(response, function (key, val) {
-                        if (displayTestVar(key)) {
-                          if (val === 0) {
-                            return true;
-                          }
+                        if (displayTestVar($("#gerrymanderingMeasure").val(), key)) {
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
                     });
