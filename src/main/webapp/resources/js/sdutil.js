@@ -91,7 +91,7 @@ $(document).ready(function () {
         multiSelectMap($(this).prop("checked"));
 
         if ($(this).prop("checked")) {
-            
+
             var sdSet;
 
             /* add super districting options (as a form) */
@@ -107,11 +107,12 @@ $(document).ready(function () {
                     + "<input id=\"createSDBtn\" type=\"submit\" value=\"Create Super Districts\" disabled/>"
                     + "</form>"
                     );
-            // bind to form submit 
+            // bind to form submit
             $("#sdForm").submit(function (e) {
                 e.preventDefault();
-                // get each sd's district numbers into a set of sets 
-                // loop through outter set, and send each sets 
+                // get each sd's district numbers into a set of sets
+                // loop through outter set, and send each sets
+                var k = 1;
                 for (i = 0; i < sdSet.length; i++) {
                     // get sd set
                     var data = new Object();
@@ -132,7 +133,12 @@ $(document).ready(function () {
                         dataType: "json",
                         success: function (response, status, xhr) {
                             if (response) {
+                                alert("Super district " + (k++) + " passes the bill.");
                                 success = true;
+                            } else {
+                              alert("Super district " + (i+1)
+                                      + " does not conform to House Bill #3057\n"
+                                      + "Please try different combinations");
                             }
                         },
                         error: function (xhr, status, error) {
@@ -140,12 +146,12 @@ $(document).ready(function () {
                         }
                     });
 
-                    if (!success) {
-                        alert("Super district " + (i+1) 
-                                + " does not conform to House Bill #3057\n" 
-                                + "Please try different combinations");
-                        break;
-                    }
+                    // if (!success) {
+                    //     alert("Super district " + (i+1)
+                    //             + " does not conform to House Bill #3057\n"
+                    //             + "Please try different combinations");
+                    //     break;
+                    // }
                 }
             });
 
