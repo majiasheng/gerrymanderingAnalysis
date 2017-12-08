@@ -179,9 +179,12 @@ public class UserController {
         //TODO: get all snapshots for this user
         
         User u = (User)(request.getSession().getAttribute(SessionConstant.USER_ATTRIBUTE));
-        List<Snapshot> snapshots = (ArrayList<Snapshot>)dataService.getSnapshotsByUserId(u.getId());
-        
-        mv.addObject("snapshots",snapshots);
+        if (u!=null) {
+            List<Snapshot> snapshots = (ArrayList<Snapshot>)dataService.getSnapshotsByUserId(u.getId());
+            mv.addObject("snapshots",snapshots); 
+        } else {
+            return new ModelAndView("index");
+        }
         return mv;
     }
 }

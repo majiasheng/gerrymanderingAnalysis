@@ -66,4 +66,6 @@ public interface DataService {
 
     public List<Snapshot> getSnapshotsByUserId(int id);
 
+    public boolean deleteSnapshot(int snapshotId);
+
 }

@@ -150,26 +150,41 @@ public class DataAccessorImpl implements DataAccessor {
         }
         return success;
     }
-    
+
     public List<Snapshot> getSnapshotsByUserId(int id) {
         List<Snapshot> snapshots = null;
-        
+
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
-        
+
         try {
             TypedQuery<Snapshot> query = em.createQuery("select s from Snapshot as s where s.userId = " + id, Snapshot.class);
-            snapshots = (List<Snapshot>)query.getResultList();
-            em.close();    
+            snapshots = (List<Snapshot>) query.getResultList();
+            em.close();
         } catch (Exception e) {
             //TODO: check specific exception
             e.printStackTrace();
             System.err.println("Error in adding snapshot to database");
         }
-        
+
         return snapshots;
     }
-    
+
+    public boolean deleteSnapshot(int snapshotId) {
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        Snapshot s = em.find(Snapshot.class, snapshotId);
+
+        try {
+            em.getTransaction().begin();
+            em.remove(s);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public Map<Integer, Collection<Coordinate>> getStateBoundaries() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

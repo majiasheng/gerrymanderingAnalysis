@@ -13,14 +13,14 @@
 <h2>Saved Works</h2>
 <hr>
 ${msg}
-
+<div id="msg"></div>
 <c:choose>
     <c:when test="${fn:length(snapshots) <= 0}">
         <h3>You haven't saved anything yet :)</h3>
     </c:when>
     <c:otherwise>
         <c:forEach var="snapshot" items="${snapshots}" varStatus="loop">
-            <table>
+            <table id="snapshot_${snapshot.id}">
                 <tr>
                     <th></th>
                     <th>Time Saved</th>
@@ -38,13 +38,15 @@ ${msg}
                     <td><input type="text" name="year" value="${snapshot.selectedYear}" readonly></td>
                     <td><input type="text" name="test" value="${snapshot.selectedTest}" readonly></td>
                     <!--<td><input class="savedWorkFormBtn" type="submit" value='View'/></td>-->
-                    <td><button class="savedWorkFormBtn" data-toggle="modal" data-target="#testResultModal">View</button>
+                    <td><button class="savedWorkFormBtn" name= "operation" value="view" data-toggle="modal" data-target="#testResultModal">View</button>
+                    
                 </form>
+                    <button class="delete_btn" name="${snapshot.id}" >Delete</button>
             </tr>
         </table>
 
     </c:forEach>
-        <%@include file="/WEB-INF/views/include/test-result-modal.jsp" %>
+    <%@include file="/WEB-INF/views/include/test-result-modal.jsp" %>
 </c:otherwise>
 </c:choose>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
