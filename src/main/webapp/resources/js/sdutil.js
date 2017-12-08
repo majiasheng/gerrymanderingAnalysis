@@ -104,7 +104,7 @@ $(document).ready(function () {
                     // container for auto sd controls
                     + "<div class=\"autoSDCtrl\"></div>"
 
-                    + "<input type=\"submit\" value=\"Create Super Districts\"/>"
+                    + "<input id=\"createSDBtn\" type=\"submit\" value=\"Create Super Districts\" disabled/>"
                     + "</form>"
                     );
             // bind to form submit 
