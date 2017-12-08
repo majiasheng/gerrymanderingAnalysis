@@ -128,6 +128,9 @@ $(document).ready(function () {
                 options: cop
             });
         }
+        for (var i = 0; i < demogData.labels.length; i++) {
+          $("#infoText").append("<p>" + demogData.labels[i] + ' : ' + demogData.datasets[0].data[i].toLocaleString("en-US") + "</p>");
+        }
     }
 
     function resetDistrict(e) {
