@@ -5,6 +5,7 @@ import java.util.Map;
 
 import model.Coordinate;
 import model.District;
+import model.DistrictDTO;
 import model.ElectionData;
 import model.GeoData;
 import model.Snapshot;
@@ -37,6 +38,8 @@ public interface DataAccessor {
      * @return a collection of district models
      */
     public Collection<District> getDistrictsDataByYear(String state, int year);
+    
+    public Collection<DistrictDTO> getDistrictDTOByYear(String state, int year);
 
     public Map<Integer, Collection<Coordinate>> getStateBoundaries();
 
