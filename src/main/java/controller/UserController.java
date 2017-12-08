@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import model.SessionConstant;
+import model.Snapshot;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.data.DataService;
 import service.data.UserEntityService;
 
 /**
@@ -29,6 +33,8 @@ public class UserController {
 
     @Autowired
     UserEntityService userEntityService;
+    @Autowired
+    private DataService dataService;
 
     /**
      * PRG - G
@@ -163,6 +169,22 @@ public class UserController {
         ModelAndView mv = new ModelAndView("analytics");
         Collection<User> normalUsers = userEntityService.getAllNormalUsers();
         mv.addObject(SessionConstant.NORMAL_USER_ATTRIBUTE, normalUsers);
+        return mv;
+    }
+    
+    @RequestMapping(value = "/saved", method = RequestMethod.GET)
+    public ModelAndView showSavedWorks(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("saved");
+        
+        //TODO: get all snapshots for this user
+        
+        User u = (User)(request.getSession().getAttribute(SessionConstant.USER_ATTRIBUTE));
+        if (u!=null) {
+            List<Snapshot> snapshots = (ArrayList<Snapshot>)dataService.getSnapshotsByUserId(u.getId());
+            mv.addObject("snapshots",snapshots); 
+        } else {
+            return new ModelAndView("index");
+        }
         return mv;
     }
 }

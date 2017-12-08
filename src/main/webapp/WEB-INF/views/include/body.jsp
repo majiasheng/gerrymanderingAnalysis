@@ -10,6 +10,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12" >
+              <div id="testResultContainer" class="row">
+                  <div id="testResult"></div>
+              </div>
+            </div>
+        </div>
 
     </div>
     <div class="col-md-4">
@@ -53,7 +60,7 @@
             <input type="hidden" name="selectedTest" value="">
             <input type="hidden" name="manualSDSet" value="">
             <input type="hidden" name="autoSDSet" value="">
-            <input type="submit" id="saveWorkBtn" value="Save Current Work"<c:if test="${empty user}">disabled</c:if>>
+            <input type="submit" id="saveWorkBtn" value="Save Test"<c:if test="${empty user}">disabled</c:if>>
         </form>
         <!--<hr>-->
         <!-- Info window -->
@@ -67,7 +74,5 @@
     </div>
 </div>
 <hr>
-<div id="testResultContainer" class="row">
-    <div id="testResult"></div>
-</div>
+
 <!-- end body -->

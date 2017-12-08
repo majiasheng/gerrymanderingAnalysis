@@ -14,7 +14,6 @@
         </div>
 
         <%@include file="/WEB-INF/views/include/compare-column-lower.jsp" %>
-    </div> 
     <!-- end 1 -->
 
     <!-- TODO: add a border to separate two maps -->
@@ -32,6 +31,7 @@
 
     <!--</div>-->
     <!-- end 2 -->
+  </div>
 
 <!--</div>-->
 <!-- end row -->

@@ -28,10 +28,12 @@ function generateColor(val) {
   }
 }
 
-function displayTestVar(val) {
+function displayTestVar(test, val) {
   if (val === "skipped") {
     return false;
   } else if (val === "uniqueTestResult") {
+    return false;
+  } else if (test === "Efficiency Gap Test" && (val === "confidenceLvl" || val === "pValue")) {
     return false;
   } else {
     return true;
@@ -114,6 +116,10 @@ function translateElectionDataVal(val) {
   } else {
     return val;
   }
+}
+
+function arrayToRgb(arr) {
+  return 'rgb('+ arr[0]+',' + arr[1]+',' + arr[2] +')';
 }
 
 /**

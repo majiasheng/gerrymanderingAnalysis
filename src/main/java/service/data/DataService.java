@@ -1,6 +1,8 @@
 package service.data;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import model.District;
 import model.ElectionData;
 import model.GeoData;
@@ -61,5 +63,9 @@ public interface DataService {
     public boolean doExport(String state, int year);
     
     public String getElectionAsString(String state, int year);
+
+    public List<Snapshot> getSnapshotsByUserId(int id);
+
+    public boolean deleteSnapshot(int snapshotId);
 
 }

@@ -80,16 +80,22 @@ function resetSDControls() {
     $("#sdModeContainer").empty();
 }
 
+var colorSet;
+
 $(document).ready(function () {
     /**
      * Interacting with Super-districting controls will trigger the following
      */
     $("#sdcheck").click(function () {
 
+        multiSelectMap($(this).prop("checked"));
+
         if ($(this).prop("checked")) {
+            
+            var sdSet;
 
             /* add super districting options (as a form) */
-            $("#sdModeContainer").append("<form id=\"sdForm\" method=\"POST\" action=\"/createSD\">"
+            $("#sdModeContainer").append("<form id=\"sdForm\" method=\"GET\" action=\"/verifySD\">"
                     + "<input type=\"radio\" name=\"sdmode\" value=\"manual\" id=\"manualRadio\"> Manual<br>"
                     // container for manual sd controls
                     + "<div class=\"manualSDCtrl\"></div>"
@@ -98,12 +104,56 @@ $(document).ready(function () {
                     // container for auto sd controls
                     + "<div class=\"autoSDCtrl\"></div>"
 
-                    + "<input type=\"submit\" value=\"Create Super Districts\"/>"
+                    + "<input id=\"createSDBtn\" type=\"submit\" value=\"Create Super Districts\" disabled/>"
                     + "</form>"
                     );
+            // bind to form submit 
+            $("#sdForm").submit(function (e) {
+                e.preventDefault();
+                // get each sd's district numbers into a set of sets 
+                // loop through outter set, and send each sets 
+                for (i = 0; i < sdSet.length; i++) {
+                    // get sd set
+                    var data = new Object();
+                    for (j = 1; j <= sdSet[i]; j++) {
+                        var name = "" + j;
+                        data[name] = $("#sd_" + (i + 1) + "_" + sdSet[i] + "_" + j).html().trim();
+                    }
+                    data["state"] = $("#stateSelection").val();
+                    data["year"] = $("#dataSelection").val();
 
-            // bind 
+                    // send sd set
+                    var success = false;
+                    $.ajax({
+                        url: "/verifySD",
+                        type: "GET",
+                        contentType: "application/json",
+                        data: data,
+                        dataType: "json",
+                        success: function (response, status, xhr) {
+                            if (response) {
+                                success = true;
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                        }
+                    });
+
+                    if (!success) {
+                        alert("Super district " + (i+1) 
+                                + " does not conform to House Bill #3057\n" 
+                                + "Please try different combinations");
+                        break;
+                    }
+                }
+            });
+
+            // bind
             $('input[name=sdmode]:radio').change(function () {
+                multiSelectMap($(this).prop("checked"));
+                // disable create super district button
+                $("#createSDBtn").attr("disabled","disabled");
                 if (this.value === "auto") {
                     $(".manualSDCtrl").empty();
 
@@ -115,18 +165,17 @@ $(document).ready(function () {
 
                 } else {
                     $(".audoSDCtrl").empty();
-                    //TODO: bind functions to manual 
+                    //TODO: bind functions to manual
 
-                    console.log("in manual: number of districts: " + splitDistricts(numDist));
-
-                    var sdSet = splitDistricts(numDist);
+                    console.log("debug - in manual sd: number of districts: " + splitDistricts(numDist));
+                    sdSet = splitDistricts(numDist);
                     sdSet.forEach(function (item, index) {
-                        var placeholders="";
-                        for(i=0;i<item;i++) {
-                            placeholders = placeholders 
-                                    // e.g. id="sd_1_3_2" => super district 1 contains 3 districts, 
+                        var placeholders = "";
+                        for (i = 0; i < item; i++) {
+                            placeholders = placeholders
+                                    // e.g. id="sd_1_3_2" => super district 1 contains 3 districts,
                                     // this span is for the 2nd district
-                                    + "<span id=\"sd_" + (index + 1) + "_" + item + "_" + (i+1) + "\">"
+                                    + "<span id=\"sd_" + (index + 1) + "_" + item + "_" + (i + 1) + "\">"
                                     + DIST_PLACEHOLDER
                                     + "</span>";
                         }
@@ -143,10 +192,12 @@ $(document).ready(function () {
 
                         // $(".manualSDCtrl").append();
                     });
+                    colorSet = rgbColors(sdSet.length);
 
 
                 }
             });
+
         } else {
             $("#sdModeContainer").empty();
         }

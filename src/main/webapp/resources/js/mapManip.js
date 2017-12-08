@@ -19,6 +19,10 @@ function translateDemogVal(val, sum) {
 // flag to identify locked district
 var districtLocked = null;
 
+var multiSelectMap = function(checked){
+  console.log(checked);
+};
+
 $(document).ready(function () {
     const dataSelectionOrigHTML = $("#dataSelection").html();
     const gerrymanderingMeasureOrigHTML = $("#gerrymanderingMeasure").html();
@@ -116,13 +120,16 @@ $(document).ready(function () {
           }
         };
         if (demogData.labels) {
-            $("#infoText").append('<hr><h4>District Demographics</h4>');
+            $("#infoText").append('<hr><h4>Interactive District Demographics (Hover)</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
                 data: demogData,
                 options: cop
             });
+        }
+        for (var i = 0; i < demogData.labels.length; i++) {
+          $("#infoText").append("<p>" + demogData.labels[i] + ' : ' + demogData.datasets[0].data[i].toLocaleString("en-US") + "</p>");
         }
     }
 
@@ -246,17 +253,6 @@ $(document).ready(function () {
 
     function resetMapToCountry() {
         map1.setView([36.4051421, -95.5136459], 3.91);
-        // reset and disable data options
-        $("#dataSelection").html(dataSelectionOrigHTML);
-        $("#dataSelection").prop({
-            disabled: true
-        });
-        // reset and disable measure options
-        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
-        $("#gerrymanderingMeasure").change();
-        $("#gerrymanderingMeasure").prop({
-            disabled: true
-        });
         if (districtBoundary) {
             districtBoundary.remove();
             districtBoundary = null;
@@ -295,6 +291,17 @@ $(document).ready(function () {
         }
         var state = $(this).val();
         var options = "";
+        // reset and disable data options
+        $("#dataSelection").html(dataSelectionOrigHTML);
+        $("#dataSelection").prop({
+            disabled: true
+        });
+        // reset and disable measure options
+        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
+        $("#gerrymanderingMeasure").prop({
+            disabled: true
+        });
         // BASE CASE: zoom back to continental US on select no State
         if (state === "") {
             resetMapToCountry();
@@ -365,10 +372,7 @@ $(document).ready(function () {
                     $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Result</h1>');
                     var dataStr = "";
                     $.each(response, function (key, val) {
-                        if (displayTestVar(key)) {
-                          if (val === 0) {
-                            return true;
-                          }
+                        if (displayTestVar($("#gerrymanderingMeasure").val(), key)) {
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
                     });
@@ -387,4 +391,162 @@ $(document).ready(function () {
             });
         }
     });
+
+    multiSelectMap = function(checked){
+      var geo = districtBoundary.toGeoJSON();
+      districtBoundary.remove();
+      $("#infoText").empty();
+      $("#testResultContainer").empty();
+      $("#distLockLabel").empty();
+      if (checked) {
+        districtBoundary = L.geoJson(geo, {
+            style: function (feature) {
+                return {
+                    color: 'grey'
+                }
+            },
+            onEachFeature: multiSelectHandler
+        });
+      } else {
+        districtBoundary = L.geoJson(geo, {
+            style: function (feature) {
+                return {
+                    color: 'purple'
+                }
+            },
+            onEachFeature: zoomToState
+        });
+      }
+      districtBoundary.addTo(map1);
+    };
+
+    function compareDistrict(c, d) {
+      var br = false;
+      // 4 cases: both multi, c multi d poly, c poly d multi, both poly
+      if (c.geometry.type === 'Polygon') {
+        var temp = c;
+        c = d;
+        d = temp;
+      }
+      // 3 cases: both multi, c multi d poly, both poly
+      if (c.geometry.type === 'Polygon') {
+        try {
+          return turf.intersect(c, d) != null
+        } catch (e) {
+          console.log("poly poly");
+          console.log(e);
+          return true;
+        }
+      }
+      // 2 cases: both multi, c multi d poly
+      $(c.geometry.coordinates).each(function(i2, coords2) {
+          var feat2 = {
+              'type': 'Polygon',
+              'coordinates': coords2
+          };
+          try {
+            if (turf.intersect(d, feat2) != null) {
+              br = true;
+              return false;
+            }
+          } catch (e) {
+            console.log("c multi d poly");
+            console.log(e);
+            br = true;
+            return false;
+          }
+      });
+      if(br){return true;}
+      // both multi; too much give up
+      return true;
+      // $(d.geometry.coordinates).each(function(i, coords) {
+      //     var feat = {
+      //         'type': 'Polygon',
+      //         'coordinates': coords
+      //     };
+      //     $(c.geometry.coordinates).each(function(i2, coords2) {
+      //         var feat2 = {
+      //             'type': 'Polygon',
+      //             'coordinates': coords2
+      //         };
+      //         try {
+      //           if (turf.intersect(d, feat2) != null) {
+      //             br = true;
+      //             return false;
+      //           }
+      //         } catch (e) {
+      //           console.log("multi multi");
+      //           console.log(e);
+      //           br = true;
+      //           return false;
+      //         }
+      //     });
+      //     if(br){return false;}
+      // });
+      return br;
+    }
+
+    function multiSelectHandler(feature, layer) {
+      layer.on({
+          mouseover: function (e) {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
+                districtStyling(e.target);
+              }
+          },
+          mouseout: function (e) {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
+                districtBoundary.resetStyle(e.target);
+              }
+          },
+          click: function (e) {
+              if ((typeof $(e.target).data("chosen")) === "undefined" && $('.manualSDCtrl').children().length) {
+                var b = false;
+                $('.manualSDCtrl').children().each(function(i,v) {
+                  $(v).children().each(function(i2,v2) {
+                    if (!$(v2).text().trim()) {
+                      // check if adjacent to existing boundary; reject and alert if not
+                      if (i2) {    // always allow on first insert
+                        b = true;
+                        $($(v).data("boundaryObj")).each(function(i3,v3) {
+                          // v3 contains boundaryObj
+                          var b1 = v3.toGeoJSON();
+                          var b2 = e.target.toGeoJSON();
+                          if (compareDistrict(b1, b2)) {
+                            b = false;
+                            return false;
+                          }
+                        });
+                        // break if no match
+                        if(b){alert("District not adjacent.");return false;}
+                      }
+                      // add flag to chosen
+                      $(e.target).data("chosen", 0);
+                      // add to DOM
+                      $(v2).text(e.target.feature.properties.DISTRICT+" ");
+                      // add obj to set
+                      if (typeof $(v).data("boundaryObj") === "undefined") {
+                        $(v).data("boundaryObj", []);
+                      }
+                      $(v).data("boundaryObj").push(e.target);
+                      // change color
+                      e.target.setStyle({
+                          weight: 5,
+                          color: arrayToRgb(colorSet[i]),
+                          dashArray: "",
+                          fillOpacity: 0.7
+                      });
+                      // validate if set is full
+                      if (i2+1 == $(v).children().length && i+1 == $('.manualSDCtrl').children().length) {
+                        $("#createSDBtn").removeAttr("disabled");
+                      }
+                      b = true;
+                      return false;
+                    }
+                  });
+                  if(b){return false;}
+                });
+              }
+          }
+      });
+    }
 });

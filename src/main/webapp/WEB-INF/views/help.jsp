@@ -22,6 +22,7 @@
         
         <div>
 		<h3>Explanation of Tests</h3>
+                <hr>
                 <h4>Efficiency Gap</h4>
 		<p>
 			The Efficiency Gap Test is a test that aggregates the number of votes wasted for

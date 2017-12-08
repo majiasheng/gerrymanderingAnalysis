@@ -37,10 +37,25 @@ import javax.persistence.SqlResultSetMapping;
                     @ColumnResult(name = "Asian", type = Integer.class),
                     @ColumnResult(name = "PacificIslander", type = Integer.class),
                     @ColumnResult(name = "OtherRace", type = Integer.class),
-                    @ColumnResult(name = "TwoOrMoreRaces", type = Integer.class)
+                    @ColumnResult(name = "TwoOrMoreRaces", type = Integer.class),                  
+                    @ColumnResult(name = "MostRecentRaceYear", type = Integer.class),
+                    @ColumnResult(name = "SecRecentRaceYear", type = Integer.class),
+                    @ColumnResult(name = "ThirdRecentRaceYear", type = Integer.class),
+                    @ColumnResult(name = "RepMostRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "RepSecRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "RepThirdRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "RepMostRecentNominee"),
+                    @ColumnResult(name = "RepSecRecentNominee"),
+                    @ColumnResult(name = "RepThirdRecentNominee"),
+                    @ColumnResult(name = "DemMostRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "DemSecRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "DemThirdRecentNomineeShare", type = Double.class),
+                    @ColumnResult(name = "DemMostRecentNominee"),
+                    @ColumnResult(name = "DemSecRecentNominee"),
+                    @ColumnResult(name = "DemThirdRecentNominee")                 
                 }))
 @Entity
-public class DistrictDTO implements Serializable{
+public class DistrictDTO implements Serializable {
 
     @Id
     private int Id;
@@ -65,12 +80,28 @@ public class DistrictDTO implements Serializable{
     private int pacificIslander;
     private int otherRace;
     private int twoOrMoreRaces;
+    //presidential election data
+    private int mostRecentRaceYear;
+    private int secRecentRaceYear;
+    private int thirdRecentRaceYear;
+    //rep
+    private double repMostRecentNomineeShare;
+    private double repSecRecentNomineeShare;
+    private double repThirdRecentNomineeShare;
+    private String repMostRecentNominee;
+    private String repSecRecentNominee;
+    private String repThirdRecentNominee;
+    //dem
+    private double demMostRecentNomineeShare;
+    private double demSecRecentNomineeShare;
+    private double demThirdRecentNomineeShare;
+    private String demMostRecentNominee;
+    private String demSecRecentNominee;
+    private String demThirdRecentNominee;
 
-    public DistrictDTO(int Id, String state, String stateCode, int year,
-            int districtNum, int demVotes, String demStatus, int repVotes,
-            String repStatus, String winner, String boundary, int population,
-            int white, int africanAmerican, int americanNative, int asian,
-            int pacificIslander, int otherRace, int twoOrMoreRaces) {
+    public DistrictDTO() { }
+    
+    public DistrictDTO(int Id, String state, String stateCode, int year, int districtNum, int demVotes, String demStatus, int repVotes, String repStatus, String winner, String boundary, int population, int white, int africanAmerican, int americanNative, int asian, int pacificIslander, int otherRace, int twoOrMoreRaces, int mostRecentRaceYear, int secRecentRaceYear, int thirdRecentRaceYear, double repMostRecentNomineeShare, double repSecRecentNomineeShare, double repThirdRecentNomineeShare, String repMostRecentNominee, String repSecRecentNominee, String repThirdRecentNominee, double demMostRecentNomineeShare, double demSecRecentNomineeShare, double demThirdRecentNomineeShare, String demMostRecentNominee, String demSecRecentNominee, String demThirdRecentNominee) {
         this.Id = Id;
         this.state = state;
         this.stateCode = stateCode;
@@ -90,8 +121,23 @@ public class DistrictDTO implements Serializable{
         this.pacificIslander = pacificIslander;
         this.otherRace = otherRace;
         this.twoOrMoreRaces = twoOrMoreRaces;
+        this.mostRecentRaceYear = mostRecentRaceYear;
+        this.secRecentRaceYear = secRecentRaceYear;
+        this.thirdRecentRaceYear = thirdRecentRaceYear;
+        this.repMostRecentNomineeShare = repMostRecentNomineeShare;
+        this.repSecRecentNomineeShare = repSecRecentNomineeShare;
+        this.repThirdRecentNomineeShare = repThirdRecentNomineeShare;
+        this.repMostRecentNominee = repMostRecentNominee;
+        this.repSecRecentNominee = repSecRecentNominee;
+        this.repThirdRecentNominee = repThirdRecentNominee;
+        this.demMostRecentNomineeShare = demMostRecentNomineeShare;
+        this.demSecRecentNomineeShare = demSecRecentNomineeShare;
+        this.demThirdRecentNomineeShare = demThirdRecentNomineeShare;
+        this.demMostRecentNominee = demMostRecentNominee;
+        this.demSecRecentNominee = demSecRecentNominee;
+        this.demThirdRecentNominee = demThirdRecentNominee;
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc=" getters and setters ">
     public int getId() {
         return Id;
@@ -99,10 +145,6 @@ public class DistrictDTO implements Serializable{
 
     public void setId(int Id) {
         this.Id = Id;
-    }
-
-    public DistrictDTO() {
-
     }
 
     public String getState() {
@@ -248,20 +290,132 @@ public class DistrictDTO implements Serializable{
     public void setTwoOrMoreRaces(int twoOrMoreRaces) {
         this.twoOrMoreRaces = twoOrMoreRaces;
     }
-    // </editor-fold>
 
-    @Override
-    public String toString() {
-        return "DistrictDTO{" + "Id=" + Id + ", state=" + state + ", stateCode="
-                + stateCode + ", year=" + year + ", districtNum="
-                + districtNum + ", demVotes=" + demVotes
-                + ", demStatus=" + demStatus + ", repVotes="
-                + repVotes + ", repStatus=" + repStatus + ", winner="
-                + winner + ", boundary=" + boundary.length() + ", population="
-                + population + ", white=" + white + ", africanAmerican="
-                + africanAmerican + ", americanNative=" + americanNative
-                + ", asian=" + asian + ", pacificIslander=" + pacificIslander
-                + ", otherRace=" + otherRace + ", twoOrMoreRaces=" + twoOrMoreRaces + '}';
+    public int getMostRecentRaceYear() {
+        return mostRecentRaceYear;
     }
 
+    public void setMostRecentRaceYear(int mostRecentRaceYear) {
+        this.mostRecentRaceYear = mostRecentRaceYear;
+    }
+
+    public int getSecRecentRaceYear() {
+        return secRecentRaceYear;
+    }
+
+    public void setSecRecentRaceYear(int secRecentRaceYear) {
+        this.secRecentRaceYear = secRecentRaceYear;
+    }
+
+    public int getThirdRecentRaceYear() {
+        return thirdRecentRaceYear;
+    }
+
+    public void setThirdRecentRaceYear(int thirdRecentRaceYear) {
+        this.thirdRecentRaceYear = thirdRecentRaceYear;
+    }
+
+    public double getRepMostRecentNomineeShare() {
+        return repMostRecentNomineeShare;
+    }
+
+    public void setRepMostRecentNomineeShare(double repMostRecentNomineeShare) {
+        this.repMostRecentNomineeShare = repMostRecentNomineeShare;
+    }
+
+    public double getRepSecRecentNomineeShare() {
+        return repSecRecentNomineeShare;
+    }
+
+    public void setRepSecRecentNomineeShare(double repSecRecentNomineeShare) {
+        this.repSecRecentNomineeShare = repSecRecentNomineeShare;
+    }
+
+    public double getRepThirdRecentNomineeShare() {
+        return repThirdRecentNomineeShare;
+    }
+
+    public void setRepThirdRecentNomineeShare(double repThirdRecentNomineeShare) {
+        this.repThirdRecentNomineeShare = repThirdRecentNomineeShare;
+    }
+
+    public String getRepMostRecentNominee() {
+        return repMostRecentNominee;
+    }
+
+    public void setRepMostRecentNominee(String repMostRecentNominee) {
+        this.repMostRecentNominee = repMostRecentNominee;
+    }
+
+    public String getRepSecRecentNominee() {
+        return repSecRecentNominee;
+    }
+
+    public void setRepSecRecentNominee(String repSecRecentNominee) {
+        this.repSecRecentNominee = repSecRecentNominee;
+    }
+
+    public String getRepThirdRecentNominee() {
+        return repThirdRecentNominee;
+    }
+
+    public void setRepThirdRecentNominee(String repThirdRecentNominee) {
+        this.repThirdRecentNominee = repThirdRecentNominee;
+    }
+
+    public double getDemMostRecentNomineeShare() {
+        return demMostRecentNomineeShare;
+    }
+
+    public void setDemMostRecentNomineeShare(double demMostRecentNomineeShare) {
+        this.demMostRecentNomineeShare = demMostRecentNomineeShare;
+    }
+
+    public double getDemSecRecentNomineeShare() {
+        return demSecRecentNomineeShare;
+    }
+
+    public void setDemSecRecentNomineeShare(double demSecRecentNomineeShare) {
+        this.demSecRecentNomineeShare = demSecRecentNomineeShare;
+    }
+
+    public double getDemThirdRecentNomineeShare() {
+        return demThirdRecentNomineeShare;
+    }
+
+    public void setDemThirdRecentNomineeShare(double demThirdRecentNomineeShare) {
+        this.demThirdRecentNomineeShare = demThirdRecentNomineeShare;
+    }
+
+    public String getDemMostRecentNominee() {
+        return demMostRecentNominee;
+    }
+
+    public void setDemMostRecentNominee(String demMostRecentNominee) {
+        this.demMostRecentNominee = demMostRecentNominee;
+    }
+
+    public String getDemSecRecentNominee() {
+        return demSecRecentNominee;
+    }
+
+    public void setDemSecRecentNominee(String demSecRecentNominee) {
+        this.demSecRecentNominee = demSecRecentNominee;
+    }
+
+    public String getDemThirdRecentNominee() {
+        return demThirdRecentNominee;
+    }
+
+    public void setDemThirdRecentNominee(String demThirdRecentNominee) {
+        this.demThirdRecentNominee = demThirdRecentNominee;
+    }
+    //</editor-fold>
+
+    
+    //note that I simply print out boundary's lenth, since its too long
+    @Override
+    public String toString() {
+        return "DistrictDTO{" + "Id=" + Id + ", state=" + state + ", stateCode=" + stateCode + ", year=" + year + ", districtNum=" + districtNum + ", demVotes=" + demVotes + ", demStatus=" + demStatus + ", repVotes=" + repVotes + ", repStatus=" + repStatus + ", winner=" + winner + ", boundary=" + boundary.length() + ", population=" + population + ", white=" + white + ", africanAmerican=" + africanAmerican + ", americanNative=" + americanNative + ", asian=" + asian + ", pacificIslander=" + pacificIslander + ", otherRace=" + otherRace + ", twoOrMoreRaces=" + twoOrMoreRaces + ", mostRecentRaceYear=" + mostRecentRaceYear + ", secRecentRaceYear=" + secRecentRaceYear + ", thirdRecentRaceYear=" + thirdRecentRaceYear + ", repMostRecentNomineeShare=" + repMostRecentNomineeShare + ", repSecRecentNomineeShare=" + repSecRecentNomineeShare + ", repThirdRecentNomineeShare=" + repThirdRecentNomineeShare + ", repMostRecentNominee=" + repMostRecentNominee + ", repSecRecentNominee=" + repSecRecentNominee + ", repThirdRecentNominee=" + repThirdRecentNominee + ", demMostRecentNomineeShare=" + demMostRecentNomineeShare + ", demSecRecentNomineeShare=" + demSecRecentNomineeShare + ", demThirdRecentNomineeShare=" + demThirdRecentNomineeShare + ", demMostRecentNominee=" + demMostRecentNominee + ", demSecRecentNominee=" + demSecRecentNominee + ", demThirdRecentNominee=" + demThirdRecentNominee + '}';
+    }
 }
