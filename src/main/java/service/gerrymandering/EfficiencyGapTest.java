@@ -40,7 +40,7 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
             int totalDistrictVotes = repVotes + demVotes;
             totalVotes += totalDistrictVotes;
             int minVotesToWin;
-            minVotesToWin = totalVotes / 2 + 1;
+            minVotesToWin = totalDistrictVotes / 2 + 1;
             if (demVotes > repVotes) {
                 demWasted += demVotes - minVotesToWin;
                 repWasted += repVotes;
@@ -53,6 +53,8 @@ public class EfficiencyGapTest implements GerrymanderingTestService{
         HashMap wastedVotes = new HashMap();
         wastedVotes.put(Party.DEMOCRATIC,demWasted);
         wastedVotes.put(Party.REPUBLICAN, repWasted);
+        System.out.println(demWasted);
+        System.out.println(repWasted);
         
         double efficiencyGap = (demWasted * 1.0 - repWasted * 1.0) / totalVotes;
         System.out.println("Efficiency Gap: " + efficiencyGap);

@@ -120,13 +120,16 @@ $(document).ready(function () {
           }
         };
         if (demogData.labels) {
-            $("#infoText").append('<hr><h4>District Demographics</h4>');
+            $("#infoText").append('<hr><h4>Interactive District Demographics (Hover)</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
                 data: demogData,
                 options: cop
             });
+        }
+        for (var i = 0; i < demogData.labels.length; i++) {
+          $("#infoText").append("<p>" + demogData.labels[i] + ' : ' + demogData.datasets[0].data[i].toLocaleString("en-US") + "</p>");
         }
     }
 
@@ -168,7 +171,7 @@ $(document).ready(function () {
     }
 
     function onGetDistDataSuccess(response, status, xhr) {
-        $('#loadingAlert').remove();
+        $('.loadingAlert').remove();
         // remove old boundary
         if (districtBoundary) {
             districtBoundary.remove();
@@ -232,7 +235,7 @@ $(document).ready(function () {
 
     function sendGetOnDataSelect(state, year) {
         // add spiner
-        var spinStr = '<div id="loadingAlert" class="alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
+        var spinStr = '<div id="loadingAlert" class="loadingAlert alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
         $(spinStr).insertBefore('#infoText');
         // reset gerrymanderingMeasure
         $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
@@ -250,17 +253,6 @@ $(document).ready(function () {
 
     function resetMapToCountry() {
         map1.setView([36.4051421, -95.5136459], 3.91);
-        // reset and disable data options
-        $("#dataSelection").html(dataSelectionOrigHTML);
-        $("#dataSelection").prop({
-            disabled: true
-        });
-        // reset and disable measure options
-        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
-        $("#gerrymanderingMeasure").change();
-        $("#gerrymanderingMeasure").prop({
-            disabled: true
-        });
         if (districtBoundary) {
             districtBoundary.remove();
             districtBoundary = null;
@@ -299,6 +291,17 @@ $(document).ready(function () {
         }
         var state = $(this).val();
         var options = "";
+        // reset and disable data options
+        $("#dataSelection").html(dataSelectionOrigHTML);
+        $("#dataSelection").prop({
+            disabled: true
+        });
+        // reset and disable measure options
+        $("#gerrymanderingMeasure").html(gerrymanderingMeasureOrigHTML);
+        $("#gerrymanderingMeasure").change();
+        $("#gerrymanderingMeasure").prop({
+            disabled: true
+        });
         // BASE CASE: zoom back to continental US on select no State
         if (state === "") {
             resetMapToCountry();
@@ -369,9 +372,30 @@ $(document).ready(function () {
                     $("#testResultContainer").append('<h1>' + $('#gerrymanderingMeasure').val() + ' Result</h1>');
                     var dataStr = "";
                     $.each(response, function (key, val) {
-                        if (displayTestVar(key)) {
-                          if (val === 0) {
-                            return true;
+                        if (displayTestVar($("#gerrymanderingMeasure").val(), key)) {
+                          if (key === "uniqueTestResult") {
+                            if ($("#gerrymanderingMeasure").val() === "Efficiency Gap Test") {
+                              key = "Wasted Votes";
+                              var pval = val;
+                              val = "";
+                              $.each(pval, function (key2, val2){
+                                val += "<br>" + title(key2) + "=" + val2.toLocaleString("en-US") + ' ';
+                              });
+                            // } else if ($("#gerrymanderingMeasure").val() === "T-Test") {
+                            //   key = "Winning Percentage";
+                            //   var pval = val;
+                            //   val = "";
+                            //   $.each(pval, function (key2, val2){
+                            //     var pval2 = val2;
+                            //     val2 = "";
+                            //     $.each(pval2, function (i3, val3){
+                            //       val2 += "<br>" + "Dist"+ (i3+1) + ":" + (val3*100).toLocaleString("en-US") + '% ';
+                            //     });
+                            //     val += "<br>" + title(key2) + ":" + val2 + ' ';
+                            //   });
+                            } else {
+                              return true;
+                            }
                           }
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
@@ -505,20 +529,20 @@ $(document).ready(function () {
                   $(v).children().each(function(i2,v2) {
                     if (!$(v2).text().trim()) {
                       // check if adjacent to existing boundary; reject and alert if not
-                      if (i2) {    // always allow on first insert
-                        b = true;
-                        $($(v).data("boundaryObj")).each(function(i3,v3) {
-                          // v3 contains boundaryObj
-                          var b1 = v3.toGeoJSON();
-                          var b2 = e.target.toGeoJSON();
-                          if (compareDistrict(b1, b2)) {
-                            b = false;
-                            return false;
-                          }
-                        });
-                        // break if no match
-                        if(b){alert("District not adjacent.");return false;}
-                      }
+                      // if (i2) {    // always allow on first insert
+                      //   b = true;
+                      //   $($(v).data("boundaryObj")).each(function(i3,v3) {
+                      //     // v3 contains boundaryObj
+                      //     var b1 = v3.toGeoJSON();
+                      //     var b2 = e.target.toGeoJSON();
+                      //     if (compareDistrict(b1, b2)) {
+                      //       b = false;
+                      //       return false;
+                      //     }
+                      //   });
+                      //   // break if no match
+                      //   if(b){alert("District not adjacent.");return false;}
+                      // }
                       // add flag to chosen
                       $(e.target).data("chosen", 0);
                       // add to DOM
