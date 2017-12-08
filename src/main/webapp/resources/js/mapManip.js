@@ -381,6 +381,13 @@ $(document).ready(function () {
                               $.each(pval, function (key2, val2){
                                 val += "<br>" + title(key2) + "=" + val2.toLocaleString("en-US") + ' ';
                               });
+                            } else if ($("#gerrymanderingMeasure").val() === "T-Test") {
+                              key = "Winning Percentage";
+                              var pval = val;
+                              val = "";
+                              $.each(pval, function (key2, val2){
+                                val += "<br>" + title(key2) + "=" + val2 + ' ';
+                              });
                             } else {
                               return true;
                             }
