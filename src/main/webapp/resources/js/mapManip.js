@@ -381,18 +381,18 @@ $(document).ready(function () {
                               $.each(pval, function (key2, val2){
                                 val += "<br>" + title(key2) + "=" + val2.toLocaleString("en-US") + ' ';
                               });
-                            } else if ($("#gerrymanderingMeasure").val() === "T-Test") {
-                              key = "Winning Percentage";
-                              var pval = val;
-                              val = "";
-                              $.each(pval, function (key2, val2){
-                                var pval2 = val2;
-                                val2 = "";
-                                $.each(pval2, function (i3, val3){
-                                  val2 += "<br>" + "Dist"+ (i3+1) + ":" + (val3*100).toLocaleString("en-US") + '% ';
-                                });
-                                val += "<br>" + title(key2) + ":" + val2 + ' ';
-                              });
+                            // } else if ($("#gerrymanderingMeasure").val() === "T-Test") {
+                            //   key = "Winning Percentage";
+                            //   var pval = val;
+                            //   val = "";
+                            //   $.each(pval, function (key2, val2){
+                            //     var pval2 = val2;
+                            //     val2 = "";
+                            //     $.each(pval2, function (i3, val3){
+                            //       val2 += "<br>" + "Dist"+ (i3+1) + ":" + (val3*100).toLocaleString("en-US") + '% ';
+                            //     });
+                            //     val += "<br>" + title(key2) + ":" + val2 + ' ';
+                            //   });
                             } else {
                               return true;
                             }
