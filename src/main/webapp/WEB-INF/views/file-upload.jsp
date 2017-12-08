@@ -38,12 +38,11 @@ ${msg}
 </div>
 <br>
 <div>
-    <h5>Demographic .CSV File</h5>(*Note: Demographic files can be obtained from Census Bureau, and can be used as it is)
+    <h5>Demographic .CSV File</h5>(*Note: Demographic files can be obtained from Census Bureau, and can be used as it is. <br>But please delete the "Estimate; RACE - One race" column from the file before you upload)
     <table>
         <tr>
             <th>Geography</th>
             <th>Total population</th>
-            <th>One race</th>
             <th>White</th>
             <th>Black or African American</th>
             <th>American Indian and Alaska Native</th>
@@ -53,9 +52,8 @@ ${msg}
             <th>Two or more races</th>
         </tr>
         <tr>
-            <td>Congressional District 1 (115th Congress) Alabama</td>
+            <td>Congressional District 1 (115th Congress), Alabama</td>
             <td>704457</td>
-            <td>690895</td>
             <td>474871</td>
             <td>192647</td>
             <td>7670</td>
