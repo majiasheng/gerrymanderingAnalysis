@@ -529,20 +529,20 @@ $(document).ready(function () {
                   $(v).children().each(function(i2,v2) {
                     if (!$(v2).text().trim()) {
                       // check if adjacent to existing boundary; reject and alert if not
-                      if (i2) {    // always allow on first insert
-                        b = true;
-                        $($(v).data("boundaryObj")).each(function(i3,v3) {
-                          // v3 contains boundaryObj
-                          var b1 = v3.toGeoJSON();
-                          var b2 = e.target.toGeoJSON();
-                          if (compareDistrict(b1, b2)) {
-                            b = false;
-                            return false;
-                          }
-                        });
-                        // break if no match
-                        if(b){alert("District not adjacent.");return false;}
-                      }
+                      // if (i2) {    // always allow on first insert
+                      //   b = true;
+                      //   $($(v).data("boundaryObj")).each(function(i3,v3) {
+                      //     // v3 contains boundaryObj
+                      //     var b1 = v3.toGeoJSON();
+                      //     var b2 = e.target.toGeoJSON();
+                      //     if (compareDistrict(b1, b2)) {
+                      //       b = false;
+                      //       return false;
+                      //     }
+                      //   });
+                      //   // break if no match
+                      //   if(b){alert("District not adjacent.");return false;}
+                      // }
                       // add flag to chosen
                       $(e.target).data("chosen", 0);
                       // add to DOM
