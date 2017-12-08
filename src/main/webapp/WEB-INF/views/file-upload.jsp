@@ -66,5 +66,32 @@ ${msg}
     </table>
 </div>
 <br>
+<div>
+    <h5>Election .CSV File</h5>
+    <table>
+        <tr>
+            <th>DistrictNumber</th>
+            <th>State</th>
+            <th>Congress</th>
+            <th>RepVotes</th>
+            <th>RepStatus</th>
+            <th>DemVotes</th>
+            <th>DemStatus</th>
+            <th>Winner</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Montana</td>
+            <td>116</td>
+            <td>203871</td>
+            <td>Challenger</td>
+            <td>148690</td>
+            <td>Challenger</td>
+            <td>R</td>
+        </tr>
+
+    </table>
+</div>
+<br>
 <br>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
