@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
@@ -182,6 +183,10 @@ public class DataServiceImpl implements DataService {
                     .append("\n");
         }
         return csv.toString();
+    }
+    
+    public List<Snapshot> getSnapshotsByUserId(int id) {
+        return dao.getSnapshotsByUserId(id);
     }
 
 }

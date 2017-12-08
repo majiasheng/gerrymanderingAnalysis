@@ -1,6 +1,7 @@
 package persistence.dao;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import model.Coordinate;
@@ -54,4 +55,6 @@ public interface DataAccessor {
     public Collection<State> getStates();
     
     public boolean takeSnapShot(Snapshot snapshot);
+
+    public List<Snapshot> getSnapshotsByUserId(int id);
 }
