@@ -13,6 +13,7 @@
 <h2>Saved Works</h2>
 <hr>
 ${msg}
+
 <c:choose>
     <c:when test="${fn:length(snapshots) <= 0}">
         <h3>You haven't saved anything yet :)</h3>
@@ -21,30 +22,29 @@ ${msg}
         <c:forEach var="snapshot" items="${snapshots}" varStatus="loop">
             <table>
                 <tr>
-
+                    <th></th>
                     <th>Time Saved</th>
                     <th>State</th>
                     <th>Year</th>
                     <th>Test</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
 
                 <tr>
-                <form>
+                <form class="savedWorkForm" action="#"> 
                     <td>${loop.index+1}</td>
                     <td>${snapshot.timeSaved}</td>
-                    <td>${snapshot.selectedState}</td>
-                    <td>${snapshot.selectedYear}</td>
-                    <td>${snapshot.selectedTest}</td>
-                    <td></td>
-                    <input type="submit" value='view'/>
+                    <td><input type="text" name="state" value="${snapshot.selectedState}" readonly></td>
+                    <td><input type="text" name="year" value="${snapshot.selectedYear}" readonly></td>
+                    <td><input type="text" name="test" value="${snapshot.selectedTest}" readonly></td>
+                    <!--<td><input class="savedWorkFormBtn" type="submit" value='View'/></td>-->
+                    <td><button class="savedWorkFormBtn" data-toggle="modal" data-target="#testResultModal">View</button>
                 </form>
             </tr>
         </table>
 
     </c:forEach>
+        <%@include file="/WEB-INF/views/include/test-result-modal.jsp" %>
 </c:otherwise>
 </c:choose>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>

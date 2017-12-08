@@ -157,9 +157,8 @@ public class DataAccessorImpl implements DataAccessor {
         EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
         em.getTransaction().begin();
         
-        //TODO: test this out 
         try {
-            TypedQuery<Snapshot> query = em.createQuery("select s from snapshots as s where s.userId = " + id, Snapshot.class);
+            TypedQuery<Snapshot> query = em.createQuery("select s from Snapshot as s where s.userId = " + id, Snapshot.class);
             snapshots = (List<Snapshot>)query.getResultList();
             em.close();    
         } catch (Exception e) {
