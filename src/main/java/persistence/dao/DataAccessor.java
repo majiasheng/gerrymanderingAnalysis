@@ -57,4 +57,6 @@ public interface DataAccessor {
     public boolean takeSnapShot(Snapshot snapshot);
 
     public List<Snapshot> getSnapshotsByUserId(int id);
+
+    public boolean deleteSnapshot(int snapshotId);
 }

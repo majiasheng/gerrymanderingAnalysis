@@ -90,5 +90,32 @@ $(document).ready(function () {
 
     });
 
+    $(".delete_btn").click(function () {
+        console.log(this.name);
+        var id = this.name;
+
+        // send ajax to delete from db
+        $.ajax({
+            url: "/delete-snapshot",
+            type: "GET",
+            contentType: "application/json",
+            data: {snapshot: id},
+            dataType: "json",
+            success: function (response, status, xhr) {
+                if (response) {
+                    var rowid = "snapshot_" + id;
+                    $("#" + rowid).remove();
+                    $("#msg").html("<p class=\"green\">Deleted successfully</p>");
+                } else {
+                    $("#msg").html("<p class=\"error\">Sorry, error occured. \nFailed to delete :(</p>");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $("#msg").html("<p class=\"error\">Sorry, error occured. \nFailed to delete :(</p>");
+            }
+
+        });
+    });
+
 });
 

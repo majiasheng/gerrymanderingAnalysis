@@ -188,5 +188,9 @@ public class DataServiceImpl implements DataService {
     public List<Snapshot> getSnapshotsByUserId(int id) {
         return dao.getSnapshotsByUserId(id);
     }
+    
+    public boolean deleteSnapshot(int snapshotId) {
+        return dao.deleteSnapshot(snapshotId);
+    }
 
 }

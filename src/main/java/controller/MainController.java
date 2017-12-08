@@ -135,6 +135,12 @@ public class MainController {
         return dataService.takeSnapShot(snapshot);
     }
     
+    @RequestMapping(value = "/delete-snapshot", method = RequestMethod.GET , produces = "application/json")
+    @ResponseBody
+    public boolean deleteSnapshot(
+            @RequestParam("snapshot") int snapshotId) {
+        return dataService.deleteSnapshot(snapshotId);
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView goHome() {
