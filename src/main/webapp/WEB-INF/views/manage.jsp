@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : manage
     Created on : Nov 20, 2017, 10:24:47 PM
     Author     : majiasheng
@@ -14,7 +14,7 @@
 <h2>Manage User</h2>
 <hr>
 <div id="msg"></div>
-<h2 style="color:red">TODO: ask for confirmation before deleting user</h2>
+<h2 style="color:red">Warning: any deletion is final!</h2>
 <table>
     <tr>
         <th>user</th>
