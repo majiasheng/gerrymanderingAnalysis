@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import model.TestResult;
 import model.SessionConstant;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
+import service.data.DataService;
 import service.gerrymandering.GerrymanderingTestService;
 
 /**
@@ -22,6 +24,9 @@ import service.gerrymandering.GerrymanderingTestService;
 @Controller
 @ControllerAdvice
 public class TestController {
+
+    @Autowired
+    private DataService dataService;
 
     @Autowired
     @Qualifier("TTest")
@@ -34,7 +39,7 @@ public class TestController {
     @Autowired
     @Qualifier("EGTest")
     private GerrymanderingTestService egTestService;
-    
+
     @Autowired
     @Qualifier("CompactnessTest")
     private GerrymanderingTestService compactnessTestService;
@@ -56,6 +61,36 @@ public class TestController {
             result = mmTestService.doTest(state);
         } else if ("Compactness Test".equals(measureName)) {
             result = compactnessTestService.doTest(state);
+        } else {
+
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/view-measure/{measureName}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public TestResult handleDoTest(
+            @PathVariable(value = "measureName") String measureName,
+            @RequestParam("state") String selectedState,
+            @RequestParam("year") int year,
+            HttpServletRequest request) {
+
+        TestResult result = null;
+
+        //TODO: get populate state object
+        State state = dataService.getStateByYear(selectedState, year);
+
+        if (state != null) {
+            if ("Efficiency Gap Test".equals(measureName)) {
+                result = egTestService.doTest(state);
+            } else if ("T-Test".equals(measureName)) {
+                result = tTestService.doTest(state);
+            } else if ("Mean-Median Test".equals(measureName)) {
+                result = mmTestService.doTest(state);
+            } else if ("Compactness Test".equals(measureName)) {
+                result = compactnessTestService.doTest(state);
+            }
         }
 
         return result;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import model.Coordinate;
 import model.District;
@@ -148,6 +149,25 @@ public class DataAccessorImpl implements DataAccessor {
             System.err.println("Error in adding snapshot to database");
         }
         return success;
+    }
+    
+    public List<Snapshot> getSnapshotsByUserId(int id) {
+        List<Snapshot> snapshots = null;
+        
+        EntityManager em = JPAUtils.getEntityManagerFactory().createEntityManager();
+        em.getTransaction().begin();
+        
+        try {
+            TypedQuery<Snapshot> query = em.createQuery("select s from Snapshot as s where s.userId = " + id, Snapshot.class);
+            snapshots = (List<Snapshot>)query.getResultList();
+            em.close();    
+        } catch (Exception e) {
+            //TODO: check specific exception
+            e.printStackTrace();
+            System.err.println("Error in adding snapshot to database");
+        }
+        
+        return snapshots;
     }
     
     public Map<Integer, Collection<Coordinate>> getStateBoundaries() {
