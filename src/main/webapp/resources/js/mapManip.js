@@ -120,7 +120,7 @@ $(document).ready(function () {
           }
         };
         if (demogData.labels) {
-            $("#infoText").append('<hr><h4>District Demographics</h4>');
+            $("#infoText").append('<hr><h4>Interactive District Demographics (Hover)</h4>');
             $("#infoText").append('<canvas id="demogChart"></canvas>');
             var myDoughnutChart = new Chart($('#demogChart'), {
                 type: 'doughnut',
