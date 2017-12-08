@@ -537,7 +537,7 @@ $(document).ready(function () {
                       });
                       // validate if set is full
                       if (i2+1 == $(v).children().length && i+1 == $('.manualSDCtrl').children().length) {
-                        alert("end")
+                        $("#createSDBtn").removeAttr("disabled");
                       }
                       b = true;
                       return false;

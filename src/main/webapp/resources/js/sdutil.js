@@ -151,6 +151,8 @@ $(document).ready(function () {
             // bind
             $('input[name=sdmode]:radio').change(function () {
                 multiSelectMap($(this).prop("checked"));
+                // disable create super district button
+                $("#createSDBtn").attr("disabled","disabled");
                 if (this.value === "auto") {
                     $(".manualSDCtrl").empty();
 
