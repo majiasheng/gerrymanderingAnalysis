@@ -536,7 +536,8 @@ $(document).ready(function () {
                           fillOpacity: 0.7
                       });
                       // validate if set is full
-                      if (i2+1 == $(v).children().length) {
+                      if (i2+1 == $(v).children().length && i+1 == $('.manualSDCtrl').children().length) {
+                        alert("end")
                       }
                       b = true;
                       return false;
