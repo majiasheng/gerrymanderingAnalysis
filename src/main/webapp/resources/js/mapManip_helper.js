@@ -31,8 +31,8 @@ function generateColor(val) {
 function displayTestVar(test, val) {
   if (val === "skipped") {
     return false;
-  } else if (val === "uniqueTestResult") {
-    return false;
+  // } else if (val === "uniqueTestResult") {
+  //   return false;
   } else if (test === "Efficiency Gap Test" && (val === "confidenceLvl" || val === "pValue")) {
     return false;
   } else {

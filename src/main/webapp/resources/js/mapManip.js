@@ -373,6 +373,9 @@ $(document).ready(function () {
                     var dataStr = "";
                     $.each(response, function (key, val) {
                         if (displayTestVar($("#gerrymanderingMeasure").val(), key)) {
+                          if (typeof val === "object") {
+                            val = JSON.stringify(val);
+                          }
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
                     });
