@@ -522,7 +522,7 @@ $(document).ready(function () {
                       // add flag to chosen
                       $(e.target).data("chosen", 0);
                       // add to DOM
-                      $(v2).text("D"+e.target.feature.properties.DISTRICT+" ");
+                      $(v2).text(e.target.feature.properties.DISTRICT+" ");
                       // add obj to set
                       if (typeof $(v).data("boundaryObj") === "undefined") {
                         $(v).data("boundaryObj", []);
