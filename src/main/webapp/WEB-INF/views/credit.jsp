@@ -14,6 +14,8 @@
     Navigation bar: <a href="http://www.layoutit.com/">layoutit</a><br/>
     <hr>
     Election data: <a href="https://github.com/PrincetonUniversity/historic_state_legislative_election_results">Princeton University</a>
+    <hr>
+    Statistical Pachage: <a href="http://commons.apache.org/proper/commons-math/">Apache Commons Math</a>
 
 </div>
 <%@include file="/WEB-INF/views/include/footer.jsp" %>
