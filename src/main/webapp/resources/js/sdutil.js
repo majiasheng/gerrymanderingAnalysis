@@ -109,6 +109,8 @@ $(document).ready(function () {
                     );
             // bind to form submit
             $("#sdForm").submit(function (e) {
+                var spinStr = '<div id="loadingAlert" class="loadingAlert alert alert-info"><i class="fa fa-circle-o-notch fa-spin" style="font-size:20px"></i> Loading</div>';
+                $(spinStr).insertBefore('#infoText');
                 e.preventDefault();
                 // get each sd's district numbers into a set of sets
                 // loop through outter set, and send each sets
@@ -140,8 +142,10 @@ $(document).ready(function () {
                                       + " does not conform to House Bill #3057\n"
                                       + "Please try different combinations");
                             }
+                            $('.loadingAlert').remove();
                         },
                         error: function (xhr, status, error) {
+                          $('.loadingAlert').remove();
 
                         }
                     });
