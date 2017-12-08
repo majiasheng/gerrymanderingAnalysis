@@ -52,6 +52,9 @@ public class GerrymanderingTTest implements GerrymanderingTestService {
         HashMap unique = new HashMap();
         unique.put(Party.DEMOCRATIC, demDistrictsArray);
         unique.put(Party.REPUBLICAN,repDistrictsArray);
+        for(int i = 0;i<demDistrictsArray.length;i++)System.out.println(demDistrictsArray[i]);
+        System.out.println();
+        for(int i = 0;i<repDistrictsArray.length;i++)System.out.println(repDistrictsArray[i]);
         ret.setUniqueTestResult(unique);
         ret.setConfidenceLvl(CONFIDENCE_LEVEL);
         ret.setpValue(pValue);
