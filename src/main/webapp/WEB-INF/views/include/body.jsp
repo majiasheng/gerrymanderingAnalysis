@@ -10,6 +10,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12" >
+              <div id="testResultContainer" class="row">
+                  <div id="testResult"></div>
+              </div>
+            </div>
+        </div>
 
     </div>
     <div class="col-md-4">
@@ -67,7 +74,5 @@
     </div>
 </div>
 <hr>
-<div id="testResultContainer" class="row">
-    <div id="testResult"></div>
-</div>
+
 <!-- end body -->
