@@ -373,8 +373,15 @@ $(document).ready(function () {
                     var dataStr = "";
                     $.each(response, function (key, val) {
                         if (displayTestVar($("#gerrymanderingMeasure").val(), key)) {
-                          if (typeof val === "object") {
-                            val = JSON.stringify(val);
+                          if (key === "uniqueTestResult") {
+                            if ($("#gerrymanderingMeasure").val() === "Efficiency Gap Test") {
+                              key = "Wasted Votes";
+                              var pval = val;
+                              val = "";
+                              $.each(pval, function (key2, val2){
+                                val += "<br>" + title(key2) + "=" + val2.toLocaleString("en-US") + ' ';
+                              });
+                            }
                           }
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
                         }
