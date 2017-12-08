@@ -381,6 +381,8 @@ $(document).ready(function () {
                               $.each(pval, function (key2, val2){
                                 val += "<br>" + title(key2) + "=" + val2.toLocaleString("en-US") + ' ';
                               });
+                            } else {
+                              return true;
                             }
                           }
                           dataStr += "<p>" + translateTestKeyName(key) + " : " + val + "</p>";
