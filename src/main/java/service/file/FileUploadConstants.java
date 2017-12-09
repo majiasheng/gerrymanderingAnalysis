@@ -4,12 +4,11 @@ package service.file;
  *
  * @author majiasheng
  */
-public class FileUploadConstants {
-
-    
+public class FileUploadConstants { 
+    public static final String CSV_FILE = "csv";
     // geo data: 
-    // district_number, state, congress,geojson
-    public static final int NUMBER_OF_FIELDS_IN_GEO = 5;
+    // district_number, state, congress, geojson
+    public static final int NUMBER_OF_FIELDS_IN_GEO = 4;
     
     public static final int INDEX_OF_DISTRICT_NUM = 0;
     public static final int INDEX_OF_STATE = 1;
@@ -17,6 +16,7 @@ public class FileUploadConstants {
     public static final int INDEX_OF_GEOJSON = 3;
     
     // demographic data
+    // geography, state, total, white, black, native, asian, islander, other, mixed
     public static final int NUMBER_OF_FIELDS_IN_DEMO = 10;
     
     public static final int INDEX_OF_DIST_NUM_AND_CONGRESS = 0;

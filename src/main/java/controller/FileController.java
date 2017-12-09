@@ -75,7 +75,7 @@ public class FileController {
             try {
                 bytes = demographicMultipartFile.getBytes();
                 String completeData = new String(bytes);
-                String[] rows = completeData.split("#");
+                String[] rows = completeData.split("\n");
                 String[] columns = rows[0].split(",");
 
                 System.out.println("row" + Arrays.toString(rows));
